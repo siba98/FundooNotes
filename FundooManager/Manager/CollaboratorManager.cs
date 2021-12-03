@@ -27,11 +27,23 @@ namespace FundooManager.Manager
             }
         }
 
-        public string DeleteCollaborator(CollaboratorModel collaborator)
+        public string DeleteCollaborator(int NoteId)
         {
             try
             {
-                return this.collaboratorRepository.DeleteCollaborator(collaborator);
+                return this.collaboratorRepository.DeleteCollaborator(NoteId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public IEnumerable<CollaboratorModel> GetCollaborator(int NoteId)
+        {
+            try
+            {
+                return this.collaboratorRepository.GetCollaborator(NoteId);
             }
             catch (Exception ex)
             {

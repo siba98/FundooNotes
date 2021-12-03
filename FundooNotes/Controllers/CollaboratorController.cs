@@ -41,11 +41,11 @@ namespace FundooNotes.Controllers
 
         [HttpDelete]
         [Route("api/deleteCollaborator")]
-        public IActionResult DeleteCollaborator([FromBody] CollaboratorModel collaborator)
+        public IActionResult DeleteCollaborator(int NoteId)
         {
             try
             {
-                string message = this.collaboratorManager.DeleteCollaborator(collaborator);
+                string message = this.collaboratorManager.DeleteCollaborator(NoteId);
                 if (message.Equals("Collaborator Deleted Successfully"))
                 {
                     return this.Ok(new { Status = true, Message = message });
@@ -53,6 +53,28 @@ namespace FundooNotes.Controllers
                 else
                 {
                     return this.BadRequest(new { Status = false, Message = message });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new { Status = false, ex.Message });
+            }
+        }
+
+        [HttpGet]
+        [Route("api/getCollaborator")]
+        public IActionResult GetCollaborator(int NoteId)
+        {
+            try
+            {
+                IEnumerable<CollaboratorModel> result = this.collaboratorManager.GetCollaborator(NoteId);
+                if (result != null)
+                {
+                    return this.Ok(new { Status = true, Message = "Collaborators ID Retrieved Successfully", Data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new { Status = false, Message = "Collaboratos ID Not Available", Data = result });
                 }
             }
             catch (Exception ex)

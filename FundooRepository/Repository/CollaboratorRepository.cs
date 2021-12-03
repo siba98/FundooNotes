@@ -31,11 +31,11 @@ namespace FundooRepository.Repository
             }
         }
 
-        public string DeleteCollaborator(CollaboratorModel collaborator)
+        public string DeleteCollaborator(int NoteId)
         {
             try
             {
-                var collaboratorExist = this.context.Collaborator.Where(x => x.CollaboratorId == collaborator.CollaboratorId).SingleOrDefault();
+                var collaboratorExist = this.context.Collaborator.Where(x => x.NoteId == NoteId).SingleOrDefault();
                 if (collaboratorExist != null)
                 {
                     this.context.Collaborator.Remove(collaboratorExist);
@@ -43,6 +43,23 @@ namespace FundooRepository.Repository
                     return "Collaborator Deleted Successfully";
                 }
                 return "Collaborator Not Exist";
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public IEnumerable<CollaboratorModel> GetCollaborator(int NoteId)
+        {
+            try
+            {
+                IEnumerable<CollaboratorModel> CollaboratorList = this.context.Collaborator.Where(x => x.NoteId == NoteId).ToList();
+                if (CollaboratorList.Count() != 0)
+                {
+                    return CollaboratorList;
+                }
+                return null;
             }
             catch (ArgumentNullException ex)
             {

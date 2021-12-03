@@ -8,6 +8,7 @@ namespace FundooRepository.Interface
     public interface ICollaboratorRepository
     {
         string AddCollaborator(CollaboratorModel collaborator);
-        string DeleteCollaborator(CollaboratorModel collaborator);
+        string DeleteCollaborator(int NoteId);
+        IEnumerable<CollaboratorModel> GetCollaborator(int NoteId);
     }
 }
