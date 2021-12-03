@@ -260,11 +260,77 @@ namespace FundooNotes.Controllers
                 IEnumerable<NoteModel> result = this.noteManager.GetArchive(UserId);
                 if (result != null)
                 {
-                    return this.Ok(new { Status = true, Message = "Archive Notes Available", Data = result });
+                    return this.Ok(new { Status = true, Message = "Archive Notes Retrieved Successfully", Data = result });
                 }
                 else
                 {
                     return this.BadRequest(new { Status = false, Message = "Archived Notes Not Available", Data = result });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new { Status = false, ex.Message });
+            }
+        }
+
+        [HttpGet]
+        [Route("api/getNotes")]
+        public IActionResult GetNotes(int UserId)
+        {
+            try
+            {
+                IEnumerable<NoteModel> result = this.noteManager.GetNotes(UserId);
+                if (result != null)
+                {
+                    return this.Ok(new { Status = true, Message = "All Notes Retrived Successfully", Data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new { Status = false, Message = "Notes Not Available To Be Retrieve", Data = result });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new { Status = false, ex.Message });
+            }
+        }
+
+        [HttpGet]
+        [Route("api/getTrash")]
+        public IActionResult GetTrash(int UserId)
+        {
+            try
+            {
+                IEnumerable<NoteModel> result = this.noteManager.GetTrash(UserId);
+                if (result != null)
+                {
+                    return this.Ok(new { Status = true, Message = "Notes retrieved from the trash successfully", Data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new { Status = false, Message = "Trash is empty", Data = result });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new { Status = false, ex.Message });
+            }
+        }
+
+        [HttpGet]
+        [Route("api/getTrash")]
+        public IActionResult GetReminders(int UserId)
+        {
+            try
+            {
+                IEnumerable<NoteModel> result = this.noteManager.GetReminders(UserId);
+                if (result != null)
+                {
+                    return this.Ok(new { Status = true, Message = "Reminder For Notes Retrieved Successfully", Data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new { Status = false, Message = "Reminder Not Created For Any Note", Data = result });
                 }
             }
             catch (Exception ex)
