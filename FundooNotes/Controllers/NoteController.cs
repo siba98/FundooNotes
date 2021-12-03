@@ -257,8 +257,8 @@ namespace FundooNotes.Controllers
         {
             try
             {
-                List<NoteModel> result = this.noteManager.GetArchive(UserId);
-                if (result.Count != 0)
+                IEnumerable<NoteModel> result = this.noteManager.GetArchive(UserId);
+                if (result != null)
                 {
                     return this.Ok(new { Status = true, Message = "Archive Notes Available", Data = result });
                 }
