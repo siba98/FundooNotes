@@ -285,6 +285,23 @@ namespace FundooRepository.Repository
             }
         }
 
+        public IEnumerable<NoteModel> GetReminders(int UserId)
+        {
+            try
+            {
+                IEnumerable<NoteModel> notesExist = this.context.Note.Where(x => x.UserId == UserId && x.Reminder != null).ToList();
+                if (notesExist.Count() != 0)
+                {
+                    return notesExist;
+                }
+                return null;
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public string ImageUpload(int noteId, IFormFile image)
         {
             try

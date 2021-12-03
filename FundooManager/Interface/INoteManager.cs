@@ -20,6 +20,7 @@ namespace FundooManager.Interface
         IEnumerable<NoteModel> GetArchive(int UserId);
         IEnumerable<NoteModel> GetNotes(int UserId);
         IEnumerable<NoteModel> GetTrash(int UserId);
+        IEnumerable<NoteModel> GetReminders(int UserId);
         string ImageUpload(int noteId, IFormFile image);
     }
 }
