@@ -4,6 +4,7 @@ using FundooModels;
 using FundooRepository.Context;
 using FundooRepository.Interface;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +15,12 @@ namespace FundooRepository.Repository
     public class NoteRepository : INoteRepository
     {
         private readonly UserContext context;
+        private readonly IConfiguration configuration;
 
-        public NoteRepository(UserContext context)
+        public NoteRepository(UserContext context, IConfiguration configuration)
         {
             this.context = context;
+            this.configuration = configuration;
         }
 
         public string AddNote(NoteModel note)
@@ -247,32 +250,33 @@ namespace FundooRepository.Repository
                 throw new Exception(ex.Message);
             }
         }
-    
-        //public string UploadImage(int noteId, IFormFile path)
-        //{
-        //    try
-        //    {
-        //        var findNote = this.context.Note.Where(x => x.NoteId == noteId).SingleOrDefault();
-        //        if (findNote != null)
-        //        {
-        //            var cloudinary = new Cloudinary(
 
-        //            var uploadImage = new ImageUploadParams()
-        //            {
-        //                File = new FileDescription(path.FileName, path.OpenReadStream())
-        //            };
-        //            var uploadResult = cloudinary.Upload();
-        //            var uploadPath = uploadResult.Url;
-        //            findNote.Image = uploadPath.ToString();
-        //            this.context.SaveChanges();
-        //            return "Image Uploaded Successfully";
-        //        }
-        //        return "noteID not Exist";
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception(ex.Message);
-        //    }
-        //}
+        public string ImageUpload(int noteId, IFormFile image)
+        {
+            try
+            {
+                Account account = new Account(this.configuration.GetValue<string>("CloudinaryAccount:CloudName"), this.configuration.GetValue<string>("CloudinaryAccount:Apikey"), this.configuration.GetValue<string>("CloudinaryAccount:Apisecret"));
+                var cloudinary = new Cloudinary(account);
+                var uploadparams = new ImageUploadParams()
+                {
+                    File = new FileDescription(image.FileName, image.OpenReadStream()),
+                };
+                var uploadResult = cloudinary.Upload(uploadparams);
+                string imagePath = uploadResult.Url.ToString();
+                var findNote = this.context.Note.Where(x => x.NoteId == noteId).SingleOrDefault();
+                if (findNote != null)
+                {
+                    findNote.Image = imagePath;
+                    this.context.Note.Update(findNote);
+                    this.context.SaveChanges();
+                    return "Image Uploaded Successfully";
+                }
+                return "noteID not Exist";
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

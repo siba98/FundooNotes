@@ -1,4 +1,5 @@
 ﻿using FundooModels;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -17,7 +18,6 @@ namespace FundooRepository.Interface
         string EditTrash(NoteModel note);
         string DeleteNoteFromTrash(NoteModel note);
         List<NoteModel> GetArchive(int UserId);
-
-        //string ImageUpload(NoteModel note);
+        string ImageUpload(int noteId, IFormFile image);
     }
 }
