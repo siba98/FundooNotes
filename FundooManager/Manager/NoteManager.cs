@@ -123,7 +123,7 @@ namespace FundooManager.Manager
             }
         }
 
-        public IEnumerable<NoteModel> GetArchive(int UserId)
+        public List<NoteModel> GetArchive(int UserId)
         {
             try
             {

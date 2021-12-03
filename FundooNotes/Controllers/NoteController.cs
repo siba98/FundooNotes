@@ -140,7 +140,7 @@ namespace FundooNotes.Controllers
                 {
                     return this.Ok(new { Status = true, Message = message });
                 }
-                else if (message.Equals("Note UnPinned Successfully"))
+                if (message.Equals("Note UnPinned Successfully"))
                 {
                     return this.Ok(new { Status = true, Message = message });
                 }
@@ -162,11 +162,11 @@ namespace FundooNotes.Controllers
             try
             {
                 string message = this.noteManager.EditArchive(note);
-                if (message.Equals("Note Archived Successfully"))
+                if (message.Equals("Note Archived and Unpinned Successfully"))
                 {
                     return this.Ok(new { Status = true, Message = message });
                 }
-                else if (message.Equals("Note UnArchived Successfully"))
+                if (message.Equals("Note UnArchived Successfully"))
                 {
                     return this.Ok(new { Status = true, Message = message });
                 }
@@ -192,7 +192,7 @@ namespace FundooNotes.Controllers
                 {
                     return this.Ok(new { Status = true, Message = message });
                 }
-                else if (message.Equals("Note Not Trashed"))
+                if (message.Equals("Note Not Trashed"))
                 {
                     return this.Ok(new { Status = true, Message = message });
                 }
@@ -257,8 +257,8 @@ namespace FundooNotes.Controllers
         {
             try
             {
-                IEnumerable<NoteModel> result = this.noteManager.GetArchive(UserId);
-                if (result.Equals(null))
+                List<NoteModel> result = this.noteManager.GetArchive(UserId);
+                if (result.Count != 0)
                 {
                     return this.Ok(new { Status = true, Message = "Archive Notes Available", Data = result });
                 }
