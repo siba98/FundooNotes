@@ -148,6 +148,18 @@ namespace FundooManager.Manager
             }
         }
 
+        public IEnumerable<NoteModel> GetTrash(int UserId)
+        {
+            try
+            {
+                return this.noteRepository.GetTrash(UserId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public string ImageUpload(int noteId, IFormFile image)
         {
             try

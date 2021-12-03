@@ -239,7 +239,7 @@ namespace FundooRepository.Repository
             try
             {
                 IEnumerable<NoteModel> notesExist = this.context.Note.Where(x => x.UserId == UserId && x.Archive == true).ToList();
-                if (notesExist != null)
+                if (notesExist.Count() != 0)
                 {
                     return notesExist;
                 }
@@ -255,10 +255,27 @@ namespace FundooRepository.Repository
         {
             try
             {
-                IEnumerable<NoteModel> NoteList = this.context.Note.Where(x => x.UserId == UserId && x.Archive == false && x.Trash == false).ToList();
-                if (NoteList != null)
+                IEnumerable<NoteModel> notesExist = this.context.Note.Where(x => x.UserId == UserId && x.Archive == false && x.Trash == false).ToList();
+                if (notesExist.Count() != 0)
                 {
-                    return NoteList;
+                    return notesExist;
+                }
+                return null;
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public IEnumerable<NoteModel> GetTrash(int UserId)
+        {
+            try
+            {
+                IEnumerable<NoteModel> notesExist = this.context.Note.Where(x => x.UserId == UserId && x.Trash == true).ToList();
+                if (notesExist.Count() != 0)
+                {
+                    return notesExist;
                 }
                 return null;
             }

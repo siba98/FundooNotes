@@ -20,5 +20,6 @@ namespace FundooRepository.Interface
         IEnumerable<NoteModel> GetArchive(int UserId);
         string ImageUpload(int noteId, IFormFile image);
         IEnumerable<NoteModel> GetNotes(int userId);
+        IEnumerable<NoteModel> GetTrash(int userId);
     }
 }
