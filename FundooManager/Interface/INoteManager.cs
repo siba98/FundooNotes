@@ -17,7 +17,7 @@ namespace FundooManager.Interface
         string EditArchive(NoteModel note);
         string EditTrash(NoteModel note);
         string DeleteNoteFromTrash(NoteModel note);
-        //string ImageUpload(int noteId, IFormFile path);
         List<NoteModel> GetArchive(int UserId);
+        string ImageUpload(int noteId, IFormFile image);
     }
 }

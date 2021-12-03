@@ -4,6 +4,7 @@ using FundooRepository.Context;
 using FundooRepository.Interface;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using StackExchange.Redis;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
@@ -11,6 +12,7 @@ using System.Net.Mail;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using IDatabase = StackExchange.Redis.IDatabase;
 
 namespace FundooRepository.Repository
 {
@@ -58,6 +60,13 @@ namespace FundooRepository.Repository
                     var ifPasswordExist = this.context.Users.Where(x => x.Password == loginDetails.Password).SingleOrDefault();
                     if (ifPasswordExist != null)
                     {
+                        ConnectionMultiplexer connectionMultiplexer = ConnectionMultiplexer.Connect("127.0.0.1:6379");
+                        IDatabase database = connectionMultiplexer.GetDatabase();
+                        database.StringSet(key: "First Name", ifEmailExist.FirstName);
+                        database.StringSet(key: "Last Name", ifEmailExist.LastName);
+                        database.StringSet(key: "Email", ifEmailExist.Email);
+                        database.StringSet(key: "UserId", ifEmailExist.UserId.ToString());
+                        //return user != null ? "Login Successful" : "Login failed!! Email or password wrong";
                         return "Login Successful";
                     }
                     return "Password Not Exist";

@@ -229,27 +229,27 @@ namespace FundooNotes.Controllers
             }
         }
 
-        //[HttpPut]
-        //[Route("api/imageUpload")]
-        //public IActionResult ImageUpload(int noteId, IFormFile path)
-        //{
-        //    try
-        //    {
-        //        string message = this.noteManager.ImageUpload(noteId, path);
-        //        if (message.Equals("Image Uploaded Successfully"))
-        //        {
-        //            return this.Ok(new { Status = true, Message = message });
-        //        }
-        //        else
-        //        {
-        //            return this.BadRequest(new { Status = false, Message = message });
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return this.NotFound(new { Status = false, ex.Message });
-        //    }
-        //}
+        [HttpPut]
+        [Route("api/imageUpload")]
+        public IActionResult ImageUpload(int noteId, IFormFile image)
+        {
+            try
+            {
+                string message = this.noteManager.ImageUpload(noteId, image);
+                if (message.Equals("Image Uploaded Successfully"))
+                {
+                    return this.Ok(new { Status = true, Message = message });
+                }
+                else
+                {
+                    return this.BadRequest(new { Status = false, Message = message });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new { Status = false, ex.Message });
+            }
+        }
 
         [HttpGet]
         [Route("api/getArchive")]
