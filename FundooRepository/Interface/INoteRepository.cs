@@ -17,7 +17,7 @@ namespace FundooRepository.Interface
         string EditArchive(NoteModel note);
         string EditTrash(NoteModel note);
         string DeleteNoteFromTrash(NoteModel note);
-        List<NoteModel> GetArchive(int UserId);
+        IEnumerable<NoteModel> GetArchive(int UserId);
         string ImageUpload(int noteId, IFormFile image);
     }
 }
