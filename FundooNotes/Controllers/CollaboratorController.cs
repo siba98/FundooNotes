@@ -19,7 +19,7 @@ namespace FundooNotes.Controllers
 
         [HttpPost]
         [Route("api/addCollaborator")]
-        public IActionResult AddCollaborator([FromBody] CollaboratorModel collaborator)
+        public IActionResult AddCollaborator(CollaboratorModel collaborator)
         {
             try
             {
