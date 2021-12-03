@@ -234,11 +234,11 @@ namespace FundooRepository.Repository
             }
         }
 
-        public List<NoteModel> GetArchive(int UserId)
+        public IEnumerable<NoteModel> GetArchive(int UserId)
         {
             try
             {
-                var notesExist = this.context.Note.Where(x => x.UserId == UserId && x.Archive == true).ToList();
+                IEnumerable<NoteModel> notesExist = this.context.Note.Where(x => x.UserId == UserId && x.Archive == true).ToList();
                 if (notesExist != null)
                 {
                     return notesExist;
