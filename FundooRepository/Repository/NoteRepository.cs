@@ -251,6 +251,23 @@ namespace FundooRepository.Repository
             }
         }
 
+        public IEnumerable<NoteModel> GetNotes(int UserId)
+        {
+            try
+            {
+                IEnumerable<NoteModel> NoteList = this.context.Note.Where(x => x.UserId == UserId && x.Archive == false && x.Trash == false).ToList();
+                if (NoteList != null)
+                {
+                    return NoteList;
+                }
+                return null;
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public string ImageUpload(int noteId, IFormFile image)
         {
             try

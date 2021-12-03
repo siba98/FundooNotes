@@ -136,6 +136,18 @@ namespace FundooManager.Manager
             }
         }
 
+        public IEnumerable<NoteModel> GetNotes(int UserId)
+        {
+            try
+            {
+                return this.noteRepository.GetNotes(UserId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public string ImageUpload(int noteId, IFormFile image)
         {
             try

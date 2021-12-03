@@ -272,5 +272,27 @@ namespace FundooNotes.Controllers
                 return this.NotFound(new { Status = false, ex.Message });
             }
         }
+
+        [HttpGet]
+        [Route("api/getNotes")]
+        public IActionResult GetNotes(int UserId)
+        {
+            try
+            {
+                IEnumerable<NoteModel> result = this.noteManager.GetNotes(UserId);
+                if (result != null)
+                {
+                    return this.Ok(new { Status = true, Message = "All Notes Retrived Successfully", Data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new { Status = false, Message = "Notes Not Available To Be Retrieve", Data = result });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new { Status = false, ex.Message });
+            }
+        }
     }
 }
