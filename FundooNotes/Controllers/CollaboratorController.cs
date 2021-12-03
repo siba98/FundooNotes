@@ -46,7 +46,7 @@ namespace FundooNotes.Controllers
             try
             {
                 string message = this.collaboratorManager.DeleteCollaborator(NoteId);
-                if (message.Equals("Collaborator Deleted Successfully"))
+                if (message.Equals("Collaborator ID Deleted Successfully"))
                 {
                     return this.Ok(new { Status = true, Message = message });
                 }
