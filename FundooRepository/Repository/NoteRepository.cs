@@ -161,7 +161,7 @@ namespace FundooRepository.Repository
                     if (noteExist.Archive == false)
                     {
                         noteExist.Archive = note.Archive;
-                        noteExist.Pin = false;
+                        noteExist.Pin = note.Pin;
                         this.context.Note.Update(noteExist);
                         this.context.SaveChanges();
                         return "Note Archived and Unpinned Successfully";
@@ -289,7 +289,7 @@ namespace FundooRepository.Repository
         {
             try
             {
-                IEnumerable<NoteModel> notesExist = this.context.Note.Where(x => x.UserId == UserId && x.Reminder != null).ToList();
+                IEnumerable<NoteModel> notesExist = this.context.Note.Where(x => x.UserId == UserId && x.Trash == false && x.Reminder != null).ToList();
                 if (notesExist.Count() != 0)
                 {
                     return notesExist;

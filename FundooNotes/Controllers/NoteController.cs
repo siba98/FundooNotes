@@ -183,7 +183,7 @@ namespace FundooNotes.Controllers
 
         [HttpPut]
         [Route("api/editTrash")]
-        public IActionResult EditTrash([FromBody] NoteModel note)
+        public IActionResult EditTrash(NoteModel note)
         {
             try
             {
@@ -209,7 +209,7 @@ namespace FundooNotes.Controllers
 
         [HttpDelete]
         [Route("api/deleteNoteFromTrash")]
-        public IActionResult DeleteNoteFromTrash([FromBody] NoteModel note)
+        public IActionResult DeleteNoteFromTrash(NoteModel note)
         {
             try
             {
@@ -318,7 +318,7 @@ namespace FundooNotes.Controllers
         }
 
         [HttpGet]
-        [Route("api/getTrash")]
+        [Route("api/getReminders")]
         public IActionResult GetReminders(int UserId)
         {
             try

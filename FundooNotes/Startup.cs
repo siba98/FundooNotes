@@ -36,7 +36,7 @@ namespace FundooNotes
             services.AddMvc();
             services.AddDbContextPool<UserContext>(
                         options => options.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection")));
-
+            //Users Dependency
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IUserManager, UserManager>();
 
@@ -48,9 +48,14 @@ namespace FundooNotes
             services.AddTransient<ICollaboratorRepository, CollaboratorRepository>();
             services.AddTransient<ICollaboratorManager, CollaboratorManager>();
 
+            //Label Dependency
+            services.AddTransient<ILabelRepository, LabelRepository>();
+            services.AddTransient<ILabelManager, LabelManager>();
+
+            //swagger implementation and authorization for api implementation
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1.0", new OpenApiInfo { Title = "FundooNotes", Description = "Notes For You!", Version = "1.0" });
+                c.SwaggerDoc("v1.0", new OpenApiInfo { Title = "FundooNotes", Description = "Notes App For You!!", Version = "1.0" });
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
                 {
                     Name = "Authorization",
