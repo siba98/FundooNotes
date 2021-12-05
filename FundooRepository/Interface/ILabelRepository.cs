@@ -7,6 +7,7 @@ namespace FundooRepository.Interface
 {
     public interface ILabelRepository
     {
-        string AddLabel(LabelModel labelModel);
+        string AddLabelByUserId(LabelModel labelModel);
+        //string EditLabel(int userId, string label);
     }
 }

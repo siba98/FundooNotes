@@ -14,16 +14,28 @@ namespace FundooManager.Manager
         {
             this.labelRepository = labelRepository;
         }
-        public string AddLabel(LabelModel labelModel)
+        public string AddLabelByUserId(LabelModel labelModel)
         {
             try
             {
-                return this.labelRepository.AddLabel(labelModel);
+                return this.labelRepository.AddLabelByUserId(labelModel);
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
         }
+
+        //public string EditLabel(int UserId, string Label)
+        //{
+        //    try
+        //    {
+        //        return this.labelRepository.EditLabel(UserId, Label);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception(ex.Message);
+        //    }
+        //}
     }
 }
