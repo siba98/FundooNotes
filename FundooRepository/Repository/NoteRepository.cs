@@ -65,14 +65,14 @@ namespace FundooRepository.Repository
             }
         }
 
-        public async Task<string> AddReminder(NoteModel note)
+        public async Task<string> AddReminder(int NoteId, string Reminder)
         {
             try
             {
-                var noteExist = await this.context.Note.Where(x => x.NoteId == note.NoteId).SingleOrDefaultAsync();
+                var noteExist = await this.context.Note.Where(x => x.NoteId == NoteId).SingleOrDefaultAsync();
                 if (noteExist != null)
                 {
-                    noteExist.Reminder = note.Reminder;
+                    noteExist.Reminder = Reminder;
                     this.context.Note.Update(noteExist);
                     this.context.SaveChanges();
                     return "Reminder Added Successfully";
@@ -85,11 +85,11 @@ namespace FundooRepository.Repository
             }
         }
 
-        public async Task<string> DeleteReminder(NoteModel note)
+        public async Task<string> DeleteReminder(int NoteId)
         {
             try
             {
-                var noteExist = await this.context.Note.Where(x => x.NoteId == note.NoteId).SingleOrDefaultAsync();
+                var noteExist = await this.context.Note.Where(x => x.NoteId == NoteId).SingleOrDefaultAsync();
                 if (noteExist != null)
                 {
                     noteExist.Reminder = null;
@@ -103,14 +103,14 @@ namespace FundooRepository.Repository
                 throw new Exception(ex.Message);
             }
         }
-        public async Task<string> EditColour(NoteModel note)
+        public async Task<string> EditColour(int NoteId, string Colour)
         {
             try
             {
-                var noteExist = await this.context.Note.Where(x => x.NoteId == note.NoteId).SingleOrDefaultAsync();
+                var noteExist = await this.context.Note.Where(x => x.NoteId == NoteId).SingleOrDefaultAsync();
                 if (noteExist != null)
                 {
-                    noteExist.Colour = note.Colour;
+                    noteExist.Colour = Colour;
                     this.context.Note.Update(noteExist);
                     this.context.SaveChanges();
                     return "Colour Updated Successfully";

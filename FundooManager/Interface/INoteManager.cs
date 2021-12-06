@@ -11,9 +11,9 @@ namespace FundooManager.Interface
     {
         Task<string> AddNote(NoteModel note);
         Task<string> EditNote(NoteModel note);
-        Task<string> AddReminder(NoteModel note);
-        Task<string> DeleteReminder(NoteModel note);
-        Task<string> EditColour(NoteModel note);
+        Task<string> AddReminder(int NoteId, string Reminder);
+        Task<string> DeleteReminder(int NoteId);
+        Task<string> EditColour(int NoteId, string Colour);
         Task<string> EditPin(NoteModel note);
         Task<string> EditArchive(NoteModel note);
         Task<string> EditTrash(NoteModel note);

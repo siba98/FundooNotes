@@ -68,11 +68,11 @@ namespace FundooNotes.Controllers
 
         [HttpPut]
         [Route("addReminder")]
-        public async Task<IActionResult> AddReminder([FromBody] NoteModel note)
+        public async Task<IActionResult> AddReminder(int NoteId, string Reminder)
         {
             try
             {
-                string message = await this.noteManager.AddReminder(note);
+                string message = await this.noteManager.AddReminder(NoteId, Reminder);
                 if (message.Equals("Reminder Added Successfully"))
                 {
                     return this.Ok(new { Status = true, Message = message });
@@ -90,11 +90,11 @@ namespace FundooNotes.Controllers
 
         [HttpPut]
         [Route("deleteReminder")]
-        public async Task<IActionResult> DeleteReminder([FromBody] NoteModel note)
+        public async Task<IActionResult> DeleteReminder(int NoteId)
         {
             try
             {
-                string message = await this.noteManager.DeleteReminder(note);
+                string message = await this.noteManager.DeleteReminder(NoteId);
                 if (message.Equals("Reminder Removed Successfully"))
                 {
                     return this.Ok(new { Status = true, Message = message });
@@ -111,11 +111,11 @@ namespace FundooNotes.Controllers
         }
         [HttpPut]
         [Route("editColour")]
-        public async Task<IActionResult> EditColour([FromBody] NoteModel note)
+        public async Task<IActionResult> EditColour(int NoteId, string Colour)
         {
             try
             {
-                string message = await this.noteManager.EditColour(note);
+                string message = await this.noteManager.EditColour(NoteId, Colour);
                 if (message.Equals("Colour Updated Successfully"))
                 {
                     return this.Ok(new { Status = true, Message = message });

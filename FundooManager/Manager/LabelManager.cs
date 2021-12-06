@@ -4,6 +4,7 @@ using FundooRepository.Interface;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace FundooManager.Manager
 {
@@ -14,23 +15,11 @@ namespace FundooManager.Manager
         {
             this.labelRepository = labelRepository;
         }
-        public string AddLabelByUserId(LabelModel labelModel)
+        public async Task<string> AddLabel(LabelModel labelModel)
         {
             try
             {
-                return this.labelRepository.AddLabelByUserId(labelModel);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-
-        public string AddLabelByNoteId(LabelModel labelModel)
-        {
-            try
-            {
-                return this.labelRepository.AddLabelByNoteId(labelModel);
+                return await this.labelRepository.AddLabel(labelModel);
             }
             catch (Exception ex)
             {
@@ -62,11 +51,11 @@ namespace FundooManager.Manager
             }
         }
 
-        public string DeleteLabel(int UserId, string Label)
+        public IEnumerable<LabelModel> GetNotesByLabelName(string Label)
         {
             try
             {
-                return this.labelRepository.DeleteLabel(UserId, Label);
+                return this.labelRepository.GetNotesByLabelName(Label);
             }
             catch (Exception ex)
             {
@@ -74,11 +63,35 @@ namespace FundooManager.Manager
             }
         }
 
-        public string RemoveLabelFromNote(int UserId, int NoteId, string Label)
+        public async Task<string> DeleteLabel(int LabelId)
         {
             try
             {
-                return this.labelRepository.RemoveLabelFromNote(UserId, NoteId, Label);
+                return await this.labelRepository.DeleteLabel(LabelId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<string> RemoveLabelFromNote(int LabelId)
+        {
+            try
+            {
+                return await this.labelRepository.RemoveLabelFromNote(LabelId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<string> RenameLabel(LabelModel labelModel)
+        {
+            try
+            {
+                return await this.labelRepository.RenameLabel(labelModel);
             }
             catch (Exception ex)
             {

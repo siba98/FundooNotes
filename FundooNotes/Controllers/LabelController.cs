@@ -20,12 +20,12 @@ namespace FundooNotes.Controllers
         }
 
         [HttpPost]
-        [Route("addLabelByUserId")]
-        public IActionResult AddLabelByUserId([FromBody] LabelModel labelModel)
+        [Route("addLabel")]
+        public async Task<IActionResult> AddLabel([FromBody] LabelModel labelModel)
         {
             try
             {
-                string message = this.labelManager.AddLabelByUserId(labelModel);
+                string message = await this.labelManager.AddLabel(labelModel);
                 if (message.Equals("Label Added Successfully"))
                 {
                     return this.Ok(new { Status = true, Message = message });
@@ -41,35 +41,13 @@ namespace FundooNotes.Controllers
             }
         }
 
-        [HttpPost]
-        [Route("addLabelByNoteId")]
-        public IActionResult AddLabelByNoteId([FromBody] LabelModel labelModel)
-        {
-            try
-            {
-                string message = this.labelManager.AddLabelByNoteId(labelModel);
-                if (message.Equals("Label Added Successfully"))
-                {
-                    return this.Ok(new { Status = true, Message = message });
-                }
-                else
-                {
-                    return this.BadRequest(new { Status = false, Message = message });
-                }
-            }
-            catch (Exception ex)
-            {
-                return this.NotFound(new { Status = false, ex.Message });
-            }
-        }
-
-        [HttpPost]
+        [HttpDelete]
         [Route("deleteLabel")]
-        public IActionResult DeleteLabel(int UserId, string Label)
+        public async Task<IActionResult> DeleteLabel(int LabelId)
         {
             try
             {
-                string message = this.labelManager.DeleteLabel(UserId, Label);
+                string message = await this.labelManager.DeleteLabel(LabelId);
                 if (message.Equals("Label Deleted Successfully"))
                 {
                     return this.Ok(new { Status = true, Message = message });
@@ -129,13 +107,35 @@ namespace FundooNotes.Controllers
             }
         }
 
-        [HttpPost]
-        [Route("removeLabelFromNote")]
-        public IActionResult RemoveLabelFromNote(int UserId, int NoteId, string Label)
+        [HttpGet]
+        [Route("getNotesByLabelName")]
+        public IActionResult GetNotesByLabelName(string labelName)
         {
             try
             {
-                string message = this.labelManager.RemoveLabelFromNote(UserId, NoteId, Label);
+                IEnumerable<LabelModel> result = this.labelManager.GetNotesByLabelName(labelName);
+                if (result != null)
+                {
+                    return this.Ok(new { Status = true, Message = "Notes Retrieved Successfully", Data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new { Status = false, Message = "Notes Not Available", Data = result });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new { Status = false, ex.Message });
+            }
+        }
+
+        [HttpPut]
+        [Route("removeLabelFromNote")]
+        public async Task<IActionResult> RemoveLabelFromNote(int LabelId)
+        {
+            try
+            {
+                string message = await this.labelManager.RemoveLabelFromNote(LabelId);
                 if (message.Equals("Label Removed From Note Successfully"))
                 {
                     return this.Ok(new { Status = true, Message = message });
@@ -151,5 +151,26 @@ namespace FundooNotes.Controllers
             }
         }
 
+        [HttpPut]
+        [Route("renameLabel")]
+        public async Task<IActionResult> RenameLabel([FromBody] LabelModel labelModel)
+        {
+            try
+            {
+                string message = await this.labelManager.RenameLabel(labelModel);
+                if (message.Equals("Label name Successfully Renamed"))
+                {
+                    return this.Ok(new { Status = true, Message = message });
+                }
+                else
+                {
+                    return this.BadRequest(new { Status = false, Message = message });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new { Status = false, ex.Message });
+            }
+        }
     }
 }

@@ -41,11 +41,11 @@ namespace FundooManager.Manager
             }
         }
 
-        public async Task<string> AddReminder(NoteModel note)
+        public async Task<string> AddReminder(int NoteId, string Reminder)
         {
             try
             {
-                return await this.noteRepository.AddReminder(note);
+                return await this.noteRepository.AddReminder(NoteId, Reminder);
             }
             catch (Exception ex)
             {
@@ -53,11 +53,11 @@ namespace FundooManager.Manager
             }
         }
 
-        public async Task<string> DeleteReminder(NoteModel note)
+        public async Task<string> DeleteReminder(int NoteId)
         {
             try
             {
-                return await this.noteRepository.DeleteReminder(note);
+                return await this.noteRepository.DeleteReminder(NoteId);
             }
             catch (Exception ex)
             {
@@ -65,11 +65,11 @@ namespace FundooManager.Manager
             }
         }
 
-        public async Task<string> EditColour(NoteModel note)
+        public async Task<string> EditColour(int NoteId, string Colour)
         {
             try
             {
-                return await this.noteRepository.EditColour(note);
+                return await this.noteRepository.EditColour(NoteId, Colour);
             }
             catch (Exception ex)
             {
