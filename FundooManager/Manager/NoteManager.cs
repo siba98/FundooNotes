@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace FundooManager.Manager
 {
@@ -16,11 +17,11 @@ namespace FundooManager.Manager
             this.noteRepository = noteRepository;
         }
 
-        public string AddNote(NoteModel note)
+        public async Task<string> AddNote(NoteModel note)
         {
             try
             {
-                return this.noteRepository.AddNote(note);
+                return await this.noteRepository.AddNote(note);
             }
             catch (Exception ex)
             {
@@ -28,11 +29,11 @@ namespace FundooManager.Manager
             }
         }
 
-        public string EditNote(NoteModel note)
+        public async Task<string> EditNote(NoteModel note)
         {
             try
             {
-                return this.noteRepository.EditNote(note);
+                return await this.noteRepository.EditNote(note);
             }
             catch (Exception ex)
             {
@@ -40,11 +41,11 @@ namespace FundooManager.Manager
             }
         }
 
-        public string AddReminder(NoteModel note)
+        public async Task<string> AddReminder(NoteModel note)
         {
             try
             {
-                return this.noteRepository.AddReminder(note);
+                return await this.noteRepository.AddReminder(note);
             }
             catch (Exception ex)
             {
@@ -52,11 +53,11 @@ namespace FundooManager.Manager
             }
         }
 
-        public string DeleteReminder(NoteModel note)
+        public async Task<string> DeleteReminder(NoteModel note)
         {
             try
             {
-                return this.noteRepository.DeleteReminder(note);
+                return await this.noteRepository.DeleteReminder(note);
             }
             catch (Exception ex)
             {
@@ -64,11 +65,11 @@ namespace FundooManager.Manager
             }
         }
 
-        public string EditColour(NoteModel note)
+        public async Task<string> EditColour(NoteModel note)
         {
             try
             {
-                return this.noteRepository.EditColour(note);
+                return await this.noteRepository.EditColour(note);
             }
             catch (Exception ex)
             {
@@ -76,11 +77,11 @@ namespace FundooManager.Manager
             }
         }
 
-        public string EditPin(NoteModel note)
+        public async Task<string> EditPin(NoteModel note)
         {
             try
             {
-                return this.noteRepository.EditPin(note);
+                return await this.noteRepository.EditPin(note);
             }
             catch (Exception ex)
             {
@@ -88,11 +89,11 @@ namespace FundooManager.Manager
             }
         }
 
-        public string EditArchive(NoteModel note)
+        public async Task<string> EditArchive(NoteModel note)
         {
             try
             {
-                return this.noteRepository.EditArchive(note);
+                return await this.noteRepository.EditArchive(note);
             }
             catch (Exception ex)
             {
@@ -100,11 +101,11 @@ namespace FundooManager.Manager
             }
         }
 
-        public string EditTrash(NoteModel note)
+        public async Task<string> EditTrash(NoteModel note)
         {
             try
             {
-                return this.noteRepository.EditTrash(note);
+                return await this.noteRepository.EditTrash(note);
             }
             catch (Exception ex)
             {
@@ -112,11 +113,11 @@ namespace FundooManager.Manager
             }
         }
 
-        public string DeleteNoteFromTrash(NoteModel note)
+        public async Task<string> DeleteNoteFromTrash(NoteModel note)
         {
             try
             {
-                return this.noteRepository.DeleteNoteFromTrash(note);
+                return await this.noteRepository.DeleteNoteFromTrash(note);
             }
             catch (Exception ex)
             {
@@ -172,11 +173,11 @@ namespace FundooManager.Manager
             }
         }
 
-        public string ImageUpload(int noteId, IFormFile image)
+        public async Task<string> ImageUpload(int noteId, IFormFile image)
         {
             try
             {
-                return this.noteRepository.ImageUpload(noteId, image);
+                return await this.noteRepository.ImageUpload(noteId, image);
             }
             catch (Exception ex)
             {

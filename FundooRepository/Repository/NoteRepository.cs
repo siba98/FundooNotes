@@ -4,11 +4,13 @@ using FundooModels;
 using FundooRepository.Context;
 using FundooRepository.Interface;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace FundooRepository.Repository
 {
@@ -23,12 +25,12 @@ namespace FundooRepository.Repository
             this.configuration = configuration;
         }
 
-        public string AddNote(NoteModel note)
+        public async Task<string> AddNote(NoteModel note)
         {
             try
             {
                 this.context.Note.Add(note);
-                this.context.SaveChanges();
+                await this.context.SaveChangesAsync();
                 return "Note Added Successfully";
             }
             catch (ArgumentNullException ex)
@@ -42,11 +44,11 @@ namespace FundooRepository.Repository
         /// </summary>
         /// <param name="note"></param>
         /// <returns></returns>
-        public string EditNote(NoteModel note)
+        public async Task<string> EditNote(NoteModel note)
         {
             try
             {
-                var noteExist = this.context.Note.Where(x => x.NoteId == note.NoteId).FirstOrDefault();
+                var noteExist = await this.context.Note.Where(x => x.NoteId == note.NoteId).FirstOrDefaultAsync();
                 if (noteExist != null)
                 {
                     noteExist.Title = note.Title;
@@ -63,11 +65,11 @@ namespace FundooRepository.Repository
             }
         }
 
-        public string AddReminder(NoteModel note)
+        public async Task<string> AddReminder(NoteModel note)
         {
             try
             {
-                var noteExist = this.context.Note.Where(x => x.NoteId == note.NoteId).SingleOrDefault();
+                var noteExist = await this.context.Note.Where(x => x.NoteId == note.NoteId).SingleOrDefaultAsync();
                 if (noteExist != null)
                 {
                     noteExist.Reminder = note.Reminder;
@@ -83,11 +85,11 @@ namespace FundooRepository.Repository
             }
         }
 
-        public string DeleteReminder(NoteModel note)
+        public async Task<string> DeleteReminder(NoteModel note)
         {
             try
             {
-                var noteExist = this.context.Note.Where(x => x.NoteId == note.NoteId).SingleOrDefault();
+                var noteExist = await this.context.Note.Where(x => x.NoteId == note.NoteId).SingleOrDefaultAsync();
                 if (noteExist != null)
                 {
                     noteExist.Reminder = null;
@@ -101,11 +103,11 @@ namespace FundooRepository.Repository
                 throw new Exception(ex.Message);
             }
         }
-        public string EditColour(NoteModel note)
+        public async Task<string> EditColour(NoteModel note)
         {
             try
             {
-                var noteExist = this.context.Note.Where(x => x.NoteId == note.NoteId).SingleOrDefault();
+                var noteExist = await this.context.Note.Where(x => x.NoteId == note.NoteId).SingleOrDefaultAsync();
                 if (noteExist != null)
                 {
                     noteExist.Colour = note.Colour;
@@ -121,11 +123,11 @@ namespace FundooRepository.Repository
             }
         }
 
-        public string EditPin(NoteModel note)
+        public async Task<string> EditPin(NoteModel note)
         {
             try
             {
-                var noteExist = this.context.Note.Where(x => x.NoteId == note.NoteId).FirstOrDefault();
+                var noteExist = await this.context.Note.Where(x => x.NoteId == note.NoteId).SingleOrDefaultAsync();
                 if (noteExist != null)
                 {
                     if (noteExist.Pin == false)
@@ -151,11 +153,11 @@ namespace FundooRepository.Repository
             }
         }
 
-        public string EditArchive(NoteModel note)
+        public async Task<string> EditArchive(NoteModel note)
         {
             try
             {
-                var noteExist = this.context.Note.Where(x => x.NoteId == note.NoteId).FirstOrDefault();
+                var noteExist = await this.context.Note.Where(x => x.NoteId == note.NoteId).SingleOrDefaultAsync();
                 if (noteExist != null)
                 {
                     if (noteExist.Archive == false)
@@ -182,11 +184,11 @@ namespace FundooRepository.Repository
             }
         }
 
-        public string EditTrash(NoteModel note)
+        public async Task<string> EditTrash(NoteModel note)
         {
             try
             {
-                var noteExist = this.context.Note.Where(x => x.NoteId == note.NoteId).FirstOrDefault();
+                var noteExist = await this.context.Note.Where(x => x.NoteId == note.NoteId).SingleOrDefaultAsync();
                 if (noteExist != null)
                 {
                     if (noteExist.Trash == false)
@@ -212,11 +214,11 @@ namespace FundooRepository.Repository
             }
         }
 
-        public string DeleteNoteFromTrash(NoteModel note)
+        public async Task<string> DeleteNoteFromTrash(NoteModel note)
         {
             try
             {
-                var noteExist = this.context.Note.Where(x => x.NoteId == note.NoteId).SingleOrDefault();
+                var noteExist = await this.context.Note.Where(x => x.NoteId == note.NoteId).SingleOrDefaultAsync();
                 if (noteExist != null)
                 {
                     if (noteExist.Trash == true)
@@ -302,7 +304,7 @@ namespace FundooRepository.Repository
             }
         }
 
-        public string ImageUpload(int noteId, IFormFile image)
+        public async Task<string> ImageUpload(int noteId, IFormFile image)
         {
             try
             {
@@ -319,7 +321,7 @@ namespace FundooRepository.Repository
                 {
                     findNote.Image = imagePath;
                     this.context.Note.Update(findNote);
-                    this.context.SaveChanges();
+                    await this.context.SaveChangesAsync();
                     return "Image Uploaded Successfully";
                 }
                 return "noteID not Exist";

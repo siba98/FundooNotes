@@ -22,11 +22,11 @@ namespace FundooNotes.Controllers
 
         [HttpPost]
         [Route("api/addNote")]
-        public IActionResult AddNote([FromBody] NoteModel note)
+        public async Task<IActionResult> AddNote([FromBody] NoteModel note)
         {
             try
             {
-                string message = this.noteManager.AddNote(note);
+                string message = await this.noteManager.AddNote(note);
                 if (message.Equals("Note Added Successfully"))
                 {
                     return this.Ok(new { Status = true, Message = message });
@@ -44,11 +44,11 @@ namespace FundooNotes.Controllers
 
         [HttpPut]
         [Route("api/editNote")]
-        public IActionResult EditNote([FromBody] NoteModel note)
+        public async Task<IActionResult> EditNote([FromBody] NoteModel note)
         {
             try
             {
-                string message = this.noteManager.EditNote(note);
+                string message = await this.noteManager.EditNote(note);
                 if (message.Equals("Note Updated Successfully"))
                 {
                     return this.Ok(new { Status = true, Message = message });
@@ -66,11 +66,11 @@ namespace FundooNotes.Controllers
 
         [HttpPut]
         [Route("api/addReminder")]
-        public IActionResult AddReminder([FromBody] NoteModel note)
+        public async Task<IActionResult> AddReminder([FromBody] NoteModel note)
         {
             try
             {
-                string message = this.noteManager.AddReminder(note);
+                string message = await this.noteManager.AddReminder(note);
                 if (message.Equals("Reminder Added Successfully"))
                 {
                     return this.Ok(new { Status = true, Message = message });
@@ -88,11 +88,11 @@ namespace FundooNotes.Controllers
 
         [HttpPut]
         [Route("api/deleteReminder")]
-        public IActionResult DeleteReminder([FromBody] NoteModel note)
+        public async Task<IActionResult> DeleteReminder([FromBody] NoteModel note)
         {
             try
             {
-                string message = this.noteManager.DeleteReminder(note);
+                string message = await this.noteManager.DeleteReminder(note);
                 if (message.Equals("Reminder Removed Successfully"))
                 {
                     return this.Ok(new { Status = true, Message = message });
@@ -109,11 +109,11 @@ namespace FundooNotes.Controllers
         }
         [HttpPut]
         [Route("api/editColour")]
-        public IActionResult EditColour([FromBody] NoteModel note)
+        public async Task<IActionResult> EditColour([FromBody] NoteModel note)
         {
             try
             {
-                string message = this.noteManager.EditColour(note);
+                string message = await this.noteManager.EditColour(note);
                 if (message.Equals("Colour Updated Successfully"))
                 {
                     return this.Ok(new { Status = true, Message = message });
@@ -131,11 +131,11 @@ namespace FundooNotes.Controllers
 
         [HttpPut]
         [Route("api/EditPin")]
-        public IActionResult EditPin([FromBody] NoteModel note)
+        public async Task<IActionResult> EditPin([FromBody] NoteModel note)
         {
             try
             {
-                string message = this.noteManager.EditPin(note);
+                string message = await this.noteManager.EditPin(note);
                 if (message.Equals("Note Pinned Successfully"))
                 {
                     return this.Ok(new { Status = true, Message = message });
@@ -157,11 +157,11 @@ namespace FundooNotes.Controllers
 
         [HttpPut]
         [Route("api/editArchive")]
-        public IActionResult EditArchive([FromBody] NoteModel note)
+        public async Task<IActionResult> EditArchive([FromBody] NoteModel note)
         {
             try
             {
-                string message = this.noteManager.EditArchive(note);
+                string message = await this.noteManager.EditArchive(note);
                 if (message.Equals("Note Archived and Unpinned Successfully"))
                 {
                     return this.Ok(new { Status = true, Message = message });
@@ -183,11 +183,11 @@ namespace FundooNotes.Controllers
 
         [HttpPut]
         [Route("api/editTrash")]
-        public IActionResult EditTrash(NoteModel note)
+        public async Task<IActionResult> EditTrash(NoteModel note)
         {
             try
             {
-                string message = this.noteManager.EditTrash(note);
+                string message = await this.noteManager.EditTrash(note);
                 if (message.Equals("Note Trashed Successfully"))
                 {
                     return this.Ok(new { Status = true, Message = message });
@@ -209,11 +209,11 @@ namespace FundooNotes.Controllers
 
         [HttpDelete]
         [Route("api/deleteNoteFromTrash")]
-        public IActionResult DeleteNoteFromTrash(NoteModel note)
+        public async Task<IActionResult> DeleteNoteFromTrash(NoteModel note)
         {
             try
             {
-                string message = this.noteManager.DeleteNoteFromTrash(note);
+                string message = await this.noteManager.DeleteNoteFromTrash(note);
                 if (message.Equals("Note Deleted Successfully"))
                 {
                     return this.Ok(new { Status = true, Message = message });
@@ -231,11 +231,11 @@ namespace FundooNotes.Controllers
 
         [HttpPut]
         [Route("api/imageUpload")]
-        public IActionResult ImageUpload(int noteId, IFormFile image)
+        public async Task<IActionResult> ImageUpload(int noteId, IFormFile image)
         {
             try
             {
-                string message = this.noteManager.ImageUpload(noteId, image);
+                string message = await this.noteManager.ImageUpload(noteId, image);
                 if (message.Equals("Image Uploaded Successfully"))
                 {
                     return this.Ok(new { Status = true, Message = message });
