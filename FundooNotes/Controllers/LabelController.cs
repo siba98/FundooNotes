@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 
 namespace FundooNotes.Controllers
 {
+    [ApiController]
+    [Route("api/[controller]")]
     public class LabelController : ControllerBase
     {
         private readonly ILabelManager labelManager;
@@ -18,7 +20,7 @@ namespace FundooNotes.Controllers
         }
 
         [HttpPost]
-        [Route("api/addLabelByUserId")]
+        [Route("addLabelByUserId")]
         public IActionResult AddLabelByUserId([FromBody] LabelModel labelModel)
         {
             try
@@ -40,7 +42,7 @@ namespace FundooNotes.Controllers
         }
 
         [HttpPost]
-        [Route("api/addLabelByNoteId")]
+        [Route("addLabelByNoteId")]
         public IActionResult AddLabelByNoteId([FromBody] LabelModel labelModel)
         {
             try
@@ -62,7 +64,7 @@ namespace FundooNotes.Controllers
         }
 
         [HttpPost]
-        [Route("api/deleteLabel")]
+        [Route("deleteLabel")]
         public IActionResult DeleteLabel(int UserId, string Label)
         {
             try
@@ -84,7 +86,7 @@ namespace FundooNotes.Controllers
         }
 
         [HttpGet]
-        [Route("api/getLabelByNoteId")]
+        [Route("getLabelByNoteId")]
         public IActionResult GetLabelByNoteId(int NoteId)
         {
             try
@@ -106,7 +108,7 @@ namespace FundooNotes.Controllers
         }
 
         [HttpGet]
-        [Route("api/getLabelByUserId")]
+        [Route("getLabelByUserId")]
         public IActionResult GetLabelByUserId(int UserId)
         {
             try
@@ -128,7 +130,7 @@ namespace FundooNotes.Controllers
         }
 
         [HttpPost]
-        [Route("api/removeLabelFromNote")]
+        [Route("removeLabelFromNote")]
         public IActionResult RemoveLabelFromNote(int UserId, int NoteId, string Label)
         {
             try

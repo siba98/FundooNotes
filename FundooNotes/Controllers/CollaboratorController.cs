@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 
 namespace FundooNotes.Controllers
 {
+    [ApiController]
+    [Route("api/[controller]")]
     public class CollaboratorController : ControllerBase
     {
         private readonly ICollaboratorManager collaboratorManager;
@@ -18,7 +20,7 @@ namespace FundooNotes.Controllers
         }
 
         [HttpPost]
-        [Route("api/addCollaborator")]
+        [Route("addCollaborator")]
         public async Task<IActionResult> AddCollaborator(CollaboratorModel collaborator)
         {
             try
@@ -40,7 +42,7 @@ namespace FundooNotes.Controllers
         }
 
         [HttpDelete]
-        [Route("api/deleteCollaborator")]
+        [Route("deleteCollaborator")]
         public async Task<IActionResult> DeleteCollaborator(int NoteId)
         {
             try
@@ -62,7 +64,7 @@ namespace FundooNotes.Controllers
         }
 
         [HttpGet]
-        [Route("api/getCollaborator")]
+        [Route("getCollaborator")]
         public IActionResult GetCollaborator(int NoteId)
         {
             try

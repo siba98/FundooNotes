@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 namespace FundooNotes.Controllers
 {
     //[Authorize]
+    [ApiController]
+    [Route("api/[controller]")]
     public class NoteController : ControllerBase
     {
         private readonly INoteManager noteManager;
@@ -21,7 +23,7 @@ namespace FundooNotes.Controllers
         }
 
         [HttpPost]
-        [Route("api/addNote")]
+        [Route("addNote")]
         public async Task<IActionResult> AddNote([FromBody] NoteModel note)
         {
             try
@@ -43,7 +45,7 @@ namespace FundooNotes.Controllers
         }
 
         [HttpPut]
-        [Route("api/editNote")]
+        [Route("editNote")]
         public async Task<IActionResult> EditNote([FromBody] NoteModel note)
         {
             try
@@ -65,7 +67,7 @@ namespace FundooNotes.Controllers
         }
 
         [HttpPut]
-        [Route("api/addReminder")]
+        [Route("addReminder")]
         public async Task<IActionResult> AddReminder([FromBody] NoteModel note)
         {
             try
@@ -87,7 +89,7 @@ namespace FundooNotes.Controllers
         }
 
         [HttpPut]
-        [Route("api/deleteReminder")]
+        [Route("deleteReminder")]
         public async Task<IActionResult> DeleteReminder([FromBody] NoteModel note)
         {
             try
@@ -108,7 +110,7 @@ namespace FundooNotes.Controllers
             }
         }
         [HttpPut]
-        [Route("api/editColour")]
+        [Route("editColour")]
         public async Task<IActionResult> EditColour([FromBody] NoteModel note)
         {
             try
@@ -130,7 +132,7 @@ namespace FundooNotes.Controllers
         }
 
         [HttpPut]
-        [Route("api/EditPin")]
+        [Route("EditPin")]
         public async Task<IActionResult> EditPin([FromBody] NoteModel note)
         {
             try
@@ -156,7 +158,7 @@ namespace FundooNotes.Controllers
         }
 
         [HttpPut]
-        [Route("api/editArchive")]
+        [Route("editArchive")]
         public async Task<IActionResult> EditArchive([FromBody] NoteModel note)
         {
             try
@@ -182,7 +184,7 @@ namespace FundooNotes.Controllers
         }
 
         [HttpPut]
-        [Route("api/editTrash")]
+        [Route("editTrash")]
         public async Task<IActionResult> EditTrash(NoteModel note)
         {
             try
@@ -208,7 +210,7 @@ namespace FundooNotes.Controllers
         }
 
         [HttpDelete]
-        [Route("api/deleteNoteFromTrash")]
+        [Route("deleteNoteFromTrash")]
         public async Task<IActionResult> DeleteNoteFromTrash(NoteModel note)
         {
             try
@@ -230,7 +232,7 @@ namespace FundooNotes.Controllers
         }
 
         [HttpDelete]
-        [Route("api/restoreNoteFromTrash")]
+        [Route("restoreNoteFromTrash")]
         public async Task<IActionResult> RestoreNoteFromTrash(int NoteId)
         {
             try
@@ -252,7 +254,7 @@ namespace FundooNotes.Controllers
         }
 
         [HttpPut]
-        [Route("api/imageUpload")]
+        [Route("imageUpload")]
         public async Task<IActionResult> ImageUpload(int noteId, IFormFile image)
         {
             try
@@ -274,7 +276,7 @@ namespace FundooNotes.Controllers
         }
 
         [HttpGet]
-        [Route("api/getArchive")]
+        [Route("getArchive")]
         public IActionResult GetArchive(int UserId)
         {
             try
@@ -296,7 +298,7 @@ namespace FundooNotes.Controllers
         }
 
         [HttpGet]
-        [Route("api/getNotes")]
+        [Route("getNotes")]
         public IActionResult GetNotes(int UserId)
         {
             try
@@ -318,7 +320,7 @@ namespace FundooNotes.Controllers
         }
 
         [HttpGet]
-        [Route("api/getTrash")]
+        [Route("getTrash")]
         public IActionResult GetTrash(int UserId)
         {
             try
@@ -340,7 +342,7 @@ namespace FundooNotes.Controllers
         }
 
         [HttpGet]
-        [Route("api/getReminders")]
+        [Route("getReminders")]
         public IActionResult GetReminders(int UserId)
         {
             try
