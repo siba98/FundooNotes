@@ -2,6 +2,7 @@
 using FundooModels;
 using FundooRepository.Context;
 using FundooRepository.Interface;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -30,15 +31,15 @@ namespace FundooRepository.Repository
             this.configuration = configuration;
         }
 
-        public string Register(RegisterModel user)
+        public async Task<string> Register(RegisterModel user)
         {
             try
             {
-                var ifExist = this.context.Users.Where(x => x.Email == user.Email).SingleOrDefault();
+                var ifExist = await this.context.Users.Where(x => x.Email == user.Email).SingleOrDefaultAsync();
                 if (ifExist == null)
                 {
                     this.context.Users.Add(user);
-                    this.context.SaveChanges();
+                    await this.context.SaveChangesAsync();
                     return "Register Successful";
                 }
                 return "Email already exists";
@@ -51,14 +52,14 @@ namespace FundooRepository.Repository
         }
 
 
-        public string Login(LoginModel loginDetails)
+        public async Task<string> Login(LoginModel loginDetails)
         {
             try
             {
-                var ifEmailExist = this.context.Users.Where(x => x.Email == loginDetails.Email).SingleOrDefault();
+                var ifEmailExist = await this.context.Users.Where(x => x.Email == loginDetails.Email).SingleOrDefaultAsync();
                 if (ifEmailExist != null)
                 {
-                    var ifPasswordExist = this.context.Users.Where(x => x.Password == loginDetails.Password).SingleOrDefault();
+                    var ifPasswordExist = await this.context.Users.Where(x => x.Password == loginDetails.Password).SingleOrDefaultAsync();
                     if (ifPasswordExist != null)
                     {
                         ConnectionMultiplexer connectionMultiplexer = ConnectionMultiplexer.Connect("127.0.0.1:6379");
@@ -80,16 +81,16 @@ namespace FundooRepository.Repository
             }
         }
 
-        public string ResetPassword(ResetPasswordModel resetPassword)
+        public async Task<string> ResetPassword(ResetPasswordModel resetPassword)
         {
             try
             {
-                var ifEmailExist = this.context.Users.Where(x => x.Email == resetPassword.Email).SingleOrDefault();
+                var ifEmailExist = await this.context.Users.Where(x => x.Email == resetPassword.Email).SingleOrDefaultAsync();
                 if (ifEmailExist != null)
                 {
                     ifEmailExist.Password = EncodePasswordToBase64(resetPassword.NewPassword);
                     this.context.Users.Update(ifEmailExist);
-                    this.context.SaveChanges();
+                    await this.context.SaveChangesAsync();
                     return "Password Successfully Reset";
                 }
                 return "Email not Exist";
@@ -115,11 +116,11 @@ namespace FundooRepository.Repository
             }
         }
 
-        public string ForgotPassword(string Email)
+        public async Task<string> ForgotPassword(string Email)
         {
             try
             {
-                var ifEmailExist = this.context.Users.Where(x => x.Email == Email).SingleOrDefault();
+                var ifEmailExist = await this.context.Users.Where(x => x.Email == Email).SingleOrDefaultAsync();
                 if (ifEmailExist != null)
                 {
                     MailMessage mail = new MailMessage();

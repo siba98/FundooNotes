@@ -8,6 +8,10 @@ namespace FundooRepository.Interface
     public interface ILabelRepository
     {
         string AddLabelByUserId(LabelModel labelModel);
-        //string EditLabel(int userId, string label);
+        string AddLabelByNoteId(LabelModel labelModel);
+        IEnumerable<LabelModel> GetLabelByNoteId(int NoteId);
+        IEnumerable<LabelModel> GetLabelByUserId(int UserId);
+        string DeleteLabel(int UserId, string Label);
+        string RemoveLabelFromNote(int UserId, int NoteId, string Label);
     }
 }

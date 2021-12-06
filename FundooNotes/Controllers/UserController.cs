@@ -2,6 +2,7 @@
 using FundooModels;
 using FundooRepository.Repository;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
@@ -10,44 +11,53 @@ using System.Threading.Tasks;
 
 namespace FundooNotes.Contollers
 {
+    [ApiController]
+    [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
         private readonly IUserManager manager;
 
-        public UserController(IUserManager manager)
+        private readonly ILogger<UserController> logger;
+
+        public UserController(IUserManager manager, ILogger<UserController> logger)
         {
             this.manager = manager;
+            this.logger = logger;
         }
 
         [HttpPost]
-        [Route("api/register")]
-        public IActionResult Register([FromBody] RegisterModel user)
+        [Route("register")]
+        public async Task<IActionResult> Register([FromBody] RegisterModel user)
         {
             try
             {
-                string message = this.manager.Register(user);
+                this.logger.LogInformation(user.FirstName + " is trying to Register");
+                string message = await this.manager.Register(user);
                 if (message.Equals("Register Successful"))
                 {
+                    this.logger.LogInformation(user.FirstName + " has successfully Registered");
                     return this.Ok(new { Status = true, Message = message });
                 }
                 else
                 {
+                    this.logger.LogInformation(user.FirstName + " registration was unsuccessful");
                     return this.BadRequest(new { Status = false, Message = message });
                 }
             }
             catch (Exception ex)
             {
+                this.logger.LogInformation(user.FirstName + " had exception while registering : " + ex.Message);
                 return this.NotFound(new { Status = false, ex.Message });
             }
         }
 
         [HttpPost]
-        [Route("api/login")]
-        public IActionResult Login([FromBody] LoginModel loginDetails)
+        [Route("login")]
+        public async Task<IActionResult> Login([FromBody] LoginModel loginDetails)
         {
             try
             {
-                string message = this.manager.Login(loginDetails);
+                string message = await this.manager.Login(loginDetails);
                 if (message.Equals("Login Successful"))
                 {
                     ConnectionMultiplexer connectionMultiplexer = ConnectionMultiplexer.Connect("127.0.0.1:6379");
@@ -80,12 +90,12 @@ namespace FundooNotes.Contollers
         }
 
         [HttpPost]
-        [Route("api/resetPassword")]
-        public IActionResult Resetpassword([FromBody] ResetPasswordModel resetPassword)
+        [Route("resetPassword")]
+        public async Task<IActionResult> Resetpassword([FromBody] ResetPasswordModel resetPassword)
         {
             try
             {
-                string message = this.manager.ResetPassword(resetPassword);
+                string message = await this.manager.ResetPassword(resetPassword);
                 if (message.Equals("Password Successfully Reset"))
                 {
                     return this.Ok(new { Status = true, Message = message });
@@ -102,12 +112,12 @@ namespace FundooNotes.Contollers
         }
 
         [HttpPost]
-        [Route("api/forgotPassword")]
-        public IActionResult ForgotPassword(string Email)
+        [Route("forgotPassword")]
+        public async Task<IActionResult> ForgotPassword(string Email)
         {
             try
             {
-                string message = this.manager.ForgotPassword(Email);
+                string message = await this.manager.ForgotPassword(Email);
                 if (message.Equals("Reset Link Sent to Your Email Successfully"))
                 {
                     return this.Ok(new { Status = true, Message = message });

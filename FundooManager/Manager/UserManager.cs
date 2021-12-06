@@ -4,6 +4,7 @@ using FundooRepository.Interface;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace FundooManager.Manager
 {
@@ -16,12 +17,12 @@ namespace FundooManager.Manager
             this.repository = repository;
         }
 
-        public string Register(RegisterModel user)
+        public async Task<string> Register(RegisterModel user)
         {
             try
             {
                 user.Password = EncodePasswordToBase64(user.Password);
-                return this.repository.Register(user);
+                return await this.repository.Register(user);
             }
             catch (Exception ex)
             {
@@ -29,12 +30,12 @@ namespace FundooManager.Manager
             }
         }
 
-        public string Login(LoginModel loginDetails)
+        public async Task<string> Login(LoginModel loginDetails)
         {
             try
             {
                 loginDetails.Password = EncodePasswordToBase64(loginDetails.Password);
-                return this.repository.Login(loginDetails);
+                return await this.repository.Login(loginDetails);
             }
             catch (Exception ex)
             {
@@ -58,12 +59,12 @@ namespace FundooManager.Manager
             }
         }
 
-        public string ResetPassword(ResetPasswordModel resetPassword)
+        public async Task<string> ResetPassword(ResetPasswordModel resetPassword)
         {
             try
             {
                 resetPassword.NewPassword = EncodePasswordToBase64(resetPassword.NewPassword);
-                return this.repository.ResetPassword(resetPassword);
+                return await this.repository.ResetPassword(resetPassword);
             }
             catch (Exception ex)
             {
@@ -71,11 +72,11 @@ namespace FundooManager.Manager
             }
         }
 
-        public string ForgotPassword(string Email)
+        public async Task<string> ForgotPassword(string Email)
         {
             try
             {
-                return this.repository.ForgotPassword(Email);
+                return await this.repository.ForgotPassword(Email);
             }
             catch (Exception ex)
             {
