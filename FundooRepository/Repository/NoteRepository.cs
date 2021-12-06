@@ -331,5 +331,25 @@ namespace FundooRepository.Repository
                 throw new Exception(ex.Message);
             }
         }
+
+        public async Task<bool> RestoreNoteFromTrash(int NoteId)
+        {
+            try
+            {
+                var findNote = await this.context.Note.Where(x => x.NoteId == NoteId && x.Trash == true).FirstOrDefaultAsync();
+                if (findNote != null)
+                {
+                    findNote.Trash = false;
+                    this.context.Note.Update(findNote);
+                    await this.context.SaveChangesAsync();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

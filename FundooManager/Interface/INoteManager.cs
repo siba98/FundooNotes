@@ -23,5 +23,6 @@ namespace FundooManager.Interface
         IEnumerable<NoteModel> GetTrash(int UserId);
         IEnumerable<NoteModel> GetReminders(int UserId);
         Task<string> ImageUpload(int noteId, IFormFile image);
+        Task<bool> RestoreNoteFromTrash(int NoteId);
     }
 }

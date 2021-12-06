@@ -229,6 +229,28 @@ namespace FundooNotes.Controllers
             }
         }
 
+        [HttpDelete]
+        [Route("api/restoreNoteFromTrash")]
+        public async Task<IActionResult> RestoreNoteFromTrash(int NoteId)
+        {
+            try
+            {
+                bool message = await this.noteManager.RestoreNoteFromTrash(NoteId);
+                if (message.Equals("Note Restored Successfully"))
+                {
+                    return this.Ok(new { Status = true, Message = message });
+                }
+                else
+                {
+                    return this.BadRequest(new { Status = false, Message = message });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new { Status = false, ex.Message });
+            }
+        }
+
         [HttpPut]
         [Route("api/imageUpload")]
         public async Task<IActionResult> ImageUpload(int noteId, IFormFile image)
