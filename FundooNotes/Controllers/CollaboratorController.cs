@@ -19,11 +19,11 @@ namespace FundooNotes.Controllers
 
         [HttpPost]
         [Route("api/addCollaborator")]
-        public IActionResult AddCollaborator(CollaboratorModel collaborator)
+        public async Task<IActionResult> AddCollaborator(CollaboratorModel collaborator)
         {
             try
             {
-                string message = this.collaboratorManager.AddCollaborator(collaborator);
+                string message = await this.collaboratorManager.AddCollaborator(collaborator);
                 if (message.Equals("Collaborator Added Successfully"))
                 {
                     return this.Ok(new { Status = true, Message = message });
@@ -41,11 +41,11 @@ namespace FundooNotes.Controllers
 
         [HttpDelete]
         [Route("api/deleteCollaborator")]
-        public IActionResult DeleteCollaborator(int NoteId)
+        public async Task<IActionResult> DeleteCollaborator(int NoteId)
         {
             try
             {
-                string message = this.collaboratorManager.DeleteCollaborator(NoteId);
+                string message = await this.collaboratorManager.DeleteCollaborator(NoteId);
                 if (message.Equals("Collaborator ID Deleted Successfully"))
                 {
                     return this.Ok(new { Status = true, Message = message });

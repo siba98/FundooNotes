@@ -1,10 +1,12 @@
 ﻿using FundooModels;
 using FundooRepository.Context;
 using FundooRepository.Interface;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace FundooRepository.Repository
 {
@@ -17,12 +19,12 @@ namespace FundooRepository.Repository
             this.context = context;
         }
 
-        public string AddCollaborator(CollaboratorModel collaborator)
+        public async Task<string> AddCollaborator(CollaboratorModel collaborator)
         {
             try
             {
                 this.context.Collaborator.Add(collaborator);
-                this.context.SaveChanges();
+                await this.context.SaveChangesAsync();
                 return "Collaborator Added Successfully";
             }
             catch (ArgumentNullException ex)
@@ -31,15 +33,15 @@ namespace FundooRepository.Repository
             }
         }
 
-        public string DeleteCollaborator(int NoteId)
+        public async Task<string> DeleteCollaborator(int NoteId)
         {
             try
             {
-                var collaboratorExist = this.context.Collaborator.Where(x => x.NoteId == NoteId).SingleOrDefault();
+                var collaboratorExist = await this.context.Collaborator.Where(x => x.NoteId == NoteId).SingleOrDefaultAsync();
                 if (collaboratorExist != null)
                 {
                     this.context.Collaborator.Remove(collaboratorExist);
-                    this.context.SaveChanges();
+                    await this.context.SaveChangesAsync();
                     return "Collaborator Deleted Successfully";
                 }
                 return "Collaborator Not Exist";
