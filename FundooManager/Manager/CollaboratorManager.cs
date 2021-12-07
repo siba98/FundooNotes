@@ -27,11 +27,11 @@ namespace FundooManager.Manager
             }
         }
 
-        public async Task<string> DeleteCollaborator(int NoteId)
+        public async Task<string> DeleteCollaborator(int CollaboratorId)
         {
             try
             {
-                return await this.collaboratorRepository.DeleteCollaborator(NoteId);
+                return await this.collaboratorRepository.DeleteCollaborator(CollaboratorId);
             }
             catch (Exception ex)
             {

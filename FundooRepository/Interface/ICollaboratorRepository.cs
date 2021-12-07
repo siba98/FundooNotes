@@ -7,7 +7,7 @@ namespace FundooRepository.Interface
     public interface ICollaboratorRepository
     {
         Task<string> AddCollaborator(CollaboratorModel collaborator);
-        Task<string> DeleteCollaborator(int NoteId);
+        Task<string> DeleteCollaborator(int CollaboratorId);
         IEnumerable<CollaboratorModel> GetCollaborator(int NoteId);
     }
 }

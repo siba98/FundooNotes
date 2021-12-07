@@ -32,11 +32,11 @@ namespace FundooRepository.Repository
             }
         }
 
-        public async Task<string> DeleteCollaborator(int NoteId)
+        public async Task<string> DeleteCollaborator(int CollaboratorId)
         {
             try
             {
-                var collaboratorExist = await this.context.Collaborator.Where(x => x.NoteId == NoteId).SingleOrDefaultAsync();
+                var collaboratorExist = await this.context.Collaborator.Where(x => x.CollaboratorId == CollaboratorId).SingleOrDefaultAsync();
                 if (collaboratorExist != null)
                 {
                     this.context.Collaborator.Remove(collaboratorExist);
