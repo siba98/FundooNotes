@@ -123,13 +123,14 @@ namespace FundooRepository.Repository
             }
         }
 
-        public async Task<string> RenameLabel(LabelModel labelModel)
+        public async Task<string> RenameLabel(int LabelId, string Label)
         {
             try
             {
-                var labelExist = await this.context.Labels.Where(x => x.LabelId == labelModel.LabelId).SingleOrDefaultAsync();
+                var labelExist = await this.context.Labels.Where(x => x.LabelId == LabelId).SingleOrDefaultAsync();
                 if (labelExist != null)
                 {
+                    labelExist.Label = Label;
                     this.context.Labels.Update(labelExist);
                     await this.context.SaveChangesAsync();
                     return "Label name Successfully Renamed";

@@ -11,7 +11,7 @@ namespace FundooRepository.Interface
         Task<string> AddLabel(LabelModel labelModel);
         Task<string> DeleteLabel(int LabelId);
         Task<string> RemoveLabelFromNote(int LabelId);
-        Task<string> RenameLabel(LabelModel labelModel);
+        Task<string> RenameLabel(int LabelId, string Label);
         IEnumerable<LabelModel> GetNotesByLabelName(string Label);
     }
 }

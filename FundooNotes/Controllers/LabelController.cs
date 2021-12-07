@@ -163,11 +163,11 @@ namespace FundooNotes.Controllers
 
         [HttpPut]
         [Route("renameLabel")]
-        public async Task<IActionResult> RenameLabel([FromBody] LabelModel labelModel)
+        public async Task<IActionResult> RenameLabel(int LabelId, string Label)
         {
             try
             {
-                string message = await this.labelManager.RenameLabel(labelModel);
+                string message = await this.labelManager.RenameLabel(LabelId, Label);
                 if (message.Equals("Label name Successfully Renamed"))
                 {
                     return this.Ok(new { Status = true, Message = message });
