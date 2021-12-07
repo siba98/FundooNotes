@@ -1,13 +1,22 @@
-﻿using FundooManager.Interface;
-using FundooModels;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="CollaboratorController.cs" company="Bridgelabz">
+//   Copyright © 2021 Company="BridgeLabz"
+// </copyright>
+// <creator name="A Siba Patro"/>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace FundooNotes.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using FundooManager.Interface;
+    using FundooModels;
+    using Microsoft.AspNetCore.Mvc;
+
+    /// <summary>
+    /// Controller class for collaborators API implementation 
+    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     public class CollaboratorController : ControllerBase
@@ -43,11 +52,11 @@ namespace FundooNotes.Controllers
 
         [HttpDelete]
         [Route("deleteCollaborator")]
-        public async Task<IActionResult> DeleteCollaborator(int NoteId)
+        public async Task<IActionResult> DeleteCollaborator(int CollaboratorId)
         {
             try
             {
-                string message = await this.collaboratorManager.DeleteCollaborator(NoteId);
+                string message = await this.collaboratorManager.DeleteCollaborator(CollaboratorId);
                 if (message.Equals("Collaborator ID Deleted Successfully"))
                 {
                     return this.Ok(new { Status = true, Message = message });

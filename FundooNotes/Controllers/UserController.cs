@@ -1,16 +1,24 @@
-﻿using FundooManager.Interface;
-using FundooModels;
-using FundooRepository.Repository;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using StackExchange.Redis;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="UserController.cs" company="Bridgelabz">
+//   Copyright © 2021 Company="BridgeLabz"
+// </copyright>
+// <creator name="A Siba Patro"/>
+// --------------------------------------------------------------------------------------------------------------------
+
 
 namespace FundooNotes.Contollers
 {
+    using FundooManager.Interface;
+    using FundooModels;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Logging;
+    using StackExchange.Redis;
+    using System;
+    using System.Threading.Tasks;
+
+    /// <summary>
+    /// UserController class for Users API implementation
+    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     public class UserController : ControllerBase

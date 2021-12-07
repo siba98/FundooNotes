@@ -4,7 +4,6 @@ using FundooRepository.Interface;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace FundooManager.Manager
@@ -77,11 +76,11 @@ namespace FundooManager.Manager
             }
         }
 
-        public async Task<string> EditPin(NoteModel note)
+        public async Task<string> PinOrUnPinnedNotes(int NoteId)
         {
             try
             {
-                return await this.noteRepository.EditPin(note);
+                return await this.noteRepository.PinOrUnPinnedNotes(NoteId);
             }
             catch (Exception ex)
             {
@@ -89,11 +88,11 @@ namespace FundooManager.Manager
             }
         }
 
-        public async Task<string> EditArchive(NoteModel note)
+        public async Task<string> ArchiveOrUnArchiveNotes(int NoteId)
         {
             try
             {
-                return await this.noteRepository.EditArchive(note);
+                return await this.noteRepository.ArchiveOrUnArchiveNotes(NoteId);
             }
             catch (Exception ex)
             {
@@ -101,11 +100,11 @@ namespace FundooManager.Manager
             }
         }
 
-        public async Task<string> EditTrash(NoteModel note)
+        public async Task<string> TrashOrRestoreNotes(int NoteId)
         {
             try
             {
-                return await this.noteRepository.EditTrash(note);
+                return await this.noteRepository.TrashOrRestoreNotes(NoteId);
             }
             catch (Exception ex)
             {
@@ -113,11 +112,11 @@ namespace FundooManager.Manager
             }
         }
 
-        public async Task<string> DeleteNoteFromTrash(NoteModel note)
+        public async Task<string> DeleteNoteFromTrash(int NoteId)
         {
             try
             {
-                return await this.noteRepository.DeleteNoteFromTrash(note);
+                return await this.noteRepository.DeleteNoteFromTrash(NoteId);
             }
             catch (Exception ex)
             {
@@ -185,17 +184,16 @@ namespace FundooManager.Manager
             }
         }
 
-        public async Task<bool> RestoreNoteFromTrash(int NoteId)
+        public async Task<string> EmptyTrash(int UserId)
         {
             try
             {
-                return await this.noteRepository.RestoreNoteFromTrash(NoteId);
+                return await this.noteRepository.EmptyTrash(UserId);
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
         }
-
     }
 }

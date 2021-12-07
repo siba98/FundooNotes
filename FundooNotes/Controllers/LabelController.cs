@@ -1,13 +1,23 @@
-﻿using FundooManager.Interface;
-using FundooModels;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="LabelController.cs" company="Bridgelabz">
+//   Copyright © 2021 Company="BridgeLabz"
+// </copyright>
+// <creator name="A Siba Patro"/>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace FundooNotes.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using FundooManager.Interface;
+    using FundooModels;
+    using Microsoft.AspNetCore.Mvc;
+
+
+    /// <summary>
+    /// LabelController class for Labels API implementation
+    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     public class LabelController : ControllerBase
@@ -130,7 +140,7 @@ namespace FundooNotes.Controllers
         }
 
         [HttpPut]
-        [Route("removeLabelFromNote")]
+        [Route("RemoveLabelFromNote")]
         public async Task<IActionResult> RemoveLabelFromNote(int LabelId)
         {
             try

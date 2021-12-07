@@ -1,23 +1,23 @@
-﻿using Experimental.System.Messaging;
-using FundooModels;
-using FundooRepository.Context;
-using FundooRepository.Interface;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using StackExchange.Redis;
-using System;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Net.Mail;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
-using IDatabase = StackExchange.Redis.IDatabase;
+﻿
 
 namespace FundooRepository.Repository
 {
+    using Experimental.System.Messaging;
+    using FundooModels;
+    using FundooRepository.Context;
+    using FundooRepository.Interface;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.IdentityModel.Tokens;
+    using StackExchange.Redis;
+    using System;
+    using System.IdentityModel.Tokens.Jwt;
+    using System.Linq;
+    using System.Net.Mail;
+    using System.Security.Claims;
+    using System.Text;
+    using System.Threading.Tasks;
+    using IDatabase = StackExchange.Redis.IDatabase;
     public class UserRepository : IUserRepository
     {
         private readonly UserContext context;

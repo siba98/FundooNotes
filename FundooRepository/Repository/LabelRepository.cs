@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace FundooRepository.Repository
@@ -38,6 +37,8 @@ namespace FundooRepository.Repository
             try
             {
                 IEnumerable<LabelModel> LabelList = this.context.Labels.Where(x => x.NoteId == NoteId).ToList();
+                //var LabelList = from g in Note.NoteId
+                //                join m in Label.LabelId on g.Label
                 if (LabelList.Count() != 0)
                 {
                     return LabelList;

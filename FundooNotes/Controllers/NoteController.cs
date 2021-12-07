@@ -1,15 +1,23 @@
-﻿using FundooManager.Interface;
-using FundooModels;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="NoteController.cs" company="Bridgelabz">
+//   Copyright © 2021 Company="BridgeLabz"
+// </copyright>
+// <creator name="A Siba Patro"/>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace FundooNotes.Controllers
 {
+    using FundooManager.Interface;
+    using FundooModels;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
+    /// <summary>
+    /// NoteController class for Notes API implementation
+    /// </summary>
     //[Authorize]
     [ApiController]
     [Route("api/[controller]")]
@@ -132,12 +140,12 @@ namespace FundooNotes.Controllers
         }
 
         [HttpPut]
-        [Route("EditPin")]
-        public async Task<IActionResult> EditPin([FromBody] NoteModel note)
+        [Route("pinOrUnPinnedNotes")]
+        public async Task<IActionResult> PinOrUnPinnedNotes(int NoteId)
         {
             try
             {
-                string message = await this.noteManager.EditPin(note);
+                string message = await this.noteManager.PinOrUnPinnedNotes(NoteId);
                 if (message.Equals("Note Pinned Successfully"))
                 {
                     return this.Ok(new { Status = true, Message = message });
@@ -146,6 +154,10 @@ namespace FundooNotes.Controllers
                 {
                     return this.Ok(new { Status = true, Message = message });
                 }
+                if (message.Equals("Note UnArchived and Pinned Successfully"))
+                {
+                    return this.Ok(new { status = true, Message = message });
+                }
                 else
                 {
                     return this.BadRequest(new { Status = false, Message = message });
@@ -158,12 +170,12 @@ namespace FundooNotes.Controllers
         }
 
         [HttpPut]
-        [Route("editArchive")]
-        public async Task<IActionResult> EditArchive([FromBody] NoteModel note)
+        [Route("archiveOrUnArchiveNotes")]
+        public async Task<IActionResult> ArchiveOrUnArchiveNotes(int NoteId)
         {
             try
             {
-                string message = await this.noteManager.EditArchive(note);
+                string message = await this.noteManager.ArchiveOrUnArchiveNotes(NoteId);
                 if (message.Equals("Note Archived and Unpinned Successfully"))
                 {
                     return this.Ok(new { Status = true, Message = message });
@@ -172,6 +184,10 @@ namespace FundooNotes.Controllers
                 {
                     return this.Ok(new { Status = true, Message = message });
                 }
+                if (message.Equals("Note Archived Successfully"))
+                {
+                    return this.Ok(new { Status = true, Message = message });
+                }
                 else
                 {
                     return this.BadRequest(new { Status = false, Message = message });
@@ -184,17 +200,21 @@ namespace FundooNotes.Controllers
         }
 
         [HttpPut]
-        [Route("editTrash")]
-        public async Task<IActionResult> EditTrash(NoteModel note)
+        [Route("trashOrRestoreNotes")]
+        public async Task<IActionResult> TrashOrRestoreNotes(int NoteId)
         {
             try
             {
-                string message = await this.noteManager.EditTrash(note);
+                string message = await this.noteManager.TrashOrRestoreNotes(NoteId);
                 if (message.Equals("Note Trashed Successfully"))
                 {
                     return this.Ok(new { Status = true, Message = message });
                 }
-                if (message.Equals("Note Not Trashed"))
+                if (message.Equals("Note Restored From Trash Successfully"))
+                {
+                    return this.Ok(new { Status = true, Message = message });
+                }
+                if (message.Equals("Note Unpinned and Trashed Successfully"))
                 {
                     return this.Ok(new { Status = true, Message = message });
                 }
@@ -211,34 +231,12 @@ namespace FundooNotes.Controllers
 
         [HttpDelete]
         [Route("deleteNoteFromTrash")]
-        public async Task<IActionResult> DeleteNoteFromTrash(NoteModel note)
+        public async Task<IActionResult> DeleteNoteFromTrash(int NoteId)
         {
             try
             {
-                string message = await this.noteManager.DeleteNoteFromTrash(note);
+                string message = await this.noteManager.DeleteNoteFromTrash(NoteId);
                 if (message.Equals("Note Deleted Successfully"))
-                {
-                    return this.Ok(new { Status = true, Message = message });
-                }
-                else
-                {
-                    return this.BadRequest(new { Status = false, Message = message });
-                }
-            }
-            catch (Exception ex)
-            {
-                return this.NotFound(new { Status = false, ex.Message });
-            }
-        }
-
-        [HttpDelete]
-        [Route("restoreNoteFromTrash")]
-        public async Task<IActionResult> RestoreNoteFromTrash(int NoteId)
-        {
-            try
-            {
-                bool message = await this.noteManager.RestoreNoteFromTrash(NoteId);
-                if (message.Equals("Note Restored Successfully"))
                 {
                     return this.Ok(new { Status = true, Message = message });
                 }
@@ -355,6 +353,28 @@ namespace FundooNotes.Controllers
                 else
                 {
                     return this.BadRequest(new { Status = false, Message = "Reminder Not Created For Any Note", Data = result });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new { Status = false, ex.Message });
+            }
+        }
+    
+        [HttpDelete]
+        [Route("EmptyTrash")]
+        public async Task<IActionResult> EmptyTrash(int UserId)
+        {
+            try
+            {
+                string message = await this.noteManager.EmptyTrash(UserId);
+                if (message.Equals("Trash is Successfully Empty"))
+                {
+                    return this.Ok(new { Status = true, Message = message });
+                }
+                else
+                {
+                    return this.BadRequest(new { Status = false, Message = message });
                 }
             }
             catch (Exception ex)
