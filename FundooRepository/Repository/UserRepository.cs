@@ -1,5 +1,4 @@
 ﻿
-
 namespace FundooRepository.Repository
 {
     using Experimental.System.Messaging;

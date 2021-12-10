@@ -1,18 +1,17 @@
-﻿using CloudinaryDotNet;
-using CloudinaryDotNet.Actions;
-using FundooModels;
-using FundooRepository.Context;
-using FundooRepository.Interface;
-using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace FundooRepository.Repository
+﻿namespace FundooRepository.Repository
 {
+    using CloudinaryDotNet;
+    using CloudinaryDotNet.Actions;
+    using FundooModels;
+    using FundooRepository.Context;
+    using FundooRepository.Interface;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
     public class NoteRepository : INoteRepository
     {
         private readonly UserContext context;
@@ -25,11 +24,6 @@ namespace FundooRepository.Repository
         }
 
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="note"></param>
-        /// <returns></returns>
         public async Task<string> AddNote(NoteModel note)
         {
             try
@@ -45,11 +39,6 @@ namespace FundooRepository.Repository
         }
 
 
-        /// <summary>
-        /// Will Update Title and Description of Note
-        /// </summary>
-        /// <param name="note"></param>
-        /// <returns></returns>
         public async Task<string> EditNote(NoteModel note)
         {
             try
@@ -72,12 +61,6 @@ namespace FundooRepository.Repository
         }
 
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="NoteId"></param>
-        /// <param name="Reminder"></param>
-        /// <returns></returns>
         public async Task<string> AddReminder(int NoteId, string Reminder)
         {
             try
@@ -99,11 +82,6 @@ namespace FundooRepository.Repository
         }
 
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="NoteId"></param>
-        /// <returns></returns>
         public async Task<string> DeleteReminder(int NoteId)
         {
             try
@@ -124,12 +102,6 @@ namespace FundooRepository.Repository
         }
 
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="NoteId"></param>
-        /// <param name="Colour"></param>
-        /// <returns></returns>
         public async Task<string> EditColour(int NoteId, string Colour)
         {
             try
@@ -151,11 +123,6 @@ namespace FundooRepository.Repository
         }
 
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="NoteId"></param>
-        /// <returns></returns>
         public async Task<string> PinOrUnPinnedNotes(int NoteId)
         {
             try
@@ -194,11 +161,6 @@ namespace FundooRepository.Repository
         }
 
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="NoteId"></param>
-        /// <returns></returns>
         public async Task<string> ArchiveOrUnArchiveNotes(int NoteId)
         {
             try
@@ -238,11 +200,6 @@ namespace FundooRepository.Repository
         }
 
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="NoteId"></param>
-        /// <returns></returns>
         public async Task<string> TrashOrRestoreNotes(int NoteId)
         {
             try
@@ -282,11 +239,6 @@ namespace FundooRepository.Repository
         }
 
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="NoteId"></param>
-        /// <returns></returns>
         public async Task<string> DeleteNoteFromTrash(int NoteId)
         {
             try
@@ -310,11 +262,6 @@ namespace FundooRepository.Repository
         }
 
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="UserId"></param>
-        /// <returns></returns>
         public IEnumerable<NoteModel> GetArchive(int UserId)
         {
             try
@@ -333,11 +280,6 @@ namespace FundooRepository.Repository
         }
 
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="UserId"></param>
-        /// <returns></returns>
         public IEnumerable<NoteModel> GetNotes(int UserId)
         {
             try
@@ -355,12 +297,6 @@ namespace FundooRepository.Repository
             }
         }
 
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="UserId"></param>
-        /// <returns></returns>
         public IEnumerable<NoteModel> GetTrash(int UserId)
         {
             try
@@ -379,11 +315,6 @@ namespace FundooRepository.Repository
         }
 
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="UserId"></param>
-        /// <returns></returns>
         public IEnumerable<NoteModel> GetReminders(int UserId)
         {
             try
@@ -402,12 +333,6 @@ namespace FundooRepository.Repository
         }
 
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="noteId"></param>
-        /// <param name="image"></param>
-        /// <returns></returns>
         public async Task<string> ImageUpload(int noteId, IFormFile image)
         {
             try
@@ -437,11 +362,6 @@ namespace FundooRepository.Repository
         }
 
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="UserId"></param>
-        /// <returns></returns>
         public async Task<string> EmptyTrash(int UserId)
         {
             try

@@ -1,10 +1,11 @@
-﻿using FundooModels;
-using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
+﻿
 namespace FundooManager.Interface
 {
+    using FundooModels;
+    using Microsoft.AspNetCore.Http;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
     public interface INoteManager
     {
         Task<string> AddNote(NoteModel note);

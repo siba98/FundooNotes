@@ -86,11 +86,11 @@ namespace FundooManager.Manager
             }
         }
 
-        public async Task<string> RenameLabel(LabelModel labelModel)
+        public async Task<string> RenameLabel(int LabelId, string Label)
         {
             try
             {
-                return await this.labelRepository.RenameLabel(labelModel);
+                return await this.labelRepository.RenameLabel(LabelId, Label);
             }
             catch (Exception ex)
             {

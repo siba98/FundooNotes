@@ -1,14 +1,13 @@
-﻿using FundooModels;
-using FundooRepository.Context;
-using FundooRepository.Interface;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace FundooRepository.Repository
+﻿namespace FundooRepository.Repository
 {
+    using FundooModels;
+    using FundooRepository.Context;
+    using FundooRepository.Interface;
+    using Microsoft.EntityFrameworkCore;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
     public class LabelRepository:ILabelRepository
     {
         private readonly UserContext context;
@@ -37,8 +36,6 @@ namespace FundooRepository.Repository
             try
             {
                 IEnumerable<LabelModel> LabelList = this.context.Labels.Where(x => x.NoteId == NoteId).ToList();
-                //var LabelList = from g in Note.NoteId
-                //                join m in Label.LabelId on g.Label
                 if (LabelList.Count() != 0)
                 {
                     return LabelList;
@@ -111,6 +108,14 @@ namespace FundooRepository.Repository
             try
             {
                 IEnumerable<LabelModel> LabelExist = this.context.Labels.Where(x => x.Label == Label).ToList();
+                //var result = from d in Note
+                //             join s in Lebel
+                //             on d.NoteId equals s.NoteId into g
+                //             select new
+                //             {
+                //                 DepartmentName = d.DepartmentName,
+                //                 Students = g
+                //             };
                 if (LabelExist.Count() != 0)
                 {
                     return LabelExist;
