@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="LabelController.cs" company="Bridgelabz">
+// <copyright file="CollaboratorController.cs" company="Bridgelabz">
 //   Copyright © 2021 Company="BridgeLabz"
 // </copyright>
 // <creator name="A Siba Patro"/>

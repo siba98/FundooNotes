@@ -1,14 +1,14 @@
-﻿
+﻿using FundooModels;
+using FundooRepository.Context;
+using FundooRepository.Interface;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
 namespace FundooRepository.Repository
 {
-    using FundooModels;
-    using FundooRepository.Context;
-    using FundooRepository.Interface;
-    using Microsoft.EntityFrameworkCore;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
     public class CollaboratorRepository : ICollaboratorRepository
     {
         private readonly UserContext context;

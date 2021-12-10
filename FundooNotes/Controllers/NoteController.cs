@@ -360,7 +360,7 @@ namespace FundooNotes.Controllers
                 return this.NotFound(new { Status = false, ex.Message });
             }
         }
-    
+
         [HttpDelete]
         [Route("EmptyTrash")]
         public async Task<IActionResult> EmptyTrash(int UserId)

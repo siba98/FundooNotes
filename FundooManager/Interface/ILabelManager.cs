@@ -7,18 +7,12 @@
     public interface ILabelManager
     {
 
-        Task<string> AddLabel(LabelModel labelModel);
-
         IEnumerable<LabelModel> GetLabelByNoteId(int NoteId);
-
         IEnumerable<LabelModel> GetLabelByUserId(int UserId);
-        
-        IEnumerable<LabelModel> GetNotesByLabelName(string Label);
-        
-        Task<string> RemoveLabelFromNote(int LabelId);
-        
+        Task<string> AddLabel(LabelModel labelModel);
         Task<string> DeleteLabel(int LabelId);
-        
+        Task<string> RemoveLabelFromNote(int LabelId);
         Task<string> RenameLabel(int LabelId, string Label);
+        IEnumerable<LabelModel> GetNotesByLabelName(string Label);
     }
 }

@@ -1,5 +1,4 @@
-﻿
-namespace FundooRepository.Repository
+﻿namespace FundooRepository.Repository
 {
     using Experimental.System.Messaging;
     using FundooModels;
@@ -190,4 +189,3 @@ namespace FundooRepository.Repository
         }
     }
 }
-

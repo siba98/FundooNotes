@@ -1,17 +1,18 @@
-﻿namespace FundooRepository.Repository
+﻿using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
+using FundooModels;
+using FundooRepository.Context;
+using FundooRepository.Interface;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace FundooRepository.Repository
 {
-    using CloudinaryDotNet;
-    using CloudinaryDotNet.Actions;
-    using FundooModels;
-    using FundooRepository.Context;
-    using FundooRepository.Interface;
-    using Microsoft.AspNetCore.Http;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.Configuration;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
     public class NoteRepository : INoteRepository
     {
         private readonly UserContext context;
@@ -24,6 +25,11 @@
         }
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="note"></param>
+        /// <returns></returns>
         public async Task<string> AddNote(NoteModel note)
         {
             try
@@ -39,6 +45,11 @@
         }
 
 
+        /// <summary>
+        /// Will Update Title and Description of Note
+        /// </summary>
+        /// <param name="note"></param>
+        /// <returns></returns>
         public async Task<string> EditNote(NoteModel note)
         {
             try
@@ -61,6 +72,12 @@
         }
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="NoteId"></param>
+        /// <param name="Reminder"></param>
+        /// <returns></returns>
         public async Task<string> AddReminder(int NoteId, string Reminder)
         {
             try
@@ -82,6 +99,11 @@
         }
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="NoteId"></param>
+        /// <returns></returns>
         public async Task<string> DeleteReminder(int NoteId)
         {
             try
@@ -102,6 +124,12 @@
         }
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="NoteId"></param>
+        /// <param name="Colour"></param>
+        /// <returns></returns>
         public async Task<string> EditColour(int NoteId, string Colour)
         {
             try
@@ -123,6 +151,11 @@
         }
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="NoteId"></param>
+        /// <returns></returns>
         public async Task<string> PinOrUnPinnedNotes(int NoteId)
         {
             try
@@ -161,6 +194,11 @@
         }
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="NoteId"></param>
+        /// <returns></returns>
         public async Task<string> ArchiveOrUnArchiveNotes(int NoteId)
         {
             try
@@ -200,6 +238,11 @@
         }
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="NoteId"></param>
+        /// <returns></returns>
         public async Task<string> TrashOrRestoreNotes(int NoteId)
         {
             try
@@ -239,6 +282,11 @@
         }
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="NoteId"></param>
+        /// <returns></returns>
         public async Task<string> DeleteNoteFromTrash(int NoteId)
         {
             try
@@ -262,6 +310,11 @@
         }
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="UserId"></param>
+        /// <returns></returns>
         public IEnumerable<NoteModel> GetArchive(int UserId)
         {
             try
@@ -280,6 +333,11 @@
         }
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="UserId"></param>
+        /// <returns></returns>
         public IEnumerable<NoteModel> GetNotes(int UserId)
         {
             try
@@ -297,6 +355,12 @@
             }
         }
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="UserId"></param>
+        /// <returns></returns>
         public IEnumerable<NoteModel> GetTrash(int UserId)
         {
             try
@@ -315,6 +379,11 @@
         }
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="UserId"></param>
+        /// <returns></returns>
         public IEnumerable<NoteModel> GetReminders(int UserId)
         {
             try
@@ -333,6 +402,12 @@
         }
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="noteId"></param>
+        /// <param name="image"></param>
+        /// <returns></returns>
         public async Task<string> ImageUpload(int noteId, IFormFile image)
         {
             try
@@ -362,12 +437,17 @@
         }
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="UserId"></param>
+        /// <returns></returns>
         public async Task<string> EmptyTrash(int UserId)
         {
             try
             {
                 var ifNoteExist = await this.context.Note.Where(x => x.UserId == UserId && x.Trash == true).ToListAsync();
-                if(ifNoteExist.Count > 0)
+                if (ifNoteExist.Count > 0)
                 {
                     this.context.Note.RemoveRange(ifNoteExist);
                     await this.context.SaveChangesAsync();
