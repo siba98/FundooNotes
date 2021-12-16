@@ -34,14 +34,14 @@ namespace FundooRepository.Repository
         {
             try
             {
-                var ifExist = this.context.Users.Where(x => x.Email == user.Email).SingleOrDefault();
-                if (ifExist == null)
+                var checkEmail = this.context.Users.Where(x => x.Email == user.Email).SingleOrDefault();
+                if (checkEmail == null)
                 {
                     this.context.Users.Add(user);
                     this.context.SaveChanges();
-                    return "Register Successful";
+                    return "You Registered Successfully";
                 }
-                return "Email already exists";
+                return "Email is already exists in the Database";
 
             }
             catch (ArgumentNullException ex)
@@ -55,18 +55,18 @@ namespace FundooRepository.Repository
         {
             try
             {
-                var ifEmailExist = this.context.Users.Where(x => x.Email == loginDetails.Email).SingleOrDefault();
-                if (ifEmailExist != null)
+                var checkEmail = this.context.Users.Where(x => x.Email == loginDetails.Email).SingleOrDefault();
+                if (checkEmail != null)
                 {
-                    var ifPasswordExist = this.context.Users.Where(x => x.Password == loginDetails.Password).SingleOrDefault();
-                    if (ifPasswordExist != null)
+                    var checkPassword = this.context.Users.Where(x => x.Password == loginDetails.Password).SingleOrDefault();
+                    if (checkPassword != null)
                     {
                         ConnectionMultiplexer connectionMultiplexer = ConnectionMultiplexer.Connect("127.0.0.1:6379");
                         IDatabase database = connectionMultiplexer.GetDatabase();
-                        database.StringSet(key: "First Name", ifEmailExist.FirstName);
-                        database.StringSet(key: "Last Name", ifEmailExist.LastName);
-                        database.StringSet(key: "Email", ifEmailExist.Email);
-                        database.StringSet(key: "UserId", ifEmailExist.UserId.ToString());
+                        database.StringSet(key: "First Name", checkEmail.FirstName);
+                        database.StringSet(key: "Last Name", checkEmail.LastName);
+                        database.StringSet(key: "Email", checkEmail.Email);
+                        database.StringSet(key: "UserId", checkEmail.UserId.ToString());
                         return "Login Successful";
                     }
                     return "Password Not Exist";
@@ -83,11 +83,11 @@ namespace FundooRepository.Repository
         {
             try
             {
-                var ifEmailExist = this.context.Users.Where(x => x.Email == resetPassword.Email).SingleOrDefault();
-                if (ifEmailExist != null)
+                var checkEmail = this.context.Users.Where(x => x.Email == resetPassword.Email).SingleOrDefault();
+                if (checkEmail != null)
                 {
-                    ifEmailExist.Password = EncodePasswordToBase64(resetPassword.NewPassword);
-                    this.context.Users.Update(ifEmailExist);
+                    checkEmail.Password = EncodePasswordToBase64(resetPassword.NewPassword);
+                    this.context.Users.Update(checkEmail);
                     this.context.SaveChanges();
                     return "Password Successfully Reset";
                 }
@@ -118,8 +118,8 @@ namespace FundooRepository.Repository
         {
             try
             {
-                var ifEmailExist = this.context.Users.Where(x => x.Email == Email).SingleOrDefault();
-                if (ifEmailExist != null)
+                var checkEmail = this.context.Users.Where(x => x.Email == Email).SingleOrDefault();
+                if (checkEmail != null)
                 {
                     MailMessage mail = new MailMessage();
                     SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");

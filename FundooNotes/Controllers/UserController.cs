@@ -26,7 +26,7 @@ namespace FundooNotes.Contollers
             try
             {
                 string message = this.manager.Register(user);
-                if (message.Equals("Register Successful"))
+                if (message.Equals("You Registered Successfully"))
                 {
                     return this.Ok(new { Status = true, Message = message });
                 }
