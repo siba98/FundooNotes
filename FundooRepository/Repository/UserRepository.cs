@@ -67,7 +67,6 @@ namespace FundooRepository.Repository
                         database.StringSet(key: "Last Name", ifEmailExist.LastName);
                         database.StringSet(key: "Email", ifEmailExist.Email);
                         database.StringSet(key: "UserId", ifEmailExist.UserId.ToString());
-                        //return user != null ? "Login Successful" : "Login failed!! Email or password wrong";
                         return "Login Successful";
                     }
                     return "Password Not Exist";

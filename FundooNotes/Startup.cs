@@ -37,16 +37,9 @@ namespace FundooNotes
             services.AddDbContextPool<UserContext>(
                         options => options.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection")));
 
+            //Users Dependency
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IUserManager, UserManager>();
-
-            //Notes Dependency
-            services.AddTransient<INoteRepository, NoteRepository>();
-            services.AddTransient<INoteManager, NoteManager>();
-
-            //Collaborator Dependency
-            services.AddTransient<ICollaboratorRepository, CollaboratorRepository>();
-            services.AddTransient<ICollaboratorManager, CollaboratorManager>();
 
             services.AddSwaggerGen(c =>
             {
