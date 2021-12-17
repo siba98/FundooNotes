@@ -41,7 +41,7 @@ namespace FundooNotes.Contollers
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("api/login")]
         public IActionResult Login([FromBody] LoginModel loginDetails)
         {
