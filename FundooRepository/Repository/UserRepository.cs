@@ -61,12 +61,6 @@ namespace FundooRepository.Repository
                     var checkPassword = this.context.Users.Where(x => x.Password == loginDetails.Password).SingleOrDefault();
                     if (checkPassword != null)
                     {
-                        ConnectionMultiplexer connectionMultiplexer = ConnectionMultiplexer.Connect("127.0.0.1:6379");
-                        IDatabase database = connectionMultiplexer.GetDatabase();
-                        database.StringSet(key: "First Name", checkEmail.FirstName);
-                        database.StringSet(key: "Last Name", checkEmail.LastName);
-                        database.StringSet(key: "Email", checkEmail.Email);
-                        database.StringSet(key: "UserId", checkEmail.UserId.ToString());
                         return "Login Successful";
                     }
                     return "Password Not Exist";
