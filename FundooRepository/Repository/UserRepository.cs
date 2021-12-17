@@ -57,7 +57,8 @@
                 var ifEmailExist = await this.context.Users.Where(x => x.Email == loginDetails.Email).SingleOrDefaultAsync();
                 if (ifEmailExist != null)
                 {
-                    var ifPasswordExist = await this.context.Users.Where(x => x.Password == loginDetails.Password).SingleOrDefaultAsync();
+                    var ifPasswordExist = await this.context.Users.Where(x => x.Email == loginDetails.Email && x.Password == loginDetails.Password).SingleOrDefaultAsync();
+                    //x => x.Email == emailId && x.Password == encodePassword
                     if (ifPasswordExist != null)
                     {
                         ConnectionMultiplexer connectionMultiplexer = ConnectionMultiplexer.Connect("127.0.0.1:6379");
@@ -66,7 +67,6 @@
                         database.StringSet(key: "Last Name", ifEmailExist.LastName);
                         database.StringSet(key: "Email", ifEmailExist.Email);
                         database.StringSet(key: "UserId", ifEmailExist.UserId.ToString());
-                        //return user != null ? "Login Successful" : "Login failed!! Email or password wrong";
                         return "Login Successful";
                     }
                     return "Password Not Exist";

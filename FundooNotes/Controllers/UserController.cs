@@ -8,13 +8,13 @@
 
 namespace FundooNotes.Contollers
 {
+    using System;
+    using System.Threading.Tasks;
     using FundooManager.Interface;
     using FundooModels;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
     using StackExchange.Redis;
-    using System;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// UserController class for Users API implementation
