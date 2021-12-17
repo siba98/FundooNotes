@@ -9,6 +9,7 @@ namespace FundooNotes.Controllers
 {
     using FundooManager.Interface;
     using FundooModels;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using System;
@@ -18,7 +19,7 @@ namespace FundooNotes.Controllers
     /// <summary>
     /// NoteController class for Notes API implementation
     /// </summary>
-    //[Authorize]
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class NoteController : ControllerBase
