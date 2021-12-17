@@ -61,7 +61,7 @@
                     //x => x.Email == emailId && x.Password == encodePassword
                     if (ifPasswordExist != null)
                     {
-                        ConnectionMultiplexer connectionMultiplexer = ConnectionMultiplexer.Connect("127.0.0.1:6379");
+                        ConnectionMultiplexer connectionMultiplexer = ConnectionMultiplexer.Connect(this.configuration["RedisServerUrl"]);
                         IDatabase database = connectionMultiplexer.GetDatabase();
                         database.StringSet(key: "First Name", ifEmailExist.FirstName);
                         database.StringSet(key: "Last Name", ifEmailExist.LastName);

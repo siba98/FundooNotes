@@ -13,6 +13,7 @@ namespace FundooNotes.Contollers
     using FundooManager.Interface;
     using FundooModels;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Logging;
     using StackExchange.Redis;
 
@@ -25,12 +26,15 @@ namespace FundooNotes.Contollers
     {
         private readonly IUserManager manager;
 
+        private readonly IConfiguration configuration;
+
         private readonly ILogger<UserController> logger;
 
-        public UserController(IUserManager manager, ILogger<UserController> logger)
+        public UserController(IUserManager manager, ILogger<UserController> logger, IConfiguration configuration)
         {
             this.manager = manager;
             this.logger = logger;
+            this.configuration = configuration;
         }
 
         [HttpPost]
@@ -66,11 +70,12 @@ namespace FundooNotes.Contollers
             try
             {
                 this.logger.LogInformation(loginDetails.Email + " is trying to Login");
+                //var result = await this.manager.Login(loginDetails);
                 string message = await this.manager.Login(loginDetails);
                 if (message.Equals("Login Successful"))
                 {
                     this.logger.LogInformation(loginDetails.Email + " is successfully Logged in");
-                    ConnectionMultiplexer connectionMultiplexer = ConnectionMultiplexer.Connect("127.0.0.1:6379");
+                    ConnectionMultiplexer connectionMultiplexer = ConnectionMultiplexer.Connect(this.configuration["RedisServerUrl"]);
                     IDatabase database = connectionMultiplexer.GetDatabase();
                     string firstName = database.StringGet("First Name");
                     string lastName = database.StringGet("Last Name");
@@ -86,12 +91,12 @@ namespace FundooNotes.Contollers
                     };
 
                     string tokenString = this.manager.GenerateToken(loginDetails.Email);
-                    return this.Ok(new { Status = true, Message = message, Data = data, Token = tokenString });
+                    return this.Ok(new { Status = true, Message = "login successful", Data = data, Token = tokenString });//Data2 = result
                 }
                 else
                 {
                     this.logger.LogInformation(loginDetails.Email + " Login was unsuccessful");
-                    return this.BadRequest(new { Status = false, Message = message });
+                    return this.BadRequest(new { Status = false, Message = "login unsuccessful" });
                 }
             }
             catch (Exception ex)
