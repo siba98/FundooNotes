@@ -41,7 +41,7 @@ namespace FundooNotes.Contollers
             }
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("api/login")]
         public IActionResult Login([FromBody] LoginModel loginDetails)
         {
@@ -64,7 +64,7 @@ namespace FundooNotes.Contollers
             }
         }
 
-        [HttpPost]
+        [HttpPut]
         [Route("api/resetPassword")]
         public IActionResult Resetpassword([FromBody] ResetPasswordModel resetPassword)
         {

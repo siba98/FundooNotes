@@ -2,18 +2,14 @@
 using FundooModels;
 using FundooRepository.Context;
 using FundooRepository.Interface;
-using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using StackExchange.Redis;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net.Mail;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
-using IDatabase = StackExchange.Redis.IDatabase;
 
 namespace FundooRepository.Repository
 {
@@ -34,9 +30,11 @@ namespace FundooRepository.Repository
         {
             try
             {
-                var checkEmail = this.context.Users.Where(x => x.Email == user.Email).SingleOrDefault();
+                var checkEmail = this.context.Users.Where(x => x.Email == user.Email).FirstOrDefault();
                 if (checkEmail == null)
                 {
+                    // Encrypt the password
+                    user.Password = EncodePasswordToBase64(user.Password);
                     this.context.Users.Add(user);
                     this.context.SaveChanges();
                     return "You Registered Successfully";
@@ -55,10 +53,12 @@ namespace FundooRepository.Repository
         {
             try
             {
-                var checkEmail = this.context.Users.Where(x => x.Email == loginDetails.Email).SingleOrDefault();
+                var checkEmail = this.context.Users.Where(x => x.Email == loginDetails.Email).FirstOrDefault();
                 if (checkEmail != null)
                 {
-                    var checkPassword = this.context.Users.Where(x => x.Password == loginDetails.Password).SingleOrDefault();
+                    // Encrypt the password
+                    loginDetails.Password = EncodePasswordToBase64(loginDetails.Password);
+                    var checkPassword = this.context.Users.Where(x => x.Password == loginDetails.Password).FirstOrDefault();
                     if (checkPassword != null)
                     {
                         return "Login Successful";
@@ -77,9 +77,10 @@ namespace FundooRepository.Repository
         {
             try
             {
-                var checkEmail = this.context.Users.Where(x => x.Email == resetPassword.Email).SingleOrDefault();
+                var checkEmail = this.context.Users.Where(x => x.Email == resetPassword.Email).FirstOrDefault();
                 if (checkEmail != null)
                 {
+                    // Encrypt the password
                     checkEmail.Password = EncodePasswordToBase64(resetPassword.NewPassword);
                     this.context.Users.Update(checkEmail);
                     this.context.SaveChanges();
@@ -112,7 +113,7 @@ namespace FundooRepository.Repository
         {
             try
             {
-                var checkEmail = this.context.Users.Where(x => x.Email == Email).SingleOrDefault();
+                var checkEmail = this.context.Users.Where(x => x.Email == Email).FirstOrDefault();
                 if (checkEmail != null)
                 {
                     MailMessage mail = new MailMessage();
