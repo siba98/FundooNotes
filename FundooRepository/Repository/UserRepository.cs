@@ -33,9 +33,11 @@
         {
             try
             {
-                var ifExist = await this.context.Users.Where(x => x.Email == user.Email).SingleOrDefaultAsync();
-                if (ifExist == null)
+                var checkEmail = await this.context.Users.Where(x => x.Email == user.Email).SingleOrDefaultAsync();
+                if (checkEmail == null)
                 {
+                    //Encrypt the password
+                    user.Password = EncodePasswordToBase64(user.Password);
                     this.context.Users.Add(user);
                     await this.context.SaveChangesAsync();
                     return "Register Successful";
@@ -54,19 +56,20 @@
         {
             try
             {
-                var ifEmailExist = await this.context.Users.Where(x => x.Email == loginDetails.Email).SingleOrDefaultAsync();
-                if (ifEmailExist != null)
+                var checkEmail = await this.context.Users.Where(x => x.Email == loginDetails.Email).SingleOrDefaultAsync();
+                if (checkEmail != null)
                 {
-                    var ifPasswordExist = await this.context.Users.Where(x => x.Email == loginDetails.Email && x.Password == loginDetails.Password).SingleOrDefaultAsync();
-                    //x => x.Email == emailId && x.Password == encodePassword
-                    if (ifPasswordExist != null)
+                    // Encrypt the password
+                    loginDetails.Password = EncodePasswordToBase64(loginDetails.Password);
+                    var checkPassword = await this.context.Users.Where(x => x.Email == loginDetails.Email && x.Password == loginDetails.Password).SingleOrDefaultAsync();
+                    if (checkPassword != null)
                     {
                         ConnectionMultiplexer connectionMultiplexer = ConnectionMultiplexer.Connect(this.configuration["RedisServerUrl"]);
                         IDatabase database = connectionMultiplexer.GetDatabase();
-                        database.StringSet(key: "First Name", ifEmailExist.FirstName);
-                        database.StringSet(key: "Last Name", ifEmailExist.LastName);
-                        database.StringSet(key: "Email", ifEmailExist.Email);
-                        database.StringSet(key: "UserId", ifEmailExist.UserId.ToString());
+                        database.StringSet(key: "First Name", checkEmail.FirstName);
+                        database.StringSet(key: "Last Name", checkEmail.LastName);
+                        database.StringSet(key: "Email", checkEmail.Email);
+                        database.StringSet(key: "UserId", checkEmail.UserId.ToString());
                         return "Login Successful";
                     }
                     return "Password Not Exist";
@@ -83,11 +86,11 @@
         {
             try
             {
-                var ifEmailExist = await this.context.Users.Where(x => x.Email == resetPassword.Email).SingleOrDefaultAsync();
-                if (ifEmailExist != null)
+                var checkEmail = await this.context.Users.Where(x => x.Email == resetPassword.Email).SingleOrDefaultAsync();
+                if (checkEmail != null)
                 {
-                    ifEmailExist.Password = EncodePasswordToBase64(resetPassword.NewPassword);
-                    this.context.Users.Update(ifEmailExist);
+                    checkEmail.Password = EncodePasswordToBase64(resetPassword.NewPassword);
+                    this.context.Users.Update(checkEmail);
                     await this.context.SaveChangesAsync();
                     return "Password Successfully Reset";
                 }
@@ -118,8 +121,8 @@
         {
             try
             {
-                var ifEmailExist = await this.context.Users.Where(x => x.Email == Email).SingleOrDefaultAsync();
-                if (ifEmailExist != null)
+                var checkEmail = await this.context.Users.Where(x => x.Email == Email).SingleOrDefaultAsync();
+                if (checkEmail != null)
                 {
                     MailMessage mail = new MailMessage();
                     SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
