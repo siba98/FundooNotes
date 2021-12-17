@@ -130,12 +130,12 @@ namespace FundooNotes.Controllers
         }
 
         [HttpPut]
-        [Route("api/EditPin")]
-        public IActionResult EditPin([FromBody] NoteModel note)
+        [Route("api/PinOrUnPinnedNotes")]
+        public IActionResult PinOrUnPinnedNotes(int NoteId)
         {
             try
             {
-                string message = this.noteManager.EditPin(note);
+                string message = this.noteManager.PinOrUnPinnedNotes(NoteId);
                 if (message.Equals("Note Pinned Successfully"))
                 {
                     return this.Ok(new { Status = true, Message = message });
@@ -144,6 +144,10 @@ namespace FundooNotes.Controllers
                 {
                     return this.Ok(new { Status = true, Message = message });
                 }
+                if (message.Equals("Note UnArchived and Pinned Successfully"))
+                {
+                    return this.Ok(new { status = true, Message = message });
+                }
                 else
                 {
                     return this.BadRequest(new { Status = false, Message = message });
@@ -156,12 +160,12 @@ namespace FundooNotes.Controllers
         }
 
         [HttpPut]
-        [Route("api/editArchive")]
-        public IActionResult EditArchive([FromBody] NoteModel note)
+        [Route("api/archiveOrUnArchiveNotes")]
+        public IActionResult ArchiveOrUnArchiveNotes(int NoteId)
         {
             try
             {
-                string message = this.noteManager.EditArchive(note);
+                string message = this.noteManager.ArchiveOrUnArchiveNotes(NoteId);
                 if (message.Equals("Note Archived and Unpinned Successfully"))
                 {
                     return this.Ok(new { Status = true, Message = message });
@@ -170,6 +174,10 @@ namespace FundooNotes.Controllers
                 {
                     return this.Ok(new { Status = true, Message = message });
                 }
+                if (message.Equals("Note Archived Successfully"))
+                {
+                    return this.Ok(new { Status = true, Message = message });
+                }
                 else
                 {
                     return this.BadRequest(new { Status = false, Message = message });
@@ -182,17 +190,21 @@ namespace FundooNotes.Controllers
         }
 
         [HttpPut]
-        [Route("api/editTrash")]
-        public IActionResult EditTrash([FromBody] NoteModel note)
+        [Route("api/trashOrRestoreNotes")]
+        public IActionResult TrashOrRestoreNotes(int NoteId)
         {
             try
             {
-                string message = this.noteManager.EditTrash(note);
+                string message = this.noteManager.TrashOrRestoreNotes(NoteId);
                 if (message.Equals("Note Trashed Successfully"))
                 {
                     return this.Ok(new { Status = true, Message = message });
                 }
-                if (message.Equals("Note Not Trashed"))
+                if (message.Equals("Note Restored From Trash Successfully"))
+                {
+                    return this.Ok(new { Status = true, Message = message });
+                }
+                if (message.Equals("Note Unpinned and Trashed Successfully"))
                 {
                     return this.Ok(new { Status = true, Message = message });
                 }
@@ -206,6 +218,7 @@ namespace FundooNotes.Controllers
                 return this.NotFound(new { Status = false, ex.Message });
             }
         }
+
 
         [HttpDelete]
         [Route("api/deleteNoteFromTrash")]

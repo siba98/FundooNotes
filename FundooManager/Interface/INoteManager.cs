@@ -13,9 +13,9 @@ namespace FundooManager.Interface
         string AddReminder(NoteModel note);
         string DeleteReminder(NoteModel note);
         string EditColour(NoteModel note);
-        string EditPin(NoteModel note);
-        string EditArchive(NoteModel note);
-        string EditTrash(NoteModel note);
+        string PinOrUnPinnedNotes(int NoteId);
+        string ArchiveOrUnArchiveNotes(int NoteId);
+        string TrashOrRestoreNotes(int NoteId);
         string DeleteNoteFromTrash(NoteModel note);
         IEnumerable<NoteModel> GetArchive(int UserId);
         IEnumerable<NoteModel> GetNotes(int UserId);
