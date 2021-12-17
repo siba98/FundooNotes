@@ -13,14 +13,14 @@ namespace FundooManager.Interface
         string AddReminder(NoteModel note);
         string DeleteReminder(NoteModel note);
         string EditColour(NoteModel note);
-        string EditPin(NoteModel note);
-        string EditArchive(NoteModel note);
-        string EditTrash(NoteModel note);
         string DeleteNoteFromTrash(NoteModel note);
         IEnumerable<NoteModel> GetArchive(int UserId);
         IEnumerable<NoteModel> GetNotes(int UserId);
         IEnumerable<NoteModel> GetTrash(int UserId);
         IEnumerable<NoteModel> GetReminders(int UserId);
         string ImageUpload(int noteId, IFormFile image);
+        string PinOrUnPinnedNotes(int noteId);
+        string ArchiveOrUnArchiveNotes(int noteId);
+        string TrashOrRestoreNotes(int noteId);
     }
 }

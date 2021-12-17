@@ -76,11 +76,11 @@ namespace FundooManager.Manager
             }
         }
 
-        public string EditPin(NoteModel note)
+        public string PinOrUnPinnedNotes(int NoteId)
         {
             try
             {
-                return this.noteRepository.EditPin(note);
+                return this.noteRepository.PinOrUnPinnedNotes(NoteId);
             }
             catch (Exception ex)
             {
@@ -88,11 +88,11 @@ namespace FundooManager.Manager
             }
         }
 
-        public string EditArchive(NoteModel note)
+        public string ArchiveOrUnArchiveNotes(int NoteId)
         {
             try
             {
-                return this.noteRepository.EditArchive(note);
+                return this.noteRepository.ArchiveOrUnArchiveNotes(NoteId);
             }
             catch (Exception ex)
             {
@@ -100,11 +100,11 @@ namespace FundooManager.Manager
             }
         }
 
-        public string EditTrash(NoteModel note)
+        public string TrashOrRestoreNotes(int NoteId)
         {
             try
             {
-                return this.noteRepository.EditTrash(note);
+                return this.noteRepository.TrashOrRestoreNotes(NoteId);
             }
             catch (Exception ex)
             {
