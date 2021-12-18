@@ -1,24 +1,45 @@
-﻿using FundooModels;
-using FundooRepository.Context;
-using FundooRepository.Interface;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="LabelRepository.cs" company="Bridgelabz">
+//   Copyright © 2021 Company="BridgeLabz"
+// </copyright>
+// <creator name="A Siba Patro"/>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace FundooRepository.Repository
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using FundooModels;
+    using FundooRepository.Context;
+    using FundooRepository.Interface;
+    using Microsoft.EntityFrameworkCore;
+
+    /// <summary>
+    /// LabelRepository class for Label Api's
+    /// </summary>
     public class LabelRepository : ILabelRepository
     {
+        /// <summary>
+        /// object created for UserContext
+        /// </summary>
         private readonly UserContext context;
 
-
+        /// <summary>
+        /// Initializes a new instance of the LabelRepository class
+        /// </summary>
+        /// <param name="context">taking context as parameter</param>
         public LabelRepository(UserContext context)
         {
             this.context = context;
         }
 
+        /// <summary>
+        /// method for adding label
+        /// </summary>
+        /// <param name="labelModel">passing labelModel parameter for LabelModel</param>
+        /// <returns>Returns string type</returns>
         public async Task<string> AddLabel(LabelModel labelModel)
         {
             try
@@ -33,6 +54,11 @@ namespace FundooRepository.Repository
             }
         }
 
+        /// <summary>
+        /// method for getting all the labels by note id
+        /// </summary>
+        /// <param name="NoteId">passing parameter as NoteId</param>
+        /// <returns>returns all the labels</returns>
         public IEnumerable<LabelModel> GetLabelByNoteId(int NoteId)
         {
             try
@@ -52,6 +78,11 @@ namespace FundooRepository.Repository
             }
         }
 
+        /// <summary>
+        /// method for getting all the labels by user id
+        /// </summary>
+        /// <param name="UserId">passing parameter as UserId</param>
+        /// <returns>returns all the labels</returns>
         public IEnumerable<LabelModel> GetLabelByUserId(int UserId)
         {
             try
@@ -69,6 +100,11 @@ namespace FundooRepository.Repository
             }
         }
 
+        /// <summary>
+        /// method for deleting the label
+        /// </summary>
+        /// <param name="LabelId">passing parameter as LabelId</param>
+        /// <returns>returns string type</returns>
         public async Task<string> DeleteLabel(int LabelId)
         {
             try
@@ -88,6 +124,11 @@ namespace FundooRepository.Repository
             }
         }
 
+        /// <summary>
+        /// method for removing label from note
+        /// </summary>
+        /// <param name="LabelId">passing parameter as LabelId</param>
+        /// <returns>returns string type</returns>
         public async Task<string> RemoveLabelFromNote(int LabelId)
         {
             try
@@ -107,6 +148,11 @@ namespace FundooRepository.Repository
             }
         }
 
+        /// <summary>
+        /// method for getting all the notes by label name
+        /// </summary>
+        /// <param name="Label">passing parameter as Label</param>
+        /// <returns>returns all the notes</returns>
         public IEnumerable<LabelModel> GetNotesByLabelName(string Label)
         {
             try
@@ -132,6 +178,12 @@ namespace FundooRepository.Repository
             }
         }
 
+        /// <summary>
+        /// method for rename label according to label id
+        /// </summary>
+        /// <param name="LabelId">passing parameter as LabelId</param>
+        /// <param name="Label">passing parameter as Label</param>
+        /// <returns>returns string type</returns>
         public async Task<string> RenameLabel(int LabelId, string Label)
         {
             try

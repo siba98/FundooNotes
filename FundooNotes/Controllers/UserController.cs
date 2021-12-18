@@ -5,10 +5,10 @@
 // <creator name="A Siba Patro"/>
 // --------------------------------------------------------------------------------------------------------------------
 
-
 namespace FundooNotes.Contollers
 {
     using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using FundooManager.Interface;
     using FundooModels;
@@ -42,9 +42,9 @@ namespace FundooNotes.Contollers
         /// <summary>
         /// Initializes a new instance of the UserController class
         /// </summary>
-        /// <param name="manager"></param>
-        /// <param name="logger"></param>
-        /// <param name="configuration"></param>
+        /// <param name="manager">parameter manager for IUserManager</param>
+        /// <param name="logger">parameter logger for ILogger</param>
+        /// <param name="configuration">parameter configuration for IConfiguration</param>
         public UserController(IUserManager manager, ILogger<UserController> logger, IConfiguration configuration)
         {
             this.manager = manager;
@@ -53,10 +53,10 @@ namespace FundooNotes.Contollers
         }
 
         /// <summary>
-        /// Register Api to check the status of user
+        /// Register Api for user
         /// </summary>
-        /// <param name="user"></param>
-        /// <returns>This methods returns status for User Registration</returns>
+        /// <param name="userData">passing userData parameter for RegisterModel</param>
+        /// <returns>response status from api</returns>
         [HttpPost]
         [Route("register")]
         public async Task<IActionResult> Register([FromBody] RegisterModel userData)
@@ -64,23 +64,16 @@ namespace FundooNotes.Contollers
             try
             {
                 this.logger.LogInformation(userData.FirstName + " is trying to Register");
-                var result = await this.manager.Register(userData);
-                //string message = await this.manager.Register(userData);
-                //if(result == true)
-                if (result != null)
-                //if (message.Equals("Register Successful"))
+                string message = await this.manager.Register(userData);
+                if (message.Equals("Register Successful"))
                 {
                     this.logger.LogInformation(userData.FirstName + " has successfully Registered");
-                    return this.Ok(new { Status = true, Message = "User Registered Successfully !", Data = result });
-                    //return this.Ok(new ResponseModel<RegisterModel>() { Status = true, Message = "User Registered Successfully !", Data = result });
-                    //return this.Ok(new { Status = true, Message = message });
+                    return this.Ok(new { Status = true, Message = message });
                 }
                 else
                 {
                     this.logger.LogInformation(userData.FirstName + " registration was unsuccessful");
-                    return this.BadRequest(new { Status = false, Message = "User Registration was UnSuccessfull", Data = result });
-                    //return this.BadRequest(new ResponseModel<RegisterModel>() { Status = false, Message = "User Registration was UnSuccessfull", Data = result });
-                    //return this.BadRequest(new { Status = false, Message = message });
+                    return this.BadRequest(new { Status = false, Message = message });
                 }
             }
             catch (Exception ex)
@@ -90,9 +83,14 @@ namespace FundooNotes.Contollers
             }
         }
 
+        /// <summary>
+        /// Login Api for user
+        /// </summary>
+        /// <param name="loginDetails">passing loginDetails parameter for LoginModel</param>
+        /// <returns>response status from api</returns>
         [HttpPost]
         [Route("login")]
-        public async Task<IActionResult> Login([FromBody] LoginModel loginDetails)
+        public async Task<IActionResult> Login(LoginModel loginDetails)
         {
             try
             {
@@ -133,6 +131,11 @@ namespace FundooNotes.Contollers
             }
         }
 
+        /// <summary>
+        /// Resetpassword Api for user
+        /// </summary>
+        /// <param name="resetPassword">passing resetPassword parameter for ResetPasswordModel</param>
+        /// <returns>response status from api</returns>
         [HttpPost]
         [Route("resetPassword")]
         public async Task<IActionResult> Resetpassword([FromBody] ResetPasswordModel resetPassword)
@@ -159,6 +162,11 @@ namespace FundooNotes.Contollers
             }
         }
 
+        /// <summary>
+        /// Forgot password api for user
+        /// </summary>
+        /// <param name="Email">passing parameter Email</param>
+        /// <returns>response status from api</returns>
         [HttpPost]
         [Route("forgotPassword")]
         public async Task<IActionResult> ForgotPassword(string Email)

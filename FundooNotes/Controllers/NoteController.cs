@@ -25,13 +25,25 @@ namespace FundooNotes.Controllers
     [Route("api/[controller]")]
     public class NoteController : ControllerBase
     {
+        /// <summary>
+        /// Object created for INoteManager
+        /// </summary>
         private readonly INoteManager noteManager;
 
+        /// <summary>
+        /// Initializes a new instance of the NoteController class
+        /// </summary>
+        /// <param name="noteManager">parameter noteManager for INoteManager</param>
         public NoteController(INoteManager noteManager)
         {
             this.noteManager = noteManager;
         }
 
+        /// <summary>
+        /// api for adding note
+        /// </summary>
+        /// <param name="note"></param>
+        /// <returns>response status from api</returns>
         [HttpPost]
         [Route("addNote")]
         public async Task<IActionResult> AddNote([FromBody] NoteModel note)
@@ -54,6 +66,11 @@ namespace FundooNotes.Controllers
             }
         }
 
+        /// <summary>
+        /// api for edit a note
+        /// </summary>
+        /// <param name="note"></param>
+        /// <returns>response status from api</returns>
         [HttpPut]
         [Route("editNote")]
         public async Task<IActionResult> EditNote([FromBody] NoteModel note)
@@ -76,6 +93,12 @@ namespace FundooNotes.Controllers
             }
         }
 
+        /// <summary>
+        /// api for add reminder
+        /// </summary>
+        /// <param name="NoteId"></param>
+        /// <param name="Reminder"></param>
+        /// <returns>response status from api</returns>
         [HttpPut]
         [Route("addReminder")]
         public async Task<IActionResult> AddReminder(int NoteId, string Reminder)
@@ -98,6 +121,11 @@ namespace FundooNotes.Controllers
             }
         }
 
+        /// <summary>
+        /// api for delete reminder 
+        /// </summary>
+        /// <param name="NoteId"></param>
+        /// <returns>response status from api</returns>
         [HttpPut]
         [Route("deleteReminder")]
         public async Task<IActionResult> DeleteReminder(int NoteId)
@@ -119,6 +147,13 @@ namespace FundooNotes.Controllers
                 return this.NotFound(new { Status = false, ex.Message });
             }
         }
+
+        /// <summary>
+        /// api for edit colour
+        /// </summary>
+        /// <param name="NoteId"></param>
+        /// <param name="Colour"></param>
+        /// <returns>response status from api</returns>
         [HttpPut]
         [Route("editColour")]
         public async Task<IActionResult> EditColour(int NoteId, string Colour)
@@ -141,6 +176,11 @@ namespace FundooNotes.Controllers
             }
         }
 
+        /// <summary>
+        /// api for pin or unpin note
+        /// </summary>
+        /// <param name="NoteId"></param>
+        /// <returns>response status from api</returns>
         [HttpPut]
         [Route("pinOrUnPinnedNotes")]
         public async Task<IActionResult> PinOrUnPinnedNotes(int NoteId)
@@ -171,6 +211,11 @@ namespace FundooNotes.Controllers
             }
         }
 
+        /// <summary>
+        /// api for archive or unarchive note
+        /// </summary>
+        /// <param name="NoteId"></param>
+        /// <returns>response status from api</returns>
         [HttpPut]
         [Route("archiveOrUnArchiveNotes")]
         public async Task<IActionResult> ArchiveOrUnArchiveNotes(int NoteId)
@@ -201,6 +246,11 @@ namespace FundooNotes.Controllers
             }
         }
 
+        /// <summary>
+        /// api for trash or restore note
+        /// </summary>
+        /// <param name="NoteId"></param>
+        /// <returns>response status from api</returns>
         [HttpPut]
         [Route("trashOrRestoreNotes")]
         public async Task<IActionResult> TrashOrRestoreNotes(int NoteId)
@@ -231,6 +281,11 @@ namespace FundooNotes.Controllers
             }
         }
 
+        /// <summary>
+        /// api for delete note from trash
+        /// </summary>
+        /// <param name="NoteId"></param>
+        /// <returns>response status from api</returns>
         [HttpDelete]
         [Route("deleteNoteFromTrash")]
         public async Task<IActionResult> DeleteNoteFromTrash(int NoteId)
@@ -253,6 +308,12 @@ namespace FundooNotes.Controllers
             }
         }
 
+        /// <summary>
+        /// api for upload image in note
+        /// </summary>
+        /// <param name="noteId"></param>
+        /// <param name="image"></param>
+        /// <returns>response status from api</returns>
         [HttpPut]
         [Route("imageUpload")]
         public async Task<IActionResult> ImageUpload(int noteId, IFormFile image)
@@ -275,6 +336,11 @@ namespace FundooNotes.Controllers
             }
         }
 
+        /// <summary>
+        /// api for get archive notes
+        /// </summary>
+        /// <param name="UserId"></param>
+        /// <returns>response status from api</returns>
         [HttpGet]
         [Route("getArchive")]
         public IActionResult GetArchive(int UserId)
@@ -297,6 +363,11 @@ namespace FundooNotes.Controllers
             }
         }
 
+        /// <summary>
+        /// api for get notes
+        /// </summary>
+        /// <param name="UserId"></param>
+        /// <returns>response status from api</returns>
         [HttpGet]
         [Route("getNotes")]
         public IActionResult GetNotes(int UserId)
@@ -319,6 +390,12 @@ namespace FundooNotes.Controllers
             }
         }
 
+
+        /// <summary>
+        /// api for get trash notes
+        /// </summary>
+        /// <param name="UserId"></param>
+        /// <returns>response status from api</returns>
         [HttpGet]
         [Route("getTrash")]
         public IActionResult GetTrash(int UserId)
@@ -341,6 +418,11 @@ namespace FundooNotes.Controllers
             }
         }
 
+        /// <summary>
+        /// api for get reminder notes
+        /// </summary>
+        /// <param name="UserId"></param>
+        /// <returns>response status from api</returns>
         [HttpGet]
         [Route("getReminders")]
         public IActionResult GetReminders(int UserId)
@@ -355,28 +437,6 @@ namespace FundooNotes.Controllers
                 else
                 {
                     return this.BadRequest(new { Status = false, Message = "Reminder Not Created For Any Note", Data = result });
-                }
-            }
-            catch (Exception ex)
-            {
-                return this.NotFound(new { Status = false, ex.Message });
-            }
-        }
-
-        [HttpDelete]
-        [Route("EmptyTrash")]
-        public async Task<IActionResult> EmptyTrash(int UserId)
-        {
-            try
-            {
-                string message = await this.noteManager.EmptyTrash(UserId);
-                if (message.Equals("Trash is Successfully Empty"))
-                {
-                    return this.Ok(new { Status = true, Message = message });
-                }
-                else
-                {
-                    return this.BadRequest(new { Status = false, Message = message });
                 }
             }
             catch (Exception ex)

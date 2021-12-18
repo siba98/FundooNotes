@@ -21,13 +21,25 @@ namespace FundooNotes.Controllers
     [Route("api/[controller]")]
     public class CollaboratorController : ControllerBase
     {
+        /// <summary>
+        /// Object created for ICollaboratorManager
+        /// </summary>
         private readonly ICollaboratorManager collaboratorManager;
 
+        /// <summary>
+        /// Initializes a new instance of the CollaboratorController class
+        /// </summary>
+        /// <param name="collaboratorManager">parameter collaboratorManager for ICollaboratorManager</param>
         public CollaboratorController(ICollaboratorManager collaboratorManager)
         {
             this.collaboratorManager = collaboratorManager;
         }
 
+        /// <summary>
+        /// adding new collaborator
+        /// </summary>
+        /// <param name="collaborator">passing collaborator parameter for CollaboratorModel</param>
+        /// <returns>response status from api</returns>
         [HttpPost]
         [Route("addCollaborator")]
         public async Task<IActionResult> AddCollaborator(CollaboratorModel collaborator)
@@ -50,6 +62,11 @@ namespace FundooNotes.Controllers
             }
         }
 
+        /// <summary>
+        /// deleting existing collaborator
+        /// </summary>
+        /// <param name="CollaboratorId">passing parameter CollaboratorId</param>
+        /// <returns>response status from api</returns>
         [HttpDelete]
         [Route("deleteCollaborator")]
         public async Task<IActionResult> DeleteCollaborator(int CollaboratorId)
@@ -72,6 +89,11 @@ namespace FundooNotes.Controllers
             }
         }
 
+        /// <summary>
+        /// getting all collaborator
+        /// </summary>
+        /// <param name="NoteId">passing parameter NoteId</param>
+        /// <returns>response status from api</returns>
         [HttpGet]
         [Route("getCollaborator")]
         public IActionResult GetCollaborator(int NoteId)

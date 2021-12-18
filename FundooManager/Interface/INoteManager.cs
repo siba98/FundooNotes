@@ -1,11 +1,10 @@
-﻿
+﻿using System.Threading.Tasks;
+using System.Collections.Generic;
+using FundooModels;
+using Microsoft.AspNetCore.Http;
 
 namespace FundooManager.Interface
 {
-    using System.Threading.Tasks;
-    using System.Collections.Generic;
-    using FundooModels;
-    using Microsoft.AspNetCore.Http;
     public interface INoteManager
     {
         Task<string> AddNote(NoteModel note);
@@ -22,6 +21,5 @@ namespace FundooManager.Interface
         IEnumerable<NoteModel> GetNotes(int userId);
         IEnumerable<NoteModel> GetTrash(int userId);
         IEnumerable<NoteModel> GetReminders(int userId);
-        Task<string> EmptyTrash(int userId);
     }
 }

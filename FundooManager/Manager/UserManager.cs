@@ -1,4 +1,9 @@
-﻿
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="UserManager.cs" company="Bridgelabz">
+//   Copyright © 2021 Company="BridgeLabz"
+// </copyright>
+// <creator name="A Siba Patro"/>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace FundooManager.Manager
 {
@@ -7,16 +12,32 @@ namespace FundooManager.Manager
     using FundooManager.Interface;
     using FundooModels;
     using FundooRepository.Interface;
+
+    /// <summary>
+    /// User Manager Class for User Api's
+    /// </summary>
     public class UserManager : IUserManager
     {
+        /// <summary>
+        /// object created for IUserRepository
+        /// </summary>
         private readonly IUserRepository repository;
 
+        /// <summary>
+        /// Initializes a new instance of the UserManager class
+        /// </summary>
+        /// <param name="repository">taking repository as parameter</param>
         public UserManager(IUserRepository repository)
         {
             this.repository = repository;
         }
 
-        public async Task<RegisterModel> Register(RegisterModel userData)
+        /// <summary>
+        /// Register method for manager class
+        /// </summary>
+        /// <param name="userData">passing userData parameter for RegisterModel</param>
+        /// <returns>Returns string type</returns>
+        public async Task<string> Register(RegisterModel userData)
         {
             try
             {
@@ -29,6 +50,11 @@ namespace FundooManager.Manager
             }
         }
 
+        /// <summary>
+        /// Login method for manager class
+        /// </summary>
+        /// <param name="loginDetails">passing loginDetails parameter for LoginModel</param>
+        /// <returns>return string type</returns>
         public async Task<string> Login(LoginModel loginDetails)
         {
             try
@@ -42,7 +68,11 @@ namespace FundooManager.Manager
             }
         }
 
-        //this function Convert to Encode the Password 
+        /// <summary>
+        /// this function Convert to Encode the Password 
+        /// </summary>
+        /// <param name="Password">passing parameter as Password</param>
+        /// <returns>returns string type</returns>
         public static string EncodePasswordToBase64(string Password)
         {
             try
@@ -58,6 +88,11 @@ namespace FundooManager.Manager
             }
         }
 
+        /// <summary>
+        /// method for reseting the password
+        /// </summary>
+        /// <param name="resetPassword">passing resetPassword parameter for ResetPasswordModel</param>
+        /// <returns>return string type</returns>
         public async Task<string> ResetPassword(ResetPasswordModel resetPassword)
         {
             try
@@ -71,6 +106,11 @@ namespace FundooManager.Manager
             }
         }
 
+        /// <summary>
+        /// method for getting reset link for Forgot Password
+        /// </summary>
+        /// <param name="Email">passing parameter as Email</param>
+        /// <returns>returns string type</returns>
         public async Task<string> ForgotPassword(string Email)
         {
             try
@@ -83,6 +123,11 @@ namespace FundooManager.Manager
             }
         }
 
+        /// <summary>
+        /// method for generating a token for authorization of api's
+        /// </summary>
+        /// <param name="Email">passing parameter as Email</param>
+        /// <returns>returns string type</returns>
         public string GenerateToken(string Email)
         {
             try

@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CollaboratorController.cs" company="Bridgelabz">
+// <copyright file="LabelController.cs" company="Bridgelabz">
 //   Copyright © 2021 Company="BridgeLabz"
 // </copyright>
 // <creator name="A Siba Patro"/>
@@ -29,6 +29,11 @@ namespace FundooNotes.Controllers
             this.labelManager = labelManager;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="labelModel"></param>
+        /// <returns>response status from api</returns>
         [HttpPost]
         [Route("addLabel")]
         public async Task<IActionResult> AddLabel([FromBody] LabelModel labelModel)
@@ -51,6 +56,11 @@ namespace FundooNotes.Controllers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="LabelId"></param>
+        /// <returns>response status from api</returns>
         [HttpDelete]
         [Route("deleteLabel")]
         public async Task<IActionResult> DeleteLabel(int LabelId)
@@ -73,6 +83,11 @@ namespace FundooNotes.Controllers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="NoteId"></param>
+        /// <returns>response status from api</returns>
         [HttpGet]
         [Route("getLabelByNoteId")]
         public IActionResult GetLabelByNoteId(int NoteId)
@@ -95,6 +110,11 @@ namespace FundooNotes.Controllers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="UserId"></param>
+        /// <returns>response status from api</returns>
         [HttpGet]
         [Route("getLabelByUserId")]
         public IActionResult GetLabelByUserId(int UserId)
@@ -117,6 +137,11 @@ namespace FundooNotes.Controllers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="labelName"></param>
+        /// <returns>response status from api</returns>
         [HttpGet]
         [Route("getNotesByLabelName")]
         public IActionResult GetNotesByLabelName(string labelName)
@@ -139,6 +164,11 @@ namespace FundooNotes.Controllers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="LabelId"></param>
+        /// <returns>response status from api</returns>
         [HttpPut]
         [Route("RemoveLabelFromNote")]
         public async Task<IActionResult> RemoveLabelFromNote(int LabelId)
@@ -161,6 +191,12 @@ namespace FundooNotes.Controllers
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="LabelId"></param>
+        /// <param name="Label"></param>
+        /// <returns>response status from api</returns>
         [HttpPut]
         [Route("renameLabel")]
         public async Task<IActionResult> RenameLabel(int LabelId, string Label)

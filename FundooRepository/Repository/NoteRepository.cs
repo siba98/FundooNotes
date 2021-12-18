@@ -1,35 +1,57 @@
-﻿using CloudinaryDotNet;
-using CloudinaryDotNet.Actions;
-using FundooModels;
-using FundooRepository.Context;
-using FundooRepository.Interface;
-using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="NoteRepository.cs" company="Bridgelabz">
+//   Copyright © 2021 Company="BridgeLabz"
+// </copyright>
+// <creator name="A Siba Patro"/>
+// --------------------------------------------------------------------------------------------------------------------
+
 
 namespace FundooRepository.Repository
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using CloudinaryDotNet;
+    using CloudinaryDotNet.Actions;
+    using FundooModels;
+    using FundooRepository.Context;
+    using FundooRepository.Interface;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Configuration;
+
+    /// <summary>
+    /// NoteRepository class for Note Api's
+    /// </summary>
     public class NoteRepository : INoteRepository
     {
+        /// <summary>
+        /// object created for UserContext
+        /// </summary>
         private readonly UserContext context;
+
+        /// <summary>
+        /// object created for IConfiguration
+        /// </summary>
         private readonly IConfiguration configuration;
 
+        /// <summary>
+        /// Initializes a new instance of the NoteManager class
+        /// </summary>
+        /// <param name="context">taking context as parameter</param>
+        /// <param name="configuration">taking configuration as parameter</param>
         public NoteRepository(UserContext context, IConfiguration configuration)
         {
             this.context = context;
             this.configuration = configuration;
         }
 
-
         /// <summary>
-        /// 
+        /// method for adding new note
         /// </summary>
-        /// <param name="note"></param>
-        /// <returns></returns>
+        /// <param name="note">passing note parameter for NoteModel</param>
+        /// <returns>returns string type</returns>
         public async Task<string> AddNote(NoteModel note)
         {
             try
@@ -44,12 +66,11 @@ namespace FundooRepository.Repository
             }
         }
 
-
         /// <summary>
-        /// Will Update Title and Description of Note
+        /// method for edit the title and description of a note
         /// </summary>
-        /// <param name="note"></param>
-        /// <returns></returns>
+        /// <param name="note">passing note parameter for NoteModel</param>
+        /// <returns>returns string type</returns>
         public async Task<string> EditNote(NoteModel note)
         {
             try
@@ -71,12 +92,11 @@ namespace FundooRepository.Repository
             }
         }
 
-
         /// <summary>
-        /// 
+        /// method for adding reminder for a note
         /// </summary>
-        /// <param name="NoteId"></param>
-        /// <param name="Reminder"></param>
+        /// <param name="NoteId">passing parameter as NoteId</param>
+        /// <param name="Reminder">passing parameter as Reminder</param>
         /// <returns></returns>
         public async Task<string> AddReminder(int NoteId, string Reminder)
         {
@@ -98,12 +118,11 @@ namespace FundooRepository.Repository
             }
         }
 
-
         /// <summary>
-        /// 
+        /// method for delete reminder from a note
         /// </summary>
-        /// <param name="NoteId"></param>
-        /// <returns></returns>
+        /// <param name="NoteId">passing parameter as NoteId</param>
+        /// <returns>returns string type</returns>
         public async Task<string> DeleteReminder(int NoteId)
         {
             try
@@ -123,13 +142,12 @@ namespace FundooRepository.Repository
             }
         }
 
-
         /// <summary>
-        /// 
+        /// method for edit colour for a note
         /// </summary>
-        /// <param name="NoteId"></param>
-        /// <param name="Colour"></param>
-        /// <returns></returns>
+        /// <param name="NoteId">passing parameter as NoteId</param>
+        /// <param name="Colour">passing parameter as Colour</param>
+        /// <returns>returns string type</returns>
         public async Task<string> EditColour(int NoteId, string Colour)
         {
             try
@@ -150,12 +168,11 @@ namespace FundooRepository.Repository
             }
         }
 
-
         /// <summary>
-        /// 
+        /// method for make a note pin or unpin
         /// </summary>
-        /// <param name="NoteId"></param>
-        /// <returns></returns>
+        /// <param name="NoteId">passing parameter as NoteId</param>
+        /// <returns>returns string type</returns>
         public async Task<string> PinOrUnPinnedNotes(int NoteId)
         {
             try
@@ -193,12 +210,11 @@ namespace FundooRepository.Repository
             }
         }
 
-
         /// <summary>
-        /// 
+        /// method for make a note Archive Or UnArchive
         /// </summary>
-        /// <param name="NoteId"></param>
-        /// <returns></returns>
+        /// <param name="NoteId">passing parameter as NoteId</param>
+        /// <returns>returns string type</returns>
         public async Task<string> ArchiveOrUnArchiveNotes(int NoteId)
         {
             try
@@ -237,12 +253,11 @@ namespace FundooRepository.Repository
             }
         }
 
-
         /// <summary>
-        /// 
+        /// method for make a note Trash Or Restore
         /// </summary>
-        /// <param name="NoteId"></param>
-        /// <returns></returns>
+        /// <param name="NoteId">passing parameter as NoteId</param>
+        /// <returns>returns string type</returns>
         public async Task<string> TrashOrRestoreNotes(int NoteId)
         {
             try
@@ -281,12 +296,11 @@ namespace FundooRepository.Repository
             }
         }
 
-
         /// <summary>
-        /// 
+        /// method for delete note from trash
         /// </summary>
-        /// <param name="NoteId"></param>
-        /// <returns></returns>
+        /// <param name="NoteId">passing parameter as NoteId</param>
+        /// <returns>returns string type</returns>
         public async Task<string> DeleteNoteFromTrash(int NoteId)
         {
             try
@@ -309,12 +323,11 @@ namespace FundooRepository.Repository
             }
         }
 
-
         /// <summary>
-        /// 
+        /// method for getting all the archived notes
         /// </summary>
-        /// <param name="UserId"></param>
-        /// <returns></returns>
+        /// <param name="UserId">passing parameter as UserId</param>
+        /// <returns>returns all archived notes</returns>
         public IEnumerable<NoteModel> GetArchive(int UserId)
         {
             try
@@ -332,12 +345,11 @@ namespace FundooRepository.Repository
             }
         }
 
-
         /// <summary>
-        /// 
+        /// method for getting all the notes
         /// </summary>
-        /// <param name="UserId"></param>
-        /// <returns></returns>
+        /// <param name="UserId">passing parameter as UserId</param>
+        /// <returns>returns all notes</returns>
         public IEnumerable<NoteModel> GetNotes(int UserId)
         {
             try
@@ -355,12 +367,11 @@ namespace FundooRepository.Repository
             }
         }
 
-
         /// <summary>
-        /// 
+        /// method for getting all the trash notes
         /// </summary>
-        /// <param name="UserId"></param>
-        /// <returns></returns>
+        /// <param name="UserId">passing parameter as UserId</param>
+        /// <returns>returns all Trash notes</returns>
         public IEnumerable<NoteModel> GetTrash(int UserId)
         {
             try
@@ -378,12 +389,11 @@ namespace FundooRepository.Repository
             }
         }
 
-
         /// <summary>
-        /// 
+        /// method for getting all the reminder notes
         /// </summary>
-        /// <param name="UserId"></param>
-        /// <returns></returns>
+        /// <param name="UserId">passing parameter as UserId</param>
+        /// <returns>returns all Reminders notes</returns>
         public IEnumerable<NoteModel> GetReminders(int UserId)
         {
             try
@@ -401,12 +411,11 @@ namespace FundooRepository.Repository
             }
         }
 
-
         /// <summary>
-        /// 
+        /// method for uploading images
         /// </summary>
-        /// <param name="noteId"></param>
-        /// <param name="image"></param>
+        /// <param name="noteId">passing parameter as NoteId</param>
+        /// <param name="image">passing parameter as image</param>
         /// <returns></returns>
         public async Task<string> ImageUpload(int noteId, IFormFile image)
         {
@@ -429,31 +438,6 @@ namespace FundooRepository.Repository
                     return "Image Uploaded Successfully";
                 }
                 return "noteID not Exist";
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="UserId"></param>
-        /// <returns></returns>
-        public async Task<string> EmptyTrash(int UserId)
-        {
-            try
-            {
-                var ifNoteExist = await this.context.Note.Where(x => x.UserId == UserId && x.Trash == true).ToListAsync();
-                if (ifNoteExist.Count > 0)
-                {
-                    this.context.Note.RemoveRange(ifNoteExist);
-                    await this.context.SaveChangesAsync();
-                    return "Trash is Successfully Empty";
-                }
-                return null;
             }
             catch (Exception ex)
             {

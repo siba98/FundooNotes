@@ -1,13 +1,19 @@
-﻿namespace FundooRepository.Repository
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="UserRepository.cs" company="Bridgelabz">
+//   Copyright © 2021 Company="BridgeLabz"
+// </copyright>
+// <creator name="A Siba Patro"/>
+// --------------------------------------------------------------------------------------------------------------------
+
+namespace FundooRepository.Repository
 {
     using System;
     using System.Linq;
     using System.IdentityModel.Tokens.Jwt;
-    using System.Threading.Tasks;
-    using StackExchange.Redis;
     using System.Net.Mail;
     using System.Security.Claims;
     using System.Text;
+    using System.Threading.Tasks;
     using Experimental.System.Messaging;
     using FundooModels;
     using FundooRepository.Context;
@@ -15,29 +21,30 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.IdentityModel.Tokens;
+    using StackExchange.Redis;
     using IDatabase = StackExchange.Redis.IDatabase;
 
     /// <summary>
-    /// 
+    /// UserRepository class for User Api's
     /// </summary>
     public class UserRepository : IUserRepository
     {
         /// <summary>
-        /// 
+        /// object created for UserContext
         /// </summary>
         private readonly UserContext context;
 
         /// <summary>
-        /// 
+        /// object created for IConfiguration
         /// IConfiguration: Represents a set of key/value application configuration properties.
         /// </summary>
         private readonly IConfiguration configuration;
 
         /// <summary>
-        /// 
+        /// Initializes a new instance of the UserRepository class
         /// </summary>
-        /// <param name="context"></param>
-        /// <param name="configuration"></param>
+        /// <param name="context">taking context as parameter</param>
+        /// <param name="configuration">taking configuration as parameter</param>
         public UserRepository(UserContext context, IConfiguration configuration)
         {
             this.context = context;
@@ -45,30 +52,22 @@
         }
 
         /// <summary>
-        /// 
+        /// Register method for manager class
         /// </summary>
-        /// <param name="user"></param>
-        /// <returns></returns>
-        public async Task<RegisterModel> Register(RegisterModel userData)
+        /// <param name="userData">passing userData parameter for RegisterModel</param>
+        /// <returns>Returns string type</returns>
+        public async Task<string> Register(RegisterModel user)
         {
             try
             {
-                //bool result;
-                var checkEmail = await this.context.Users.Where(x => x.Email == userData.Email).SingleOrDefaultAsync();
-                if (checkEmail == null)
+                var ifExist = await this.context.Users.Where(x => x.Email == user.Email).SingleOrDefaultAsync();
+                if (ifExist == null)
                 {
-                    //Encrypt the password
-                    this.context.Users.Add(userData);
+                    this.context.Users.Add(user);
                     await this.context.SaveChangesAsync();
-                    return checkEmail;
-                    //result = true;
-                    //return result;
-                    //return "Register Successful";
+                    return "Register Successful";
                 }
-                return null;
-                ////result = false;
-                ////return result;
-                //return "Email already exists";
+                return "Email already exists";
 
             }
             catch (ArgumentNullException ex)
@@ -77,7 +76,11 @@
             }
         }
 
-
+        /// <summary>
+        /// Login method for manager class
+        /// </summary>
+        /// <param name="loginDetails">passing loginDetails parameter for LoginModel</param>
+        /// <returns>return string type</returns>
         public async Task<string> Login(LoginModel loginDetails)
         {
             try
@@ -108,6 +111,11 @@
             }
         }
 
+        /// <summary>
+        /// method for reseting the password
+        /// </summary>
+        /// <param name="resetPassword">passing resetPassword parameter for ResetPasswordModel</param>
+        /// <returns>return string type</returns>
         public async Task<string> ResetPassword(ResetPasswordModel resetPassword)
         {
             try
@@ -128,6 +136,11 @@
             }
         }
 
+        /// <summary>
+        /// this function Convert to Encode the Password 
+        /// </summary>
+        /// <param name="Password">passing parameter as Password</param>
+        /// <returns>returns string type</returns>
         public static string EncodePasswordToBase64(string Password)
         {
             try
@@ -143,6 +156,11 @@
             }
         }
 
+        /// <summary>
+        /// method for getting reset link for Forgot Password
+        /// </summary>
+        /// <param name="Email">passing parameter as Email</param>
+        /// <returns>returns string type</returns>
         public async Task<string> ForgotPassword(string Email)
         {
             try
@@ -166,7 +184,6 @@
                     return "Reset Link Sent to Your Email Successfully";
                 }
                 return "Email not Exist";
-
             }
             catch (Exception ex)
             {
@@ -174,6 +191,9 @@
             }
         }
 
+        /// <summary>
+        /// method for sending message
+        /// </summary>
         public void SendMSMQ()
         {
             MessageQueue msgqueue;
@@ -191,6 +211,10 @@
             msgqueue.Send(body);
         }
 
+        /// <summary>
+        /// method for recieving message
+        /// </summary>
+        /// <returns>returns string msg</returns>
         public string RecieveMSMQ()
         {
             MessageQueue msgqueue = new MessageQueue(@".\Private$\Fundoo");
@@ -199,6 +223,11 @@
             return recievemsg.Body.ToString();
         }
 
+        /// <summary>
+        /// method for generating a token for authorization of api's
+        /// </summary>
+        /// <param name="Email">passing parameter as Email</param>
+        /// <returns>returns string type</returns>
         public string GenerateToken(string Email)
         {
             byte[] key = Encoding.UTF8.GetBytes(this.configuration["SecretKey"]);

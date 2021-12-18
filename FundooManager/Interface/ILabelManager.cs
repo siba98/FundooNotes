@@ -1,12 +1,11 @@
-﻿namespace FundooManager.Interface
-{
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using FundooModels;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using FundooModels;
 
+namespace FundooManager.Interface
+{
     public interface ILabelManager
     {
-
         IEnumerable<LabelModel> GetLabelByNoteId(int NoteId);
         IEnumerable<LabelModel> GetLabelByUserId(int UserId);
         Task<string> AddLabel(LabelModel labelModel);
