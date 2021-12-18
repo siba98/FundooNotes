@@ -1,11 +1,12 @@
-﻿using FundooManager.Interface;
-using FundooModels;
-using FundooRepository.Interface;
-using System;
-using System.Threading.Tasks;
+﻿
 
 namespace FundooManager.Manager
 {
+    using System;
+    using System.Threading.Tasks;
+    using FundooManager.Interface;
+    using FundooModels;
+    using FundooRepository.Interface;
     public class UserManager : IUserManager
     {
         private readonly IUserRepository repository;
@@ -15,12 +16,12 @@ namespace FundooManager.Manager
             this.repository = repository;
         }
 
-        public async Task<string> Register(RegisterModel user)
+        public async Task<RegisterModel> Register(RegisterModel userData)
         {
             try
             {
-                user.Password = EncodePasswordToBase64(user.Password);
-                return await this.repository.Register(user);
+                userData.Password = EncodePasswordToBase64(userData.Password);
+                return await this.repository.Register(userData);
             }
             catch (Exception ex)
             {

@@ -1,13 +1,14 @@
-﻿using FundooManager.Interface;
-using FundooModels;
-using FundooRepository.Interface;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿
 
 namespace FundooManager.Manager
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using FundooManager.Interface;
+    using FundooModels;
+    using FundooRepository.Interface;
+    using Microsoft.AspNetCore.Http;
     public class NoteManager : INoteManager
     {
         private readonly INoteRepository noteRepository;

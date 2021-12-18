@@ -1,11 +1,10 @@
-﻿using FundooModels;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿
 
 namespace FundooRepository.Context
 {
+    using FundooModels;
+    using Microsoft.EntityFrameworkCore;
+
     public class UserContext : DbContext
     {
         public UserContext(DbContextOptions options) : base(options)

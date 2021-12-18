@@ -1,5 +1,13 @@
 ﻿namespace FundooRepository.Repository
 {
+    using System;
+    using System.Linq;
+    using System.IdentityModel.Tokens.Jwt;
+    using System.Threading.Tasks;
+    using StackExchange.Redis;
+    using System.Net.Mail;
+    using System.Security.Claims;
+    using System.Text;
     using Experimental.System.Messaging;
     using FundooModels;
     using FundooRepository.Context;
@@ -7,42 +15,60 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.IdentityModel.Tokens;
-    using StackExchange.Redis;
-    using System;
-    using System.IdentityModel.Tokens.Jwt;
-    using System.Linq;
-    using System.Net.Mail;
-    using System.Security.Claims;
-    using System.Text;
-    using System.Threading.Tasks;
     using IDatabase = StackExchange.Redis.IDatabase;
+
+    /// <summary>
+    /// 
+    /// </summary>
     public class UserRepository : IUserRepository
     {
+        /// <summary>
+        /// 
+        /// </summary>
         private readonly UserContext context;
 
-        //IConfiguration: Represents a set of key/value application configuration properties.
+        /// <summary>
+        /// 
+        /// IConfiguration: Represents a set of key/value application configuration properties.
+        /// </summary>
         private readonly IConfiguration configuration;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="configuration"></param>
         public UserRepository(UserContext context, IConfiguration configuration)
         {
             this.context = context;
             this.configuration = configuration;
         }
 
-        public async Task<string> Register(RegisterModel user)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public async Task<RegisterModel> Register(RegisterModel userData)
         {
             try
             {
-                var checkEmail = await this.context.Users.Where(x => x.Email == user.Email).SingleOrDefaultAsync();
+                //bool result;
+                var checkEmail = await this.context.Users.Where(x => x.Email == userData.Email).SingleOrDefaultAsync();
                 if (checkEmail == null)
                 {
                     //Encrypt the password
-                    user.Password = EncodePasswordToBase64(user.Password);
-                    this.context.Users.Add(user);
+                    this.context.Users.Add(userData);
                     await this.context.SaveChangesAsync();
-                    return "Register Successful";
+                    return checkEmail;
+                    //result = true;
+                    //return result;
+                    //return "Register Successful";
                 }
-                return "Email already exists";
+                return null;
+                ////result = false;
+                ////return result;
+                //return "Email already exists";
 
             }
             catch (ArgumentNullException ex)

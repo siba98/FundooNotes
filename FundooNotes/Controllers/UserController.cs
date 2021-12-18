@@ -24,12 +24,27 @@ namespace FundooNotes.Contollers
     [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
+        /// <summary>
+        /// Object created for IUserManager
+        /// </summary>
         private readonly IUserManager manager;
 
+        /// <summary>
+        /// Object created for IConfiguration 
+        /// </summary>
         private readonly IConfiguration configuration;
 
+        /// <summary>
+        /// Object created for ILogger
+        /// </summary>
         private readonly ILogger<UserController> logger;
 
+        /// <summary>
+        /// Initializes a new instance of the UserController class
+        /// </summary>
+        /// <param name="manager"></param>
+        /// <param name="logger"></param>
+        /// <param name="configuration"></param>
         public UserController(IUserManager manager, ILogger<UserController> logger, IConfiguration configuration)
         {
             this.manager = manager;
@@ -37,28 +52,40 @@ namespace FundooNotes.Contollers
             this.configuration = configuration;
         }
 
+        /// <summary>
+        /// Register Api to check the status of user
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns>This methods returns status for User Registration</returns>
         [HttpPost]
         [Route("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterModel user)
+        public async Task<IActionResult> Register([FromBody] RegisterModel userData)
         {
             try
             {
-                this.logger.LogInformation(user.FirstName + " is trying to Register");
-                string message = await this.manager.Register(user);
-                if (message.Equals("Register Successful"))
+                this.logger.LogInformation(userData.FirstName + " is trying to Register");
+                var result = await this.manager.Register(userData);
+                //string message = await this.manager.Register(userData);
+                //if(result == true)
+                if (result != null)
+                //if (message.Equals("Register Successful"))
                 {
-                    this.logger.LogInformation(user.FirstName + " has successfully Registered");
-                    return this.Ok(new { Status = true, Message = message });
+                    this.logger.LogInformation(userData.FirstName + " has successfully Registered");
+                    return this.Ok(new { Status = true, Message = "User Registered Successfully !", Data = result });
+                    //return this.Ok(new ResponseModel<RegisterModel>() { Status = true, Message = "User Registered Successfully !", Data = result });
+                    //return this.Ok(new { Status = true, Message = message });
                 }
                 else
                 {
-                    this.logger.LogInformation(user.FirstName + " registration was unsuccessful");
-                    return this.BadRequest(new { Status = false, Message = message });
+                    this.logger.LogInformation(userData.FirstName + " registration was unsuccessful");
+                    return this.BadRequest(new { Status = false, Message = "User Registration was UnSuccessfull", Data = result });
+                    //return this.BadRequest(new ResponseModel<RegisterModel>() { Status = false, Message = "User Registration was UnSuccessfull", Data = result });
+                    //return this.BadRequest(new { Status = false, Message = message });
                 }
             }
             catch (Exception ex)
             {
-                this.logger.LogInformation(user.FirstName + " had exception while registering : " + ex.Message);
+                this.logger.LogInformation(userData.FirstName + " had exception while registering : " + ex.Message);
                 return this.NotFound(new { Status = false, ex.Message });
             }
         }

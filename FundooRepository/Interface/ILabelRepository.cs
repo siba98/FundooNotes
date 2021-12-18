@@ -1,9 +1,10 @@
-﻿using FundooModels;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿
 
 namespace FundooRepository.Interface
 {
+    using FundooModels;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
     public interface ILabelRepository
     {
         IEnumerable<LabelModel> GetLabelByNoteId(int NoteId);

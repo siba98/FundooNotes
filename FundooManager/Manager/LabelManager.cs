@@ -1,12 +1,13 @@
-﻿using FundooManager.Interface;
-using FundooModels;
-using FundooRepository.Interface;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿
 
 namespace FundooManager.Manager
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using FundooManager.Interface;
+    using FundooModels;
+    using FundooRepository.Interface;
     public class LabelManager:ILabelManager
     {
         private readonly ILabelRepository labelRepository;

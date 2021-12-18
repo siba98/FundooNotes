@@ -1,14 +1,14 @@
-﻿using FundooModels;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 
 namespace FundooManager.Interface
 {
+    using System.Threading.Tasks;
+    using FundooModels;
     public interface IUserManager
     {
-        Task<string> Register(RegisterModel user);
+        //Task<bool> Register(RegisterModel userData);
+        //Task<string> Register(RegisterModel userData);
+        Task<RegisterModel> Register(RegisterModel userData);
         Task<string> Login(LoginModel loginDetails);
         Task<string> ResetPassword(ResetPasswordModel resetPassword);
         Task<string> ForgotPassword(string email);

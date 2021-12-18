@@ -7,14 +7,15 @@
 
 namespace FundooNotes.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
     using FundooManager.Interface;
     using FundooModels;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
+   
 
     /// <summary>
     /// NoteController class for Notes API implementation
