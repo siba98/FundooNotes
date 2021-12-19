@@ -14,7 +14,7 @@ namespace FundooManager.Interface
         Task<string> EditColour(int NoteId, string Colour);
         Task<string> PinOrUnPinnedNotes(int NoteId);
         Task<string> ArchiveOrUnArchiveNotes(int NoteId);
-        Task<string> TrashOrRestoreNotes(int NoteId);
+        Task<string> TrashNotes(int NoteId);
         Task<string> DeleteNoteFromTrash(int NoteId);
         IEnumerable<NoteModel> GetArchive(int UserId);
         Task<string> ImageUpload(int noteId, IFormFile image);

@@ -188,21 +188,13 @@ namespace FundooNotes.Controllers
             try
             {
                 string message = await this.noteManager.PinOrUnPinnedNotes(NoteId);
-                if (message.Equals("Note Pinned Successfully"))
+                if (message.Equals("Note Not Exist"))
                 {
-                    return this.Ok(new { Status = true, Message = message });
-                }
-                if (message.Equals("Note UnPinned Successfully"))
-                {
-                    return this.Ok(new { Status = true, Message = message });
-                }
-                if (message.Equals("Note UnArchived and Pinned Successfully"))
-                {
-                    return this.Ok(new { status = true, Message = message });
+                    return this.BadRequest(new { Status = false, Message = message });
                 }
                 else
                 {
-                    return this.BadRequest(new { Status = false, Message = message });
+                    return this.Ok(new { Status = true, Message = message });
                 }
             }
             catch (Exception ex)
@@ -223,21 +215,13 @@ namespace FundooNotes.Controllers
             try
             {
                 string message = await this.noteManager.ArchiveOrUnArchiveNotes(NoteId);
-                if (message.Equals("Note Archived and Unpinned Successfully"))
+                if (message.Equals("Note Not Exist"))
                 {
-                    return this.Ok(new { Status = true, Message = message });
-                }
-                if (message.Equals("Note UnArchived Successfully"))
-                {
-                    return this.Ok(new { Status = true, Message = message });
-                }
-                if (message.Equals("Note Archived Successfully"))
-                {
-                    return this.Ok(new { Status = true, Message = message });
+                    return this.BadRequest(new { Status = false, Message = message });
                 }
                 else
                 {
-                    return this.BadRequest(new { Status = false, Message = message });
+                    return this.Ok(new { Status = true, Message = message });
                 }
             }
             catch (Exception ex)
@@ -252,27 +236,19 @@ namespace FundooNotes.Controllers
         /// <param name="NoteId"></param>
         /// <returns>response status from api</returns>
         [HttpPut]
-        [Route("trashOrRestoreNotes")]
-        public async Task<IActionResult> TrashOrRestoreNotes(int NoteId)
+        [Route("trashNotes")]
+        public async Task<IActionResult> TrashNotes(int NoteId)
         {
             try
             {
-                string message = await this.noteManager.TrashOrRestoreNotes(NoteId);
-                if (message.Equals("Note Trashed Successfully"))
+                string message = await this.noteManager.TrashNotes(NoteId);
+                if (message.Equals("Note Not Exist"))
                 {
-                    return this.Ok(new { Status = true, Message = message });
-                }
-                if (message.Equals("Note Restored From Trash Successfully"))
-                {
-                    return this.Ok(new { Status = true, Message = message });
-                }
-                if (message.Equals("Note Unpinned and Trashed Successfully"))
-                {
-                    return this.Ok(new { Status = true, Message = message });
+                    return this.BadRequest(new { Status = false, Message = message });
                 }
                 else
                 {
-                    return this.BadRequest(new { Status = false, Message = message });
+                    return this.Ok(new { Status = true, Message = message });
                 }
             }
             catch (Exception ex)

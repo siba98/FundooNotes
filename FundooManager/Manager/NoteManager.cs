@@ -160,11 +160,11 @@ namespace FundooManager.Manager
         /// </summary>
         /// <param name="NoteId">passing parameter as NoteId</param>
         /// <returns>returns string type</returns>
-        public async Task<string> TrashOrRestoreNotes(int NoteId)
+        public async Task<string> TrashNotes(int NoteId)
         {
             try
             {
-                return await this.noteRepository.TrashOrRestoreNotes(NoteId);
+                return await this.noteRepository.TrashNotes(NoteId);
             }
             catch (Exception ex)
             {
