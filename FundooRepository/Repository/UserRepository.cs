@@ -88,8 +88,6 @@ namespace FundooRepository.Repository
                 var checkEmail = await this.context.Users.Where(x => x.Email == loginDetails.Email).SingleOrDefaultAsync();
                 if (checkEmail != null)
                 {
-                    // Encrypt the password
-                    loginDetails.Password = EncodePasswordToBase64(loginDetails.Password);
                     var checkPassword = await this.context.Users.Where(x => x.Email == loginDetails.Email && x.Password == loginDetails.Password).SingleOrDefaultAsync();
                     if (checkPassword != null)
                     {
