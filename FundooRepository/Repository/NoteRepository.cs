@@ -295,7 +295,7 @@ namespace FundooRepository.Repository
                     availNote.Pin = false;
                     this.context.Note.Update(availNote);
                     await this.context.SaveChangesAsync();
-                    return "Note Restored from Trashed Successfully";
+                    return "Note Restored from Trash Successfully";
                 }
                 return "Note Not Exist";
             }

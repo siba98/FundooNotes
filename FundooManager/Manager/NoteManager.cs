@@ -190,6 +190,24 @@ namespace FundooManager.Manager
         }
 
         /// <summary>
+        /// method for restore notes from trash
+        /// </summary>
+        /// <param name="NoteId">passing parameter as NoteId</param>
+        /// <returns>returns string type</returns>
+        public async Task<string> RestoreNotesFromTrash(int NoteId)
+        {
+            try
+            {
+                return await this.noteRepository.RestoreNotesFromTrash(NoteId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+
+        /// <summary>
         /// method for getting all the archived notes
         /// </summary>
         /// <param name="UserId">passing parameter as UserId</param>

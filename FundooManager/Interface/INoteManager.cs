@@ -21,5 +21,6 @@ namespace FundooManager.Interface
         IEnumerable<NoteModel> GetNotes(int userId);
         IEnumerable<NoteModel> GetTrash(int userId);
         IEnumerable<NoteModel> GetReminders(int userId);
+        Task<string> RestoreNotesFromTrash(int noteId);
     }
 }

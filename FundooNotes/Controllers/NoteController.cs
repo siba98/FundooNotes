@@ -285,6 +285,33 @@ namespace FundooNotes.Controllers
         }
 
         /// <summary>
+        /// method for restore notes from trash
+        /// </summary>
+        /// <param name="NoteId"></param>
+        /// <returns>response status from api</returns>
+        [HttpPut]
+        [Route("restoreNotesFromTrash")]
+        public async Task<IActionResult> RestoreNotesFromTrash(int NoteId)
+        {
+            try
+            {
+                string message = await this.noteManager.RestoreNotesFromTrash(NoteId);
+                if (message.Equals("Note Restored from Trash Successfully"))
+                {
+                    return this.Ok(new { Status = true, Message = message });
+                }
+                else
+                {
+                    return this.BadRequest(new { Status = false, Message = message });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new { Status = false, ex.Message });
+            }
+        }
+
+        /// <summary>
         /// api for upload image in note
         /// </summary>
         /// <param name="noteId"></param>
