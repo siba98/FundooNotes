@@ -21,12 +21,12 @@ namespace FundooNotes.Contollers
 
         [HttpPost]
         [Route("api/register")]
-        public IActionResult Register([FromBody] RegisterModel user)
+        public IActionResult Register([FromBody] RegisterModel userData)
         {
             try
             {
-                string message = this.manager.Register(user);
-                if (message.Equals("Register Successful"))
+                string message = this.manager.Register(userData);
+                if (message.Equals("You Registered Successfully"))
                 {
                     return this.Ok(new { Status = true, Message = message });
                 }
@@ -43,30 +43,15 @@ namespace FundooNotes.Contollers
 
         [HttpPost]
         [Route("api/login")]
-        public IActionResult Login([FromBody] LoginModel loginDetails)
+        public IActionResult Login([FromBody] LoginModel loginData)
         {
             try
             {
-                string message = this.manager.Login(loginDetails);
+                string message = this.manager.Login(loginData);
                 if (message.Equals("Login Successful"))
                 {
-                    ConnectionMultiplexer connectionMultiplexer = ConnectionMultiplexer.Connect("127.0.0.1:6379");
-                    IDatabase database = connectionMultiplexer.GetDatabase();
-                    string firstName = database.StringGet("First Name");
-                    string lastName = database.StringGet("Last Name");
-                    string email = database.StringGet("Email");
-                    int userId = Convert.ToInt32(database.StringGet("UserId"));
-
-                    RegisterModel data = new RegisterModel
-                    {
-                        FirstName = firstName,
-                        LastName = lastName,
-                        UserId = userId,
-                        Email = email
-                    };
-
-                    string tokenString = this.manager.GenerateToken(loginDetails.Email);
-                    return this.Ok(new { Status = true, Message = message, Data = data, Token = tokenString });
+                    string tokenString = this.manager.GenerateToken(loginData.Email);
+                    return this.Ok(new { Status = true, Message = message, Token = tokenString });
                 }
                 else
                 {
@@ -79,7 +64,7 @@ namespace FundooNotes.Contollers
             }
         }
 
-        [HttpPost]
+        [HttpPut]
         [Route("api/resetPassword")]
         public IActionResult Resetpassword([FromBody] ResetPasswordModel resetPassword)
         {
