@@ -329,7 +329,7 @@ namespace FundooNotes.Controllers
         }
 
         [HttpGet]
-        [Route("api/getTrash")]
+        [Route("api/getReminders")]
         public IActionResult GetReminders(int UserId)
         {
             try
