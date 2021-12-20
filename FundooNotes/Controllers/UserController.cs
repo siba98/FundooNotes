@@ -12,6 +12,7 @@ namespace FundooNotes.Contollers
     using System.Threading.Tasks;
     using FundooManager.Interface;
     using FundooModels;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Logging;
@@ -28,6 +29,9 @@ namespace FundooNotes.Contollers
         /// Object created for IUserManager
         /// </summary>
         private readonly IUserManager manager;
+
+        const string SessionName = "UserName";
+        const string SessionMail = "EmailId";
 
         /// <summary>
         /// Object created for IConfiguration 
@@ -64,22 +68,26 @@ namespace FundooNotes.Contollers
             try
             {
                 this.logger.LogInformation(userData.FirstName + " is trying to Register");
+                HttpContext.Session.SetString(SessionName, userData.FirstName + " " + userData.LastName);
                 string message = await this.manager.Register(userData);
                 if (message.Equals("Register Successful"))
                 {
+                    var firstName = HttpContext.Session.GetString(SessionName);
+                    var lastName = HttpContext.Session.GetString(SessionName);
+                    var email = HttpContext.Session.GetString(SessionMail);
                     this.logger.LogInformation(userData.FirstName + " has successfully Registered");
-                    return this.Ok(new { Status = true, Message = message });
+                    return this.Ok(new ResponseModel<string> { Status = true, Message = message, Data = "Session details :"+firstName+" "+lastName+" "+email });
                 }
                 else
                 {
                     this.logger.LogInformation(userData.FirstName + " registration was unsuccessful");
-                    return this.BadRequest(new { Status = false, Message = message });
+                    return this.BadRequest(new ResponseModel<string> { Status = false, Message = message });
                 }
             }
             catch (Exception ex)
             {
                 this.logger.LogInformation(userData.FirstName + " had exception while registering : " + ex.Message);
-                return this.NotFound(new { Status = false, ex.Message });
+                return this.NotFound(new ResponseModel<string> { Status = false, Message = ex.Message });
             }
         }
 
@@ -95,9 +103,10 @@ namespace FundooNotes.Contollers
             try
             {
                 this.logger.LogInformation(loginDetails.Email + " is trying to Login");
-                //var result = await this.manager.Login(loginDetails);
-                string message = await this.manager.Login(loginDetails);
-                if (message.Equals("Login Successful"))
+                var result = await this.manager.Login(loginDetails);
+                //string message = await this.manager.Login(loginDetails);
+                if(result != null)
+                //if (message.Equals("Login Successful"))
                 {
                     this.logger.LogInformation(loginDetails.Email + " is successfully Logged in");
                     ConnectionMultiplexer connectionMultiplexer = ConnectionMultiplexer.Connect(this.configuration["RedisServerUrl"]);
@@ -116,18 +125,18 @@ namespace FundooNotes.Contollers
                     };
 
                     string tokenString = this.manager.GenerateToken(loginDetails.Email);
-                    return this.Ok(new { Status = true, Message = "login successful", Data = data, Token = tokenString });//Data2 = result
+                    return this.Ok(new { Status = true, Message = "login successful", Data = data, Token = tokenString, Data2 = result });//
                 }
                 else
                 {
                     this.logger.LogInformation(loginDetails.Email + " Login was unsuccessful");
-                    return this.BadRequest(new { Status = false, Message = "login unsuccessful" });
+                    return this.BadRequest(new ResponseModel<string> { Status = false, Message = "login unsuccessful" });
                 }
             }
             catch (Exception ex)
             {
                 this.logger.LogInformation(loginDetails.Email + " had exception while login : " + ex.Message);
-                return this.NotFound(new { Status = false, ex.Message });
+                return this.NotFound(new ResponseModel<string> { Status = false, Message = ex.Message });
             }
         }
 
@@ -174,22 +183,22 @@ namespace FundooNotes.Contollers
             try
             {
                 this.logger.LogInformation(Email + " the link for reseting the password has accessed");
-                string message = await this.manager.ForgotPassword(Email);
-                if (message.Equals("Reset Link Sent to Your Email Successfully"))
+                bool result = await this.manager.ForgotPassword(Email);
+                if (result == true)
                 {
                     this.logger.LogInformation(Email + " link has sent to given gmail to reset password successfully");
-                    return this.Ok(new { Status = true, Message = message });
+                    return this.Ok(new ResponseModel<string> { Status = true, Message = "Link sent for reseting the password" }) ;
                 }
                 else
                 {
                     this.logger.LogInformation(Email + " unable to sent the link! Email Id not exist");
-                    return this.BadRequest(new { Status = false, Message = message });
+                    return this.BadRequest(new ResponseModel<string> { Status = false, Message = "unable to sent link" });
                 }
             }
             catch (Exception ex)
             {
                 this.logger.LogInformation(Email + " had exception while sending link to the mail : " + ex.Message);
-                return this.NotFound(new { Status = false, ex.Message });
+                return this.NotFound(new ResponseModel<string> { Status = false, Message = ex.Message });
             }
         }
     }

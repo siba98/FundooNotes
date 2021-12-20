@@ -55,7 +55,7 @@ namespace FundooManager.Manager
         /// </summary>
         /// <param name="loginDetails">passing loginDetails parameter for LoginModel</param>
         /// <returns>return string type</returns>
-        public async Task<string> Login(LoginModel loginDetails)
+        public async Task<RegisterModel> Login(LoginModel loginDetails)
         {
             try
             {
@@ -111,7 +111,7 @@ namespace FundooManager.Manager
         /// </summary>
         /// <param name="Email">passing parameter as Email</param>
         /// <returns>returns string type</returns>
-        public async Task<string> ForgotPassword(string Email)
+        public async Task<bool> ForgotPassword(string Email)
         {
             try
             {

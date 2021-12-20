@@ -6,9 +6,11 @@ namespace FundooManager.Interface
     public interface IUserManager
     {
         Task<string> Register(RegisterModel userData);
-        Task<string> Login(LoginModel loginDetails);
+        Task<RegisterModel> Login(LoginModel loginDetails);
+        //Task<string> Login(LoginModel loginDetails);
         Task<string> ResetPassword(ResetPasswordModel resetPassword);
-        Task<string> ForgotPassword(string email);
+        Task<bool> ForgotPassword(string email);
+        //Task<string> ForgotPassword(string email);
         string GenerateToken(string email);
     }
 }

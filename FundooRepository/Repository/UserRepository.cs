@@ -81,7 +81,7 @@ namespace FundooRepository.Repository
         /// </summary>
         /// <param name="loginDetails">passing loginDetails parameter for LoginModel</param>
         /// <returns>return string type</returns>
-        public async Task<string> Login(LoginModel loginDetails)
+        public async Task<RegisterModel> Login(LoginModel loginDetails)
         {
             try
             {
@@ -97,11 +97,14 @@ namespace FundooRepository.Repository
                         database.StringSet(key: "Last Name", checkEmail.LastName);
                         database.StringSet(key: "Email", checkEmail.Email);
                         database.StringSet(key: "UserId", checkEmail.UserId.ToString());
-                        return "Login Successful";
+                        //return "Login Successful";
+                        return checkEmail;
                     }
-                    return "Password Not Exist";
+                    return null;
+                    //return "Password Not Exist";
                 }
-                return "Email not exist";
+                return null;
+                //return "Email not exist";
             }
             catch (ArgumentNullException ex)
             {
@@ -159,7 +162,7 @@ namespace FundooRepository.Repository
         /// </summary>
         /// <param name="Email">passing parameter as Email</param>
         /// <returns>returns string type</returns>
-        public async Task<string> ForgotPassword(string Email)
+        public async Task<bool> ForgotPassword(string Email)
         {
             try
             {
@@ -179,9 +182,9 @@ namespace FundooRepository.Repository
                     SmtpServer.EnableSsl = true;
 
                     SmtpServer.Send(mail);
-                    return "Reset Link Sent to Your Email Successfully";
+                    return true;
                 }
-                return "Email not Exist";
+                return false;
             }
             catch (Exception ex)
             {
