@@ -56,18 +56,18 @@ namespace FundooRepository.Repository
         /// </summary>
         /// <param name="userData">passing userData parameter for RegisterModel</param>
         /// <returns>Returns string type</returns>
-        public async Task<string> Register(RegisterModel user)
+        public async Task<RegisterModel> Register(RegisterModel user)
         {
             try
             {
-                var ifExist = await this.context.Users.Where(x => x.Email == user.Email).SingleOrDefaultAsync();
-                if (ifExist == null)
+                var checkEmail = await this.context.Users.Where(x => x.Email == user.Email).SingleOrDefaultAsync();
+                if (checkEmail == null)
                 {
                     this.context.Users.Add(user);
                     await this.context.SaveChangesAsync();
-                    return "Register Successful";
+                    return user;
                 }
-                return "Email already exists";
+                return null;
 
             }
             catch (ArgumentNullException ex)
@@ -81,7 +81,7 @@ namespace FundooRepository.Repository
         /// </summary>
         /// <param name="loginDetails">passing loginDetails parameter for LoginModel</param>
         /// <returns>return string type</returns>
-        public async Task<RegisterModel> Login(LoginModel loginDetails)
+        public async Task<LoginModel> Login(LoginModel loginDetails)
         {
             try
             {
@@ -97,14 +97,11 @@ namespace FundooRepository.Repository
                         database.StringSet(key: "Last Name", checkEmail.LastName);
                         database.StringSet(key: "Email", checkEmail.Email);
                         database.StringSet(key: "UserId", checkEmail.UserId.ToString());
-                        //return "Login Successful";
-                        return checkEmail;
+                        return loginDetails;
                     }
                     return null;
-                    //return "Password Not Exist";
                 }
                 return null;
-                //return "Email not exist";
             }
             catch (ArgumentNullException ex)
             {
@@ -117,7 +114,7 @@ namespace FundooRepository.Repository
         /// </summary>
         /// <param name="resetPassword">passing resetPassword parameter for ResetPasswordModel</param>
         /// <returns>return string type</returns>
-        public async Task<string> ResetPassword(ResetPasswordModel resetPassword)
+        public async Task<ResetPasswordModel> ResetPassword(ResetPasswordModel resetPassword)
         {
             try
             {
@@ -127,9 +124,9 @@ namespace FundooRepository.Repository
                     checkEmail.Password = EncodePasswordToBase64(resetPassword.NewPassword);
                     this.context.Users.Update(checkEmail);
                     await this.context.SaveChangesAsync();
-                    return "Password Successfully Reset";
+                    return resetPassword;
                 }
-                return "Email not Exist";
+                return null;
             }
             catch (ArgumentNullException ex)
             {

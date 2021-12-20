@@ -5,12 +5,10 @@ namespace FundooManager.Interface
 {
     public interface IUserManager
     {
-        Task<string> Register(RegisterModel userData);
-        Task<RegisterModel> Login(LoginModel loginDetails);
-        //Task<string> Login(LoginModel loginDetails);
-        Task<string> ResetPassword(ResetPasswordModel resetPassword);
+        Task<RegisterModel> Register(RegisterModel userData);
+        Task<LoginModel> Login(LoginModel loginDetails);
+        Task<ResetPasswordModel> ResetPassword(ResetPasswordModel resetPassword);
         Task<bool> ForgotPassword(string email);
-        //Task<string> ForgotPassword(string email);
         string GenerateToken(string email);
     }
 }

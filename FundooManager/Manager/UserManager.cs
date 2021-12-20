@@ -37,7 +37,7 @@ namespace FundooManager.Manager
         /// </summary>
         /// <param name="userData">passing userData parameter for RegisterModel</param>
         /// <returns>Returns string type</returns>
-        public async Task<string> Register(RegisterModel userData)
+        public async Task<RegisterModel> Register(RegisterModel userData)
         {
             try
             {
@@ -55,7 +55,7 @@ namespace FundooManager.Manager
         /// </summary>
         /// <param name="loginDetails">passing loginDetails parameter for LoginModel</param>
         /// <returns>return string type</returns>
-        public async Task<RegisterModel> Login(LoginModel loginDetails)
+        public async Task<LoginModel> Login(LoginModel loginDetails)
         {
             try
             {
@@ -93,7 +93,7 @@ namespace FundooManager.Manager
         /// </summary>
         /// <param name="resetPassword">passing resetPassword parameter for ResetPasswordModel</param>
         /// <returns>return string type</returns>
-        public async Task<string> ResetPassword(ResetPasswordModel resetPassword)
+        public async Task<ResetPasswordModel> ResetPassword(ResetPasswordModel resetPassword)
         {
             try
             {
