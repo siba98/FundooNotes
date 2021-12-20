@@ -26,16 +26,14 @@ namespace FundooRepository.Repository
             this.configuration = configuration;
         }
 
-        public string Register(RegisterModel user)
+        public string Register(RegisterModel userData)
         {
             try
             {
-                var checkEmail = this.context.Users.Where(x => x.Email == user.Email).FirstOrDefault();
+                var checkEmail = this.context.Users.Where(x => x.Email == userData.Email).FirstOrDefault();
                 if (checkEmail == null)
                 {
-                    // Encrypt the password
-                    user.Password = EncodePasswordToBase64(user.Password);
-                    this.context.Users.Add(user);
+                    this.context.Users.Add(userData);
                     this.context.SaveChanges();
                     return "You Registered Successfully";
                 }
@@ -49,16 +47,14 @@ namespace FundooRepository.Repository
         }
 
 
-        public string Login(LoginModel loginDetails)
+        public string Login(LoginModel loginData)
         {
             try
             {
-                var checkEmail = this.context.Users.Where(x => x.Email == loginDetails.Email).FirstOrDefault();
+                var checkEmail = this.context.Users.Where(x => x.Email == loginData.Email).FirstOrDefault();
                 if (checkEmail != null)
                 {
-                    // Encrypt the password
-                    loginDetails.Password = EncodePasswordToBase64(loginDetails.Password);
-                    var checkPassword = this.context.Users.Where(x => x.Password == loginDetails.Password).FirstOrDefault();
+                    var checkPassword = this.context.Users.Where(x => x.Email == loginData.Email && x.Password == loginData.Password).FirstOrDefault();
                     if (checkPassword != null)
                     {
                         return "Login Successful";

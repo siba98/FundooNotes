@@ -21,11 +21,11 @@ namespace FundooNotes.Contollers
 
         [HttpPost]
         [Route("api/register")]
-        public IActionResult Register([FromBody] RegisterModel user)
+        public IActionResult Register([FromBody] RegisterModel userData)
         {
             try
             {
-                string message = this.manager.Register(user);
+                string message = this.manager.Register(userData);
                 if (message.Equals("You Registered Successfully"))
                 {
                     return this.Ok(new { Status = true, Message = message });
@@ -43,14 +43,14 @@ namespace FundooNotes.Contollers
 
         [HttpPost]
         [Route("api/login")]
-        public IActionResult Login([FromBody] LoginModel loginDetails)
+        public IActionResult Login([FromBody] LoginModel loginData)
         {
             try
             {
-                string message = this.manager.Login(loginDetails);
+                string message = this.manager.Login(loginData);
                 if (message.Equals("Login Successful"))
                 {
-                    string tokenString = this.manager.GenerateToken(loginDetails.Email);
+                    string tokenString = this.manager.GenerateToken(loginData.Email);
                     return this.Ok(new { Status = true, Message = message, Token = tokenString });
                 }
                 else
