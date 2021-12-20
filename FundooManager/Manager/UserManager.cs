@@ -16,12 +16,12 @@ namespace FundooManager.Manager
             this.repository = repository;
         }
 
-        public string Register(RegisterModel user)
+        public string Register(RegisterModel userData)
         {
             try
             {
-                user.Password = EncodePasswordToBase64(user.Password);
-                return this.repository.Register(user);
+                userData.Password = EncodePasswordToBase64(userData.Password);
+                return this.repository.Register(userData);
             }
             catch (Exception ex)
             {
@@ -29,12 +29,12 @@ namespace FundooManager.Manager
             }
         }
 
-        public string Login(LoginModel loginDetails)
+        public string Login(LoginModel loginData)
         {
             try
             {
-                loginDetails.Password = EncodePasswordToBase64(loginDetails.Password);
-                return this.repository.Login(loginDetails);
+                loginData.Password = EncodePasswordToBase64(loginData.Password);
+                return this.repository.Login(loginData);
             }
             catch (Exception ex)
             {
