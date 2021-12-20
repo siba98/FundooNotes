@@ -51,13 +51,13 @@ namespace FundooRepository.Repository
         /// </summary>
         /// <param name="note">passing note parameter for NoteModel</param>
         /// <returns>returns string type</returns>
-        public async Task<string> AddNote(NoteModel note)
+        public async Task<NoteModel> AddNote(NoteModel noteDetails)
         {
             try
             {
-                this.context.Note.Add(note);
+                this.context.Note.Add(noteDetails);
                 await this.context.SaveChangesAsync();
-                return "Note Added Successfully";
+                return noteDetails;
             }
             catch (ArgumentNullException ex)
             {
@@ -70,20 +70,20 @@ namespace FundooRepository.Repository
         /// </summary>
         /// <param name="note">passing note parameter for NoteModel</param>
         /// <returns>returns string type</returns>
-        public async Task<string> EditNote(NoteModel note)
+        public async Task<NoteModel> EditNote(NoteModel noteDetails)
         {
             try
             {
-                var noteExist = await this.context.Note.Where(x => x.NoteId == note.NoteId).FirstOrDefaultAsync();
-                if (noteExist != null)
+                var validNote = await this.context.Note.Where(x => x.NoteId == noteDetails.NoteId).FirstOrDefaultAsync();
+                if (validNote != null)
                 {
-                    noteExist.Title = note.Title;
-                    noteExist.Description = note.Description;
-                    this.context.Note.Update(noteExist);
-                    this.context.SaveChanges();
-                    return "Note Updated Successfully";
+                    validNote.Title = noteDetails.Title;
+                    validNote.Description = noteDetails.Description;
+                    this.context.Note.Update(validNote);
+                    await this.context.SaveChangesAsync();
+                    return validNote;
                 }
-                return "Note Not Exist";
+                return null;
             }
             catch (ArgumentNullException ex)
             {
@@ -97,19 +97,19 @@ namespace FundooRepository.Repository
         /// <param name="NoteId">passing parameter as NoteId</param>
         /// <param name="Reminder">passing parameter as Reminder</param>
         /// <returns></returns>
-        public async Task<string> AddReminder(int NoteId, string Reminder)
+        public async Task<NoteModel> AddReminder(int NoteId, string Reminder)
         {
             try
             {
-                var noteExist = await this.context.Note.Where(x => x.NoteId == NoteId).SingleOrDefaultAsync();
-                if (noteExist != null)
+                var validNote = await this.context.Note.Where(x => x.NoteId == NoteId).SingleOrDefaultAsync();
+                if (validNote != null)
                 {
-                    noteExist.Reminder = Reminder;
-                    this.context.Note.Update(noteExist);
-                    this.context.SaveChanges();
-                    return "Reminder Added Successfully";
+                    validNote.Reminder = Reminder;
+                    this.context.Note.Update(validNote);
+                    await this.context.SaveChangesAsync();
+                    return validNote;
                 }
-                return "Note Not Exist";
+                return null;
             }
             catch (ArgumentNullException ex)
             {
@@ -122,18 +122,18 @@ namespace FundooRepository.Repository
         /// </summary>
         /// <param name="NoteId">passing parameter as NoteId</param>
         /// <returns>returns string type</returns>
-        public async Task<string> DeleteReminder(int NoteId)
+        public async Task<NoteModel> DeleteReminder(int NoteId)
         {
             try
             {
-                var noteExist = await this.context.Note.Where(x => x.NoteId == NoteId).SingleOrDefaultAsync();
-                if (noteExist != null)
+                var validNote = await this.context.Note.Where(x => x.NoteId == NoteId).SingleOrDefaultAsync();
+                if (validNote != null)
                 {
-                    noteExist.Reminder = null;
-                    this.context.SaveChanges();
-                    return "Reminder Removed Successfully";
+                    validNote.Reminder = null;
+                    await this.context.SaveChangesAsync();
+                    return validNote;
                 }
-                return "Note Not Exist";
+                return null;
             }
             catch (ArgumentNullException ex)
             {
@@ -147,19 +147,19 @@ namespace FundooRepository.Repository
         /// <param name="NoteId">passing parameter as NoteId</param>
         /// <param name="Colour">passing parameter as Colour</param>
         /// <returns>returns string type</returns>
-        public async Task<string> EditColour(int NoteId, string Colour)
+        public async Task<NoteModel> EditColour(int NoteId, string Colour)
         {
             try
             {
-                var noteExist = await this.context.Note.Where(x => x.NoteId == NoteId).SingleOrDefaultAsync();
-                if (noteExist != null)
+                var validNote = await this.context.Note.Where(x => x.NoteId == NoteId).SingleOrDefaultAsync();
+                if (validNote != null)
                 {
-                    noteExist.Colour = Colour;
-                    this.context.Note.Update(noteExist);
-                    this.context.SaveChanges();
-                    return "Colour Updated Successfully";
+                    validNote.Colour = Colour;
+                    this.context.Note.Update(validNote);
+                    await this.context.SaveChangesAsync();
+                    return validNote;
                 }
-                return "Colour Not Updated";
+                return null;
             }
             catch (ArgumentNullException ex)
             {
@@ -177,26 +177,26 @@ namespace FundooRepository.Repository
             try
             {
                 string message;
-                var noteExist = await this.context.Note.Where(x => x.NoteId == NoteId && x.Trash == false).SingleOrDefaultAsync();
-                if (noteExist != null)
+                var validNote = await this.context.Note.Where(x => x.NoteId == NoteId && x.Trash == false).SingleOrDefaultAsync();
+                if (validNote != null)
                 {
-                    if (noteExist.Pin == false)
+                    if (validNote.Pin == false)
                     {
-                        noteExist.Pin = true;
-                        if (noteExist.Archive == true)
+                        validNote.Pin = true;
+                        if (validNote.Archive == true)
                         {
-                            noteExist.Archive = false;
-                            noteExist.Pin = true;
+                            validNote.Archive = false;
+                            validNote.Pin = true;
                             message = "Note UnArchived and Pinned Successfully";
                         }
                         message = "Note Pinned Successfully";
                     }
                     else
                     {
-                        noteExist.Pin = false;
+                        validNote.Pin = false;
                         message = "Note UnPinned Successfully";
                     }
-                    this.context.Note.Update(noteExist);
+                    this.context.Note.Update(validNote);
                     await this.context.SaveChangesAsync();
                 }
                 message = "Note Not Exist";
@@ -218,25 +218,25 @@ namespace FundooRepository.Repository
             try
             {
                 string message;
-                var noteExist = await this.context.Note.Where(x => x.NoteId == NoteId && x.Trash != true).SingleOrDefaultAsync();
-                if (noteExist != null)
+                var validNote = await this.context.Note.Where(x => x.NoteId == NoteId && x.Trash != true).SingleOrDefaultAsync();
+                if (validNote != null)
                 {
-                    if (noteExist.Archive == false)
+                    if (validNote.Archive == false)
                     {
-                        noteExist.Archive = true;
-                        if (noteExist.Pin == true)
+                        validNote.Archive = true;
+                        if (validNote.Pin == true)
                         {
-                            noteExist.Pin = false;
+                            validNote.Pin = false;
                             message = "Note Archived and Unpinned Successfully";
                         }
                         message = "Note Archived Successfully";
                     }
                     else
                     {
-                        noteExist.Archive = false;
+                        validNote.Archive = false;
                         message = "Note Unarchived Successfully";
                     }
-                    this.context.Note.Update(noteExist);
+                    this.context.Note.Update(validNote);
                     await this.context.SaveChangesAsync();
                 }
                 message = "Note Not Exist";
@@ -253,7 +253,7 @@ namespace FundooRepository.Repository
         /// </summary>
         /// <param name="NoteId">passing parameter as NoteId</param>
         /// <returns>returns string type</returns>
-        public async Task<string> TrashNotes(int NoteId)
+        public async Task<NoteModel> TrashNotes(int NoteId)
         {
             try
             {
@@ -267,11 +267,11 @@ namespace FundooRepository.Repository
                         availNote.Pin = false;
                         this.context.Note.Update(availNote);
                         await this.context.SaveChangesAsync();
-                        return "Note Unpinned and Trashed Successfully";
+                        return availNote;
                     }
-                    return "Note Trashed Successfully";
+                    return null;
                 }
-                return "Note Not Exist";
+                return null;
             }
             catch (ArgumentNullException ex)
             {
@@ -284,7 +284,7 @@ namespace FundooRepository.Repository
         /// </summary>
         /// <param name="NoteId">passing parameter as NoteId</param>
         /// <returns>returns string type</returns>
-        public async Task<string> RestoreNotesFromTrash(int NoteId)
+        public async Task<NoteModel> RestoreNotesFromTrash(int NoteId)
         {
             try
             {
@@ -295,9 +295,9 @@ namespace FundooRepository.Repository
                     availNote.Pin = false;
                     this.context.Note.Update(availNote);
                     await this.context.SaveChangesAsync();
-                    return "Note Restored from Trash Successfully";
+                    return availNote;
                 }
-                return "Note Not Exist";
+                return null;
             }
             catch (ArgumentNullException ex)
             {
@@ -310,7 +310,7 @@ namespace FundooRepository.Repository
         /// </summary>
         /// <param name="NoteId">passing parameter as NoteId</param>
         /// <returns>returns string type</returns>
-        public async Task<string> DeleteNoteFromTrash(int NoteId)
+        public async Task<NoteModel> DeleteNoteFromTrash(int NoteId)
         {
             try
             {
@@ -321,10 +321,10 @@ namespace FundooRepository.Repository
                     {
                         this.context.Note.Remove(noteExist);
                         this.context.SaveChanges();
-                        return "Note Deleted Successfully";
+                        return noteExist;
                     }
                 }
-                return "Note Not Exist in Trash";
+                return null;
             }
             catch (ArgumentNullException ex)
             {
@@ -426,7 +426,7 @@ namespace FundooRepository.Repository
         /// <param name="noteId">passing parameter as NoteId</param>
         /// <param name="image">passing parameter as image</param>
         /// <returns></returns>
-        public async Task<string> ImageUpload(int noteId, IFormFile image)
+        public async Task<NoteModel> ImageUpload(int noteId, IFormFile image)
         {
             try
             {
@@ -444,9 +444,9 @@ namespace FundooRepository.Repository
                     findNote.Image = imagePath;
                     this.context.Note.Update(findNote);
                     await this.context.SaveChangesAsync();
-                    return "Image Uploaded Successfully";
+                    return findNote;
                 }
-                return "noteID not Exist";
+                return null;
             }
             catch (Exception ex)
             {

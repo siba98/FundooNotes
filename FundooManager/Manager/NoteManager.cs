@@ -39,7 +39,7 @@ namespace FundooManager.Manager
         /// </summary>
         /// <param name="note">passing note parameter for NoteModel</param>
         /// <returns>returns string type</returns>
-        public async Task<string> AddNote(NoteModel note)
+        public async Task<NoteModel> AddNote(NoteModel note)
         {
             try
             {
@@ -56,7 +56,7 @@ namespace FundooManager.Manager
         /// </summary>
         /// <param name="note">passing note parameter for NoteModel</param>
         /// <returns>returns string type</returns>
-        public async Task<string> EditNote(NoteModel note)
+        public async Task<NoteModel> EditNote(NoteModel note)
         {
             try
             {
@@ -74,7 +74,7 @@ namespace FundooManager.Manager
         /// <param name="NoteId">passing parameter as NoteId</param>
         /// <param name="Reminder">passing parameter as Reminder</param>
         /// <returns></returns>
-        public async Task<string> AddReminder(int NoteId, string Reminder)
+        public async Task<NoteModel> AddReminder(int NoteId, string Reminder)
         {
             try
             {
@@ -91,7 +91,7 @@ namespace FundooManager.Manager
         /// </summary>
         /// <param name="NoteId">passing parameter as NoteId</param>
         /// <returns>returns string type</returns>
-        public async Task<string> DeleteReminder(int NoteId)
+        public async Task<NoteModel> DeleteReminder(int NoteId)
         {
             try
             {
@@ -109,7 +109,7 @@ namespace FundooManager.Manager
         /// <param name="NoteId">passing parameter as NoteId</param>
         /// <param name="Colour">passing parameter as Colour</param>
         /// <returns>returns string type</returns>
-        public async Task<string> EditColour(int NoteId, string Colour)
+        public async Task<NoteModel> EditColour(int NoteId, string Colour)
         {
             try
             {
@@ -160,7 +160,7 @@ namespace FundooManager.Manager
         /// </summary>
         /// <param name="NoteId">passing parameter as NoteId</param>
         /// <returns>returns string type</returns>
-        public async Task<string> TrashNotes(int NoteId)
+        public async Task<NoteModel> TrashNotes(int NoteId)
         {
             try
             {
@@ -177,7 +177,7 @@ namespace FundooManager.Manager
         /// </summary>
         /// <param name="NoteId">passing parameter as NoteId</param>
         /// <returns>returns string type</returns>
-        public async Task<string> DeleteNoteFromTrash(int NoteId)
+        public async Task<NoteModel> DeleteNoteFromTrash(int NoteId)
         {
             try
             {
@@ -194,7 +194,7 @@ namespace FundooManager.Manager
         /// </summary>
         /// <param name="NoteId">passing parameter as NoteId</param>
         /// <returns>returns string type</returns>
-        public async Task<string> RestoreNotesFromTrash(int NoteId)
+        public async Task<NoteModel> RestoreNotesFromTrash(int NoteId)
         {
             try
             {
@@ -281,7 +281,7 @@ namespace FundooManager.Manager
         /// <param name="noteId">passing parameter as NoteId</param>
         /// <param name="image">passing parameter as image</param>
         /// <returns></returns>
-        public async Task<string> ImageUpload(int noteId, IFormFile image)
+        public async Task<NoteModel> ImageUpload(int noteId, IFormFile image)
         {
             try
             {

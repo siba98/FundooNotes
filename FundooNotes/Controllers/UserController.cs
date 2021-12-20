@@ -31,7 +31,7 @@ namespace FundooNotes.Contollers
         private readonly IUserManager manager;
 
         /// <summary>
-        /// 
+        /// Constant field for SessionName and SessionEmail
         /// </summary>
         const string SessionName = "UserName";
         const string SessionEmail = "EmailId";
@@ -71,7 +71,8 @@ namespace FundooNotes.Contollers
             try
             {
                 this.logger.LogInformation(userData.FirstName + " is trying to Register");
-                HttpContext.Session.SetString(SessionName, userData.FirstName + " " + userData.LastName + " " + userData.Email);
+                HttpContext.Session.SetString(SessionName, userData.FirstName + " " + userData.LastName);
+                HttpContext.Session.SetString(SessionEmail, userData.Email);
                 var result = await this.manager.Register(userData);
                 if (result != null)
                 {

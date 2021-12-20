@@ -7,20 +7,20 @@ namespace FundooRepository.Interface
 {
     public interface INoteRepository
     {
-        Task<string> AddNote(NoteModel note);
-        Task<string> EditNote(NoteModel note);
-        Task<string> AddReminder(int NoteId, string Reminder);
-        Task<string> DeleteReminder(int NoteId);
-        Task<string> EditColour(int NoteId, string Colour);
+        Task<NoteModel> AddNote(NoteModel note);
+        Task<NoteModel> EditNote(NoteModel note);
+        Task<NoteModel> AddReminder(int NoteId, string Reminder);
+        Task<NoteModel> DeleteReminder(int NoteId);
+        Task<NoteModel> EditColour(int NoteId, string Colour);
         Task<string> PinOrUnPinnedNotes(int NoteId);
         Task<string> ArchiveOrUnArchiveNotes(int NoteId);
-        Task<string> TrashNotes(int NoteId);
-        Task<string> DeleteNoteFromTrash(int NoteId);
+        Task<NoteModel> TrashNotes(int NoteId);
+        Task<NoteModel> DeleteNoteFromTrash(int NoteId);
         IEnumerable<NoteModel> GetArchive(int UserId);
-        Task<string> ImageUpload(int noteId, IFormFile image);
+        Task<NoteModel> ImageUpload(int noteId, IFormFile image);
         IEnumerable<NoteModel> GetNotes(int userId);
         IEnumerable<NoteModel> GetTrash(int userId);
         IEnumerable<NoteModel> GetReminders(int userId);
-        Task<string> RestoreNotesFromTrash(int noteId);
+        Task<NoteModel> RestoreNotesFromTrash(int noteId);
     }
 }
