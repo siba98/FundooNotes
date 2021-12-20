@@ -7,12 +7,10 @@ namespace FundooModels
 {
     public class LoginModel
     {
-        //[Required]
-        //[RegularExpression("^[a-zA-Z0-9]+([.#_$+-][a-zA-Z0-9]+)*[@][a-zA-Z0-9]+[.][a-zA-Z]{2,3}([.][a-zA-Z]{2})?$", ErrorMessage = "Email is not valid. Please Enter valid email")]
+        [Required]
         public string Email { get; set; }
 
-        //[Required]
-        //[RegularExpression("^(?=.?[A-Z])(?=.?[a-z])(?=.?[0-9])(?=.?[#?!@$ %^&*-]).{8,}$", ErrorMessage = "Password is not valid. Password Should be 8 Character contain 1 Uppercase, 1 Special character, 1 Number")]
+        [Required]
         public string Password { get; set; }
     }
 }
