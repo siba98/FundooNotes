@@ -50,7 +50,7 @@ namespace FundooRepository.Repository
         /// method for adding new note
         /// </summary>
         /// <param name="note">passing note parameter for NoteModel</param>
-        /// <returns>returns string type</returns>
+        /// <returns>returns the note that added</returns>
         public async Task<NoteModel> AddNote(NoteModel noteDetails)
         {
             try
@@ -69,7 +69,7 @@ namespace FundooRepository.Repository
         /// method for edit the title and description of a note
         /// </summary>
         /// <param name="note">passing note parameter for NoteModel</param>
-        /// <returns>returns string type</returns>
+        /// <returns>returns updated note details</returns>
         public async Task<NoteModel> EditNote(NoteModel noteDetails)
         {
             try
@@ -96,7 +96,7 @@ namespace FundooRepository.Repository
         /// </summary>
         /// <param name="NoteId">passing parameter as NoteId</param>
         /// <param name="Reminder">passing parameter as Reminder</param>
-        /// <returns></returns>
+        /// <returns>returns updated note that reminder added</returns>
         public async Task<NoteModel> AddReminder(int NoteId, string Reminder)
         {
             try
@@ -121,8 +121,8 @@ namespace FundooRepository.Repository
         /// method for delete reminder from a note
         /// </summary>
         /// <param name="NoteId">passing parameter as NoteId</param>
-        /// <returns>returns string type</returns>
-        public async Task<NoteModel> DeleteReminder(int NoteId)
+        /// <returns>returns updated note that reminder deleted</returns>
+        public async Task<bool> DeleteReminder(int NoteId)
         {
             try
             {
@@ -131,9 +131,9 @@ namespace FundooRepository.Repository
                 {
                     validNote.Reminder = null;
                     await this.context.SaveChangesAsync();
-                    return validNote;
+                    return true;
                 }
-                return null;
+                return false;
             }
             catch (ArgumentNullException ex)
             {
@@ -146,7 +146,7 @@ namespace FundooRepository.Repository
         /// </summary>
         /// <param name="NoteId">passing parameter as NoteId</param>
         /// <param name="Colour">passing parameter as Colour</param>
-        /// <returns>returns string type</returns>
+        /// <returns>returns colour updated details that changed in a note</returns>
         public async Task<NoteModel> EditColour(int NoteId, string Colour)
         {
             try
@@ -171,7 +171,7 @@ namespace FundooRepository.Repository
         /// method for make a note pin or unpin
         /// </summary>
         /// <param name="NoteId">passing parameter as NoteId</param>
-        /// <returns>returns string type</returns>
+        /// <returns>returns the note that it is pin or unpin</returns>
         public async Task<string> PinOrUnPinnedNotes(int NoteId)
         {
             try
@@ -209,10 +209,10 @@ namespace FundooRepository.Repository
         }
 
         /// <summary>
-        /// method for make a note Archive Or UnArchive
+        /// method for getting all the archived notes
         /// </summary>
-        /// <param name="NoteId">passing parameter as NoteId</param>
-        /// <returns>returns string type</returns>
+        /// <param name="UserId">passing parameter as UserId</param>
+        /// <returns>returns all archived notes</returns>
         public async Task<string> ArchiveOrUnArchiveNotes(int NoteId)
         {
             try
@@ -252,8 +252,8 @@ namespace FundooRepository.Repository
         /// method for make a note Trash
         /// </summary>
         /// <param name="NoteId">passing parameter as NoteId</param>
-        /// <returns>returns string type</returns>
-        public async Task<NoteModel> TrashNotes(int NoteId)
+        /// <returns>returns boolean value</returns>
+        public async Task<bool> TrashNotes(int NoteId)
         {
             try
             {
@@ -267,11 +267,11 @@ namespace FundooRepository.Repository
                         availNote.Pin = false;
                         this.context.Note.Update(availNote);
                         await this.context.SaveChangesAsync();
-                        return availNote;
+                        return true;
                     }
-                    return null;
+                    return false;
                 }
-                return null;
+                return false;
             }
             catch (ArgumentNullException ex)
             {
@@ -280,10 +280,10 @@ namespace FundooRepository.Repository
         }
 
         /// <summary>
-        /// method for make a note restore from Trash
+        /// method for restore notes from trash
         /// </summary>
         /// <param name="NoteId">passing parameter as NoteId</param>
-        /// <returns>returns string type</returns>
+        /// <returns>returns notes that restored from trash</returns>
         public async Task<NoteModel> RestoreNotesFromTrash(int NoteId)
         {
             try
@@ -309,8 +309,8 @@ namespace FundooRepository.Repository
         /// method for delete note from trash
         /// </summary>
         /// <param name="NoteId">passing parameter as NoteId</param>
-        /// <returns>returns string type</returns>
-        public async Task<NoteModel> DeleteNoteFromTrash(int NoteId)
+        /// <returns>returns boolean value</returns>
+        public async Task<bool> DeleteNoteFromTrash(int NoteId)
         {
             try
             {
@@ -321,10 +321,10 @@ namespace FundooRepository.Repository
                     {
                         this.context.Note.Remove(noteExist);
                         this.context.SaveChanges();
-                        return noteExist;
+                        return true;
                     }
                 }
-                return null;
+                return false;
             }
             catch (ArgumentNullException ex)
             {
@@ -425,7 +425,7 @@ namespace FundooRepository.Repository
         /// </summary>
         /// <param name="noteId">passing parameter as NoteId</param>
         /// <param name="image">passing parameter as image</param>
-        /// <returns></returns>
+        /// <returns>returns image uploaded details to the note</returns>
         public async Task<NoteModel> ImageUpload(int noteId, IFormFile image)
         {
             try

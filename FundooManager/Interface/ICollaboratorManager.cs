@@ -5,7 +5,6 @@
 // <creator name="A Siba Patro"/>
 // --------------------------------------------------------------------------------------------------------------------
 
-
 namespace FundooManager.Interface
 {
     using System.Collections.Generic;

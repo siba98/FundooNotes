@@ -41,7 +41,7 @@ namespace FundooNotes.Controllers
         /// <summary>
         /// api for adding note
         /// </summary>
-        /// <param name="note"></param>
+        /// <param name="note">passing note parameter for NoteModel</param>
         /// <returns>response status from api</returns>
         [HttpPost]
         [Route("addNote")]
@@ -68,7 +68,7 @@ namespace FundooNotes.Controllers
         /// <summary>
         /// api for edit a note
         /// </summary>
-        /// <param name="note"></param>
+        /// <param name="note">passing note parameter for NoteModel</param>
         /// <returns>response status from api</returns>
         [HttpPut]
         [Route("editNote")]
@@ -95,8 +95,8 @@ namespace FundooNotes.Controllers
         /// <summary>
         /// api for add reminder
         /// </summary>
-        /// <param name="NoteId"></param>
-        /// <param name="Reminder"></param>
+        /// <param name="NoteId">passing parameter as NoteId</param>
+        /// <param name="Reminder">passing parameter as Reminder</param>
         /// <returns>response status from api</returns>
         [HttpPut]
         [Route("addReminder")]
@@ -123,35 +123,35 @@ namespace FundooNotes.Controllers
         /// <summary>
         /// api for delete reminder 
         /// </summary>
-        /// <param name="NoteId"></param>
+        /// <param name="NoteId">passing parameter as NoteId</param>
         /// <returns>response status from api</returns>
-        [HttpPut]
+        [HttpDelete]
         [Route("deleteReminder")]
         public async Task<IActionResult> DeleteReminder(int NoteId)
         {
             try
             {
-                var result = await this.noteManager.DeleteReminder(NoteId);
-                if (result != null)
+                bool result = await this.noteManager.DeleteReminder(NoteId);
+                if (result == true)
                 {
-                    return this.Ok(new ResponseModel<NoteModel> { Status = true, Message = "Reminder Deleted Successfully", Data = result });
+                    return this.Ok(new ResponseModel<bool> { Status = true, Message = "Reminder Deleted Successfully", Data = result });
                 }
                 else
                 {
-                    return this.BadRequest(new ResponseModel<NoteModel> { Status = false, Message = "Unable to Delete Reminder ", Data = result });
+                    return this.BadRequest(new ResponseModel<bool> { Status = false, Message = "Unable to Delete Reminder ", Data = result });
                 }
             }
             catch (Exception ex)
             {
-                return this.NotFound(new ResponseModel<NoteModel> { Status = false, Message = ex.Message });
+                return this.NotFound(new ResponseModel<bool> { Status = false, Message = ex.Message });
             }
         }
 
         /// <summary>
         /// api for edit colour
         /// </summary>
-        /// <param name="NoteId"></param>
-        /// <param name="Colour"></param>
+        /// <param name="NoteId">passing parameter as NoteId</param>
+        /// <param name="Colour">passing parameter as Colour</param>
         /// <returns>response status from api</returns>
         [HttpPut]
         [Route("editColour")]
@@ -178,7 +178,7 @@ namespace FundooNotes.Controllers
         /// <summary>
         /// api for pin or unpin note
         /// </summary>
-        /// <param name="NoteId"></param>
+        /// <param name="NoteId">passing parameter as NoteId</param>
         /// <returns>response status from api</returns>
         [HttpPut]
         [Route("pinOrUnPinnedNotes")]
@@ -205,7 +205,7 @@ namespace FundooNotes.Controllers
         /// <summary>
         /// api for archive or unarchive note
         /// </summary>
-        /// <param name="NoteId"></param>
+        /// <param name="NoteId">passing parameter as NoteId</param>
         /// <returns>response status from api</returns>
         [HttpPut]
         [Route("archiveOrUnArchiveNotes")]
@@ -232,7 +232,7 @@ namespace FundooNotes.Controllers
         /// <summary>
         /// api for trash or restore note
         /// </summary>
-        /// <param name="NoteId"></param>
+        /// <param name="NoteId">passing parameter as NoteId</param>
         /// <returns>response status from api</returns>
         [HttpDelete]
         [Route("trashNotes")]
@@ -240,26 +240,26 @@ namespace FundooNotes.Controllers
         {
             try
             {
-                var result = await this.noteManager.TrashNotes(NoteId);
-                if (result != null)
+                bool result = await this.noteManager.TrashNotes(NoteId);
+                if (result == true)
                 {
-                    return this.BadRequest(new ResponseModel<NoteModel> { Status = false, Message = "Note Trashed Successfully", Data = result });
+                    return this.BadRequest(new ResponseModel<bool> { Status = false, Message = "Note Trashed Successfully", Data = result });
                 }
                 else
                 {
-                    return this.Ok(new ResponseModel<NoteModel> { Status = true, Message = "Unable to Trash Note", Data = result });
+                    return this.Ok(new ResponseModel<bool> { Status = true, Message = "Unable to Trash Note", Data = result });
                 }
             }
             catch (Exception ex)
             {
-                return this.NotFound(new ResponseModel<NoteModel> { Status = false, Message = ex.Message });
+                return this.NotFound(new ResponseModel<bool> { Status = false, Message = ex.Message });
             }
         }
 
         /// <summary>
         /// api for delete note from trash
         /// </summary>
-        /// <param name="NoteId"></param>
+        /// <param name="NoteId">passing parameter as NoteId</param>
         /// <returns>response status from api</returns>
         [HttpDelete]
         [Route("deleteNoteFromTrash")]
@@ -267,26 +267,26 @@ namespace FundooNotes.Controllers
         {
             try
             {
-                var result = await this.noteManager.DeleteNoteFromTrash(NoteId);
-                if (result != null)
+                bool result = await this.noteManager.DeleteNoteFromTrash(NoteId);
+                if (result == true)
                 {
-                    return this.Ok(new ResponseModel<NoteModel> { Status = true, Message = "Note Deleted Forever from Trash Successfully", Data = result });
+                    return this.Ok(new ResponseModel<bool> { Status = true, Message = "Note Deleted Forever from Trash Successfully", Data = result });
                 }
                 else
                 {
-                    return this.BadRequest(new ResponseModel<NoteModel> { Status = false, Message = "Unable to Delete Note from Trash", Data = result });
+                    return this.BadRequest(new ResponseModel<bool> { Status = false, Message = "Unable to Delete Note from Trash", Data = result });
                 }
             }
             catch (Exception ex)
             {
-                return this.NotFound(new ResponseModel<NoteModel> { Status = false, Message = ex.Message });
+                return this.NotFound(new ResponseModel<bool> { Status = false, Message = ex.Message });
             }
         }
 
         /// <summary>
         /// method for restore notes from trash
         /// </summary>
-        /// <param name="NoteId"></param>
+        /// <param name="NoteId">passing parameter as NoteId</param>
         /// <returns>response status from api</returns>
         [HttpPut]
         [Route("restoreNotesFromTrash")]
@@ -313,8 +313,8 @@ namespace FundooNotes.Controllers
         /// <summary>
         /// api for upload image in note
         /// </summary>
-        /// <param name="noteId"></param>
-        /// <param name="image"></param>
+        /// <param name="noteId">passing parameter as NoteId</param>
+        /// <param name="image">passing parameter as image</param>
         /// <returns>response status from api</returns>
         [HttpPut]
         [Route("imageUpload")]
@@ -341,7 +341,7 @@ namespace FundooNotes.Controllers
         /// <summary>
         /// api for get archive notes
         /// </summary>
-        /// <param name="UserId"></param>
+        /// <param name="UserId">passing parameter as UserId</param>
         /// <returns>response status from api</returns>
         [HttpGet]
         [Route("getArchive")]
@@ -352,23 +352,23 @@ namespace FundooNotes.Controllers
                 IEnumerable<NoteModel> result = this.noteManager.GetArchive(UserId);
                 if (result != null)
                 {
-                    return this.Ok(new ResponseModel<NoteModel> { Status = true, Message = "Archive Notes Retrieved Successfully" });
+                    return this.Ok(new { Status = true, Message = "Archive Notes Retrieved Successfully" });
                 }
                 else
                 {
-                    return this.BadRequest(new ResponseModel<NoteModel> { Status = false, Message = "Archived Notes Not Available"});
+                    return this.BadRequest(new { Status = false, Message = "Archived Notes Not Available"});
                 }
             }
             catch (Exception ex)
             {
-                return this.NotFound(new ResponseModel<NoteModel> { Status = false, Message = ex.Message });
+                return this.NotFound(new { Status = false, Message = ex.Message });
             }
         }
 
         /// <summary>
         /// api for get notes
         /// </summary>
-        /// <param name="UserId"></param>
+        /// <param name="UserId">passing parameter as UserId</param>
         /// <returns>response status from api</returns>
         [HttpGet]
         [Route("getNotes")]
@@ -379,24 +379,23 @@ namespace FundooNotes.Controllers
                 IEnumerable<NoteModel> result = this.noteManager.GetNotes(UserId);
                 if (result != null)
                 {
-                    return this.Ok(new ResponseModel<NoteModel> { Status = true, Message = "All Notes Retrived Successfully" });
+                    return this.Ok(new { Status = true, Message = "All Notes Retrived Successfully" });
                 }
                 else
                 {
-                    return this.BadRequest(new ResponseModel<NoteModel> { Status = false, Message = "Notes Not Available To Be Retrieve" });
+                    return this.BadRequest(new { Status = false, Message = "Notes Not Available To Be Retrieve" });
                 }
             }
             catch (Exception ex)
             {
-                return this.NotFound(new ResponseModel<NoteModel> { Status = false, Message = ex.Message });
+                return this.NotFound(new { Status = false, Message = ex.Message });
             }
         }
-
 
         /// <summary>
         /// api for get trash notes
         /// </summary>
-        /// <param name="UserId"></param>
+        /// <param name="UserId">passing parameter as UserId</param>
         /// <returns>response status from api</returns>
         [HttpGet]
         [Route("getTrash")]
@@ -407,23 +406,23 @@ namespace FundooNotes.Controllers
                 IEnumerable<NoteModel> result = this.noteManager.GetTrash(UserId);
                 if (result != null)
                 {
-                    return this.Ok(new ResponseModel<NoteModel> { Status = true, Message = "Notes retrieved from the trash successfully" });
+                    return this.Ok(new { Status = true, Message = "Notes retrieved from the trash successfully" });
                 }
                 else
                 {
-                    return this.BadRequest(new ResponseModel<NoteModel> { Status = false, Message = "Trash is empty" });
+                    return this.BadRequest(new { Status = false, Message = "Trash is empty" });
                 }
             }
             catch (Exception ex)
             {
-                return this.NotFound(new ResponseModel<NoteModel> { Status = false, Message = ex.Message });
+                return this.NotFound(new { Status = false, Message = ex.Message });
             }
         }
 
         /// <summary>
         /// api for get reminder notes
         /// </summary>
-        /// <param name="UserId"></param>
+        /// <param name="UserId">passing parameter as UserId</param>
         /// <returns>response status from api</returns>
         [HttpGet]
         [Route("getReminders")]
@@ -434,16 +433,16 @@ namespace FundooNotes.Controllers
                 IEnumerable<NoteModel> result = this.noteManager.GetReminders(UserId);
                 if (result != null)
                 {
-                    return this.Ok(new ResponseModel<NoteModel> { Status = true, Message = "Reminder For Notes Retrieved Successfully" });
+                    return this.Ok(new { Status = true, Message = "Reminder For Notes Retrieved Successfully" });
                 }
                 else
                 {
-                    return this.BadRequest(new ResponseModel<NoteModel> { Status = false, Message = "Reminder Not Created For Any Note" });
+                    return this.BadRequest(new { Status = false, Message = "Reminder Not Created For Any Note" });
                 }
             }
             catch (Exception ex)
             {
-                return this.NotFound(new ResponseModel<NoteModel> { Status = false, Message = ex.Message });
+                return this.NotFound(new { Status = false, Message = ex.Message });
             }
         }
     }

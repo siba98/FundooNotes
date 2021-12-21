@@ -8,7 +8,6 @@
 namespace FundooNotes.Contollers
 {
     using System;
-    using System.Collections.Generic;
     using System.Threading.Tasks;
     using FundooManager.Interface;
     using FundooModels;

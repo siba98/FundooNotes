@@ -1,9 +1,19 @@
-﻿using FundooModels;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ICollaboratorRepository.cs" company="Bridgelabz">
+//   Copyright © 2021 Company="BridgeLabz"
+// </copyright>
+// <creator name="A Siba Patro"/>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace FundooRepository.Interface
 {
+    using FundooModels;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
+    /// <summary>
+    /// interface ICollaboratorRepository
+    /// </summary>
     public interface ICollaboratorRepository
     {
         /// <summary>

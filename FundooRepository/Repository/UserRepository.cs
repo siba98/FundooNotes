@@ -52,20 +52,20 @@ namespace FundooRepository.Repository
         }
 
         /// <summary>
-        /// Register method for manager class
+        /// Register method for user registration
         /// </summary>
         /// <param name="userData">passing userData parameter for RegisterModel</param>
-        /// <returns>Returns string type</returns>
-        public async Task<RegisterModel> Register(RegisterModel user)
+        /// <returns>Returns user that registered</returns>
+        public async Task<RegisterModel> Register(RegisterModel userData)
         {
             try
             {
-                var checkEmail = await this.context.Users.Where(x => x.Email == user.Email).SingleOrDefaultAsync();
+                var checkEmail = await this.context.Users.Where(x => x.Email == userData.Email).SingleOrDefaultAsync();
                 if (checkEmail == null)
                 {
-                    this.context.Users.Add(user);
+                    this.context.Users.Add(userData);
                     await this.context.SaveChangesAsync();
-                    return user;
+                    return userData;
                 }
                 return null;
 
@@ -77,18 +77,18 @@ namespace FundooRepository.Repository
         }
 
         /// <summary>
-        /// Login method for manager class
+        /// Login method for user login
         /// </summary>
         /// <param name="loginDetails">passing loginDetails parameter for LoginModel</param>
-        /// <returns>return string type</returns>
-        public async Task<LoginModel> Login(LoginModel loginDetails)
+        /// <returns>return login details of user</returns>
+        public async Task<LoginModel> Login(LoginModel loginData)
         {
             try
             {
-                var checkEmail = await this.context.Users.Where(x => x.Email == loginDetails.Email).SingleOrDefaultAsync();
+                var checkEmail = await this.context.Users.Where(x => x.Email == loginData.Email).SingleOrDefaultAsync();
                 if (checkEmail != null)
                 {
-                    var checkPassword = await this.context.Users.Where(x => x.Email == loginDetails.Email && x.Password == loginDetails.Password).SingleOrDefaultAsync();
+                    var checkPassword = await this.context.Users.Where(x => x.Email == loginData.Email && x.Password == loginData.Password).SingleOrDefaultAsync();
                     if (checkPassword != null)
                     {
                         ConnectionMultiplexer connectionMultiplexer = ConnectionMultiplexer.Connect(this.configuration["RedisServerUrl"]);
@@ -97,7 +97,7 @@ namespace FundooRepository.Repository
                         database.StringSet(key: "Last Name", checkEmail.LastName);
                         database.StringSet(key: "Email", checkEmail.Email);
                         database.StringSet(key: "UserId", checkEmail.UserId.ToString());
-                        return loginDetails;
+                        return loginData;
                     }
                     return null;
                 }
@@ -113,7 +113,7 @@ namespace FundooRepository.Repository
         /// method for reseting the password
         /// </summary>
         /// <param name="resetPassword">passing resetPassword parameter for ResetPasswordModel</param>
-        /// <returns>return string type</returns>
+        /// <returns>return users reset password details</returns>
         public async Task<ResetPasswordModel> ResetPassword(ResetPasswordModel resetPassword)
         {
             try
@@ -138,7 +138,7 @@ namespace FundooRepository.Repository
         /// this function Convert to Encode the Password 
         /// </summary>
         /// <param name="Password">passing parameter as Password</param>
-        /// <returns>returns string type</returns>
+        /// <returns>returns encoded password</returns>
         public static string EncodePasswordToBase64(string Password)
         {
             try
@@ -158,7 +158,7 @@ namespace FundooRepository.Repository
         /// method for getting reset link for Forgot Password
         /// </summary>
         /// <param name="Email">passing parameter as Email</param>
-        /// <returns>returns string type</returns>
+        /// <returns>returns boolean value</returns>
         public async Task<bool> ForgotPassword(string Email)
         {
             try
@@ -225,7 +225,7 @@ namespace FundooRepository.Repository
         /// method for generating a token for authorization of api's
         /// </summary>
         /// <param name="Email">passing parameter as Email</param>
-        /// <returns>returns string type</returns>
+        /// <returns>returns jwt token</returns>
         public string GenerateToken(string Email)
         {
             byte[] key = Encoding.UTF8.GetBytes(this.configuration["SecretKey"]);

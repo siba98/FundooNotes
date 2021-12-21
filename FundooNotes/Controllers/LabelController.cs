@@ -21,8 +21,15 @@ namespace FundooNotes.Controllers
     [Route("api/[controller]")]
     public class LabelController : ControllerBase
     {
+        /// <summary>
+        /// Object created for ILabelManager
+        /// </summary>
         private readonly ILabelManager labelManager;
 
+        /// <summary>
+        /// Initializes a new instance of the NoteController class
+        /// </summary>
+        /// <param name="labelManager">parameter labelManager for ILabelManager</param>
         public LabelController(ILabelManager labelManager)
         {
             this.labelManager = labelManager;
@@ -96,16 +103,16 @@ namespace FundooNotes.Controllers
                 IEnumerable<LabelModel> result = this.labelManager.GetLabelByNoteId(NoteId);
                 if (result != null)
                 {
-                    return this.Ok(new ResponseModel<LabelModel> { Status = true, Message = "Labels Present in Notes Retrieved Successfully", Data = (LabelModel)result });
+                    return this.Ok(new{ Status = true, Message = "Labels Present in Notes Retrieved Successfully", Data = result });
                 }
                 else
                 {
-                    return this.BadRequest(new ResponseModel<LabelModel> { Status = false, Message = "Labels Not Available", Data = (LabelModel)result });
+                    return this.BadRequest(new { Status = false, Message = "Labels Not Available", Data = result });
                 }
             }
             catch (Exception ex)
             {
-                return this.NotFound(new ResponseModel<LabelModel> { Status = false, Message = ex.Message });
+                return this.NotFound(new { Status = false, Message = ex.Message });
             }
         }
 
@@ -123,16 +130,16 @@ namespace FundooNotes.Controllers
                 IEnumerable<LabelModel> result = this.labelManager.GetLabelByUserId(UserId);
                 if (result != null)
                 {
-                    return this.Ok(new ResponseModel<LabelModel> { Status = true, Message = "Labels Retrieved Successfully", Data = (LabelModel)result });
+                    return this.Ok(new { Status = true, Message = "Labels Retrieved Successfully", Data = result });
                 }
                 else
                 {
-                    return this.BadRequest(new ResponseModel<LabelModel> { Status = false, Message = "Labels Not Available", Data = (LabelModel)result });
+                    return this.BadRequest(new { Status = false, Message = "Labels Not Available", Data = result });
                 }
             }
             catch (Exception ex)
             {
-                return this.NotFound(new ResponseModel<LabelModel> { Status = false, Message = ex.Message });
+                return this.NotFound(new { Status = false, Message = ex.Message });
             }
         }
 
@@ -150,16 +157,16 @@ namespace FundooNotes.Controllers
                 IEnumerable<LabelModel> result = this.labelManager.GetNotesByLabelName(labelName);
                 if (result != null)
                 {
-                    return this.Ok(new ResponseModel<LabelModel> { Status = true, Message = "Notes Retrieved Successfully", Data = (LabelModel)result });
+                    return this.Ok(new { Status = true, Message = "Notes Retrieved Successfully", Data = result });
                 }
                 else
                 {
-                    return this.BadRequest(new ResponseModel<LabelModel> { Status = false, Message = "Notes Not Available", Data = (LabelModel)result });
+                    return this.BadRequest(new { Status = false, Message = "Notes Not Available", Data = result });
                 }
             }
             catch (Exception ex)
             {
-                return this.NotFound(new ResponseModel<LabelModel> { Status = false, Message = ex.Message });
+                return this.NotFound(new { Status = false, Message = ex.Message });
             }
         }
 

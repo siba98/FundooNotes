@@ -38,7 +38,7 @@ namespace FundooManager.Manager
         /// method for adding new note
         /// </summary>
         /// <param name="note">passing note parameter for NoteModel</param>
-        /// <returns>returns string type</returns>
+        /// <returns>returns the note that added</returns>
         public async Task<NoteModel> AddNote(NoteModel note)
         {
             try
@@ -55,7 +55,7 @@ namespace FundooManager.Manager
         /// method for edit the title and description of a note
         /// </summary>
         /// <param name="note">passing note parameter for NoteModel</param>
-        /// <returns>returns string type</returns>
+        /// <returns>returns updated note details</returns>
         public async Task<NoteModel> EditNote(NoteModel note)
         {
             try
@@ -73,7 +73,7 @@ namespace FundooManager.Manager
         /// </summary>
         /// <param name="NoteId">passing parameter as NoteId</param>
         /// <param name="Reminder">passing parameter as Reminder</param>
-        /// <returns></returns>
+        /// <returns>returns updated note that reminder added</returns>
         public async Task<NoteModel> AddReminder(int NoteId, string Reminder)
         {
             try
@@ -90,8 +90,8 @@ namespace FundooManager.Manager
         /// method for delete reminder from a note
         /// </summary>
         /// <param name="NoteId">passing parameter as NoteId</param>
-        /// <returns>returns string type</returns>
-        public async Task<NoteModel> DeleteReminder(int NoteId)
+        /// <returns>returns updated note that reminder deleted</returns>
+        public async Task<bool> DeleteReminder(int NoteId)
         {
             try
             {
@@ -108,7 +108,7 @@ namespace FundooManager.Manager
         /// </summary>
         /// <param name="NoteId">passing parameter as NoteId</param>
         /// <param name="Colour">passing parameter as Colour</param>
-        /// <returns>returns string type</returns>
+        /// <returns>returns colour updated details that changed in a note</returns>
         public async Task<NoteModel> EditColour(int NoteId, string Colour)
         {
             try
@@ -125,7 +125,7 @@ namespace FundooManager.Manager
         /// method for make a note pin or unpin
         /// </summary>
         /// <param name="NoteId">passing parameter as NoteId</param>
-        /// <returns>returns string type</returns>
+        /// <returns>returns the note that it is pin or unpin</returns>
         public async Task<string> PinOrUnPinnedNotes(int NoteId)
         {
             try
@@ -142,7 +142,7 @@ namespace FundooManager.Manager
         /// method for make a note Archive Or UnArchive
         /// </summary>
         /// <param name="NoteId">passing parameter as NoteId</param>
-        /// <returns>returns string type</returns>
+        /// <returns>returns the note that it is archive or unarchive</returns>
         public async Task<string> ArchiveOrUnArchiveNotes(int NoteId)
         {
             try
@@ -159,8 +159,8 @@ namespace FundooManager.Manager
         /// method for make a note Trash Or Restore
         /// </summary>
         /// <param name="NoteId">passing parameter as NoteId</param>
-        /// <returns>returns string type</returns>
-        public async Task<NoteModel> TrashNotes(int NoteId)
+        /// <returns>returns boolean value</returns>
+        public async Task<bool> TrashNotes(int NoteId)
         {
             try
             {
@@ -176,8 +176,8 @@ namespace FundooManager.Manager
         /// method for delete note from trash
         /// </summary>
         /// <param name="NoteId">passing parameter as NoteId</param>
-        /// <returns>returns string type</returns>
-        public async Task<NoteModel> DeleteNoteFromTrash(int NoteId)
+        /// <returns>returns boolean value</returns>
+        public async Task<bool> DeleteNoteFromTrash(int NoteId)
         {
             try
             {
@@ -193,7 +193,7 @@ namespace FundooManager.Manager
         /// method for restore notes from trash
         /// </summary>
         /// <param name="NoteId">passing parameter as NoteId</param>
-        /// <returns>returns string type</returns>
+        /// <returns>returns notes that restored from trash</returns>
         public async Task<NoteModel> RestoreNotesFromTrash(int NoteId)
         {
             try
@@ -205,7 +205,6 @@ namespace FundooManager.Manager
                 throw new Exception(ex.Message);
             }
         }
-
 
         /// <summary>
         /// method for getting all the archived notes
@@ -280,7 +279,7 @@ namespace FundooManager.Manager
         /// </summary>
         /// <param name="noteId">passing parameter as NoteId</param>
         /// <param name="image">passing parameter as image</param>
-        /// <returns></returns>
+        /// <returns>returns image uploaded details to the note</returns>
         public async Task<NoteModel> ImageUpload(int noteId, IFormFile image)
         {
             try

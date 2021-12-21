@@ -33,10 +33,10 @@ namespace FundooManager.Manager
         }
 
         /// <summary>
-        /// Register method for manager class
+        /// Register method for user registration
         /// </summary>
         /// <param name="userData">passing userData parameter for RegisterModel</param>
-        /// <returns>Returns string type</returns>
+        /// <returns>Returns user that registered</returns>
         public async Task<RegisterModel> Register(RegisterModel userData)
         {
             try
@@ -51,16 +51,16 @@ namespace FundooManager.Manager
         }
 
         /// <summary>
-        /// Login method for manager class
+        /// Login method for user login
         /// </summary>
         /// <param name="loginDetails">passing loginDetails parameter for LoginModel</param>
-        /// <returns>return string type</returns>
-        public async Task<LoginModel> Login(LoginModel loginDetails)
+        /// <returns>return login details of user</returns>
+        public async Task<LoginModel> Login(LoginModel loginData)
         {
             try
             {
-                loginDetails.Password = EncodePasswordToBase64(loginDetails.Password);
-                return await this.repository.Login(loginDetails);
+                loginData.Password = EncodePasswordToBase64(loginData.Password);
+                return await this.repository.Login(loginData);
             }
             catch (Exception ex)
             {
@@ -72,7 +72,7 @@ namespace FundooManager.Manager
         /// this function Convert to Encode the Password 
         /// </summary>
         /// <param name="Password">passing parameter as Password</param>
-        /// <returns>returns string type</returns>
+        /// <returns>returns encoded password</returns>
         public static string EncodePasswordToBase64(string Password)
         {
             try
@@ -92,7 +92,7 @@ namespace FundooManager.Manager
         /// method for reseting the password
         /// </summary>
         /// <param name="resetPassword">passing resetPassword parameter for ResetPasswordModel</param>
-        /// <returns>return string type</returns>
+        /// <returns>return users reset password details</returns>
         public async Task<ResetPasswordModel> ResetPassword(ResetPasswordModel resetPassword)
         {
             try
@@ -110,7 +110,7 @@ namespace FundooManager.Manager
         /// method for getting reset link for Forgot Password
         /// </summary>
         /// <param name="Email">passing parameter as Email</param>
-        /// <returns>returns string type</returns>
+        /// <returns>returns boolean value</returns>
         public async Task<bool> ForgotPassword(string Email)
         {
             try
@@ -127,7 +127,7 @@ namespace FundooManager.Manager
         /// method for generating a token for authorization of api's
         /// </summary>
         /// <param name="Email">passing parameter as Email</param>
-        /// <returns>returns string type</returns>
+        /// <returns>returns jwt token</returns>
         public string GenerateToken(string Email)
         {
             try
