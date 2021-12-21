@@ -39,14 +39,14 @@ namespace FundooRepository.Repository
         /// method for adding label
         /// </summary>
         /// <param name="labelModel">passing labelModel parameter for LabelModel</param>
-        /// <returns>Returns string type</returns>
-        public async Task<string> AddLabel(LabelModel labelModel)
+        /// <returns>Returns the label that added</returns>
+        public async Task<LabelModel> AddLabel(LabelModel labelModel)
         {
             try
             {
                 this.context.Labels.Add(labelModel);
                 await this.context.SaveChangesAsync();
-                return "Label Added Successfully";
+                return labelModel;
             }
             catch (ArgumentNullException ex)
             {
@@ -64,8 +64,6 @@ namespace FundooRepository.Repository
             try
             {
                 IEnumerable<LabelModel> LabelList = this.context.Labels.Where(x => x.NoteId == NoteId).ToList();
-                //var LabelList = from g in Note.NoteId
-                //                join m in Label.LabelId on g.Label
                 if (LabelList.Count() != 0)
                 {
                     return LabelList;
@@ -104,19 +102,19 @@ namespace FundooRepository.Repository
         /// method for deleting the label
         /// </summary>
         /// <param name="LabelId">passing parameter as LabelId</param>
-        /// <returns>returns string type</returns>
-        public async Task<string> DeleteLabel(int LabelId)
+        /// <returns>returns boolean type</returns>
+        public async Task<bool> DeleteLabel(int LabelId)
         {
             try
             {
-                var labelExist = await this.context.Labels.Where(x => x.LabelId == LabelId).SingleOrDefaultAsync();
-                if (labelExist != null)
+                var validLabel = await this.context.Labels.Where(x => x.LabelId == LabelId).SingleOrDefaultAsync();
+                if (validLabel != null)
                 {
-                    this.context.Labels.Remove(labelExist);
+                    this.context.Labels.Remove(validLabel);
                     await this.context.SaveChangesAsync();
-                    return "Label Deleted Successfully";
+                    return true;
                 }
-                return "Label Not Exist";
+                return false;
             }
             catch (ArgumentNullException ex)
             {
@@ -128,19 +126,19 @@ namespace FundooRepository.Repository
         /// method for removing label from note
         /// </summary>
         /// <param name="LabelId">passing parameter as LabelId</param>
-        /// <returns>returns string type</returns>
-        public async Task<string> RemoveLabelFromNote(int LabelId)
+        /// <returns>returns boolean type</returns>
+        public async Task<bool> RemoveLabelFromNote(int LabelId)
         {
             try
             {
-                var labelExist = await this.context.Labels.Where(x => x.LabelId == LabelId).SingleOrDefaultAsync();
-                if (labelExist != null)
+                var validLabel = await this.context.Labels.Where(x => x.LabelId == LabelId).SingleOrDefaultAsync();
+                if (validLabel != null)
                 {
-                    labelExist.NoteId = null;
+                    validLabel.NoteId = null;
                     await this.context.SaveChangesAsync();
-                    return "Label Removed From Note Successfully";
+                    return true;
                 }
-                return "Label Not Exist";
+                return false;
             }
             catch (ArgumentNullException ex)
             {
@@ -183,20 +181,20 @@ namespace FundooRepository.Repository
         /// </summary>
         /// <param name="LabelId">passing parameter as LabelId</param>
         /// <param name="Label">passing parameter as Label</param>
-        /// <returns>returns string type</returns>
-        public async Task<string> RenameLabel(int LabelId, string Label)
+        /// <returns>returns the label name that renamed</returns>
+        public async Task<LabelModel> RenameLabel(int LabelId, string Label)
         {
             try
             {
-                var labelExist = await this.context.Labels.Where(x => x.LabelId == LabelId).SingleOrDefaultAsync();
-                if (labelExist != null)
+                var validLabel = await this.context.Labels.Where(x => x.LabelId == LabelId).SingleOrDefaultAsync();
+                if (validLabel != null)
                 {
-                    labelExist.Label = Label;
-                    this.context.Labels.Update(labelExist);
+                    validLabel.Label = Label;
+                    this.context.Labels.Update(validLabel);
                     await this.context.SaveChangesAsync();
-                    return "Label name Successfully Renamed";
+                    return validLabel;
                 }
-                return "Label not Exist";
+                return null;
             }
             catch (ArgumentNullException ex)
             {

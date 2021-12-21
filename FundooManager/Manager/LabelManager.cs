@@ -37,8 +37,8 @@ namespace FundooManager.Manager
         /// method for adding label
         /// </summary>
         /// <param name="labelModel">passing labelModel parameter for LabelModel</param>
-        /// <returns>Returns string type</returns>
-        public async Task<string> AddLabel(LabelModel labelModel)
+        /// <returns>Returns the label that added</returns>
+        public async Task<LabelModel> AddLabel(LabelModel labelModel)
         {
             try
             {
@@ -105,8 +105,8 @@ namespace FundooManager.Manager
         /// method for deleting the label
         /// </summary>
         /// <param name="LabelId">passing parameter as LabelId</param>
-        /// <returns>returns string type</returns>
-        public async Task<string> DeleteLabel(int LabelId)
+        /// <returns>returns boolean value</returns>
+        public async Task<bool> DeleteLabel(int LabelId)
         {
             try
             {
@@ -122,8 +122,8 @@ namespace FundooManager.Manager
         /// method for removing label from note
         /// </summary>
         /// <param name="LabelId">passing parameter as LabelId</param>
-        /// <returns>returns string type</returns>
-        public async Task<string> RemoveLabelFromNote(int LabelId)
+        /// <returns>returns boolean value</returns>
+        public async Task<bool> RemoveLabelFromNote(int LabelId)
         {
             try
             {
@@ -140,8 +140,8 @@ namespace FundooManager.Manager
         /// </summary>
         /// <param name="LabelId">passing parameter as LabelId</param>
         /// <param name="Label">passing parameter as Label</param>
-        /// <returns></returns>
-        public async Task<string> RenameLabel(int LabelId, string Label)
+        /// <returns>returns the label name that renamed</returns>
+        public async Task<LabelModel> RenameLabel(int LabelId, string Label)
         {
             try
             {
