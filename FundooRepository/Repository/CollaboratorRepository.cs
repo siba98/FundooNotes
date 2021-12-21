@@ -5,7 +5,6 @@
 // <creator name="A Siba Patro"/>
 // --------------------------------------------------------------------------------------------------------------------
 
-
 namespace FundooRepository.Repository
 {
     using System;
@@ -40,14 +39,14 @@ namespace FundooRepository.Repository
         /// method for adding collaborator
         /// </summary>
         /// <param name="collaborator">passing collaborator parameter for CollaboratorModel</param>
-        /// <returns>returns string type</returns>
-        public async Task<string> AddCollaborator(CollaboratorModel collaborator)
+        /// <returns>returns the collaborator that added</returns>
+        public async Task<CollaboratorModel> AddCollaborator(CollaboratorModel collaborator)
         {
             try
             {
                 this.context.Collaborator.Add(collaborator);
                 await this.context.SaveChangesAsync();
-                return "Collaborator Added Successfully";
+                return collaborator;
             }
             catch (ArgumentNullException ex)
             {
@@ -59,19 +58,19 @@ namespace FundooRepository.Repository
         /// method for deleteing label from note
         /// </summary>
         /// <param name="CollaboratorId">passing parameter as CollaboratorId</param>
-        /// <returns>returns string type</returns>
-        public async Task<string> DeleteCollaborator(int CollaboratorId)
+        /// <returns>returns boolean value</returns>
+        public async Task<bool> DeleteCollaborator(int CollaboratorId)
         {
             try
             {
-                var collaboratorExist = await this.context.Collaborator.Where(x => x.CollaboratorId == CollaboratorId).SingleOrDefaultAsync();
-                if (collaboratorExist != null)
+                var validCollaboratorExist = await this.context.Collaborator.Where(x => x.CollaboratorId == CollaboratorId).SingleOrDefaultAsync();
+                if (validCollaboratorExist != null)
                 {
-                    this.context.Collaborator.Remove(collaboratorExist);
+                    this.context.Collaborator.Remove(validCollaboratorExist);
                     await this.context.SaveChangesAsync();
-                    return "Collaborator Deleted Successfully";
+                    return true;
                 }
-                return "Collaborator Not Exist";
+                return false;
             }
             catch (ArgumentNullException ex)
             {

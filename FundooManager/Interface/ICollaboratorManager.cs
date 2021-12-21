@@ -6,8 +6,8 @@ namespace FundooManager.Interface
 {
     public interface ICollaboratorManager
     {
-        Task<string> AddCollaborator(CollaboratorModel collaborator);
-        Task<string> DeleteCollaborator(int CollaboratorId);
+        Task<CollaboratorModel> AddCollaborator(CollaboratorModel collaborator);
+        Task<bool> DeleteCollaborator(int CollaboratorId);
         IEnumerable<CollaboratorModel> GetCollaborator(int NoteId);
     }
 }

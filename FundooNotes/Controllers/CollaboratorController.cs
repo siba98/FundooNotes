@@ -46,19 +46,19 @@ namespace FundooNotes.Controllers
         {
             try
             {
-                string message = await this.collaboratorManager.AddCollaborator(collaborator);
-                if (message.Equals("Collaborator Added Successfully"))
+                var result = await this.collaboratorManager.AddCollaborator(collaborator);
+                if (result != null)
                 {
-                    return this.Ok(new { Status = true, Message = message });
+                    return this.Ok(new ResponseModel<CollaboratorModel> { Status = true, Message = "Collaborator Successfully Added", Data = result });
                 }
                 else
                 {
-                    return this.BadRequest(new { Status = false, Message = message });
+                    return this.BadRequest(new ResponseModel<CollaboratorModel> { Status = false, Message = "Adding Collaborator Unsuccessful", Data = result });
                 }
             }
             catch (Exception ex)
             {
-                return this.NotFound(new { Status = false, ex.Message });
+                return this.NotFound(new ResponseModel<CollaboratorModel> { Status = false, Message = ex.Message });
             }
         }
 
@@ -73,19 +73,19 @@ namespace FundooNotes.Controllers
         {
             try
             {
-                string message = await this.collaboratorManager.DeleteCollaborator(CollaboratorId);
-                if (message.Equals("Collaborator ID Deleted Successfully"))
+                var result = await this.collaboratorManager.DeleteCollaborator(CollaboratorId);
+                if (result == true)
                 {
-                    return this.Ok(new { Status = true, Message = message });
+                    return this.Ok(new ResponseModel<bool> { Status = true, Message = "Collaborator Deleted Successfully", Data = result });
                 }
                 else
                 {
-                    return this.BadRequest(new { Status = false, Message = message });
+                    return this.BadRequest(new ResponseModel<bool> { Status = false, Message = "Delete Collaborator Unsuccessful", Data = result });
                 }
             }
             catch (Exception ex)
             {
-                return this.NotFound(new { Status = false, ex.Message });
+                return this.NotFound(new ResponseModel<bool> { Status = false, Message = ex.Message });
             }
         }
 
@@ -103,7 +103,7 @@ namespace FundooNotes.Controllers
                 IEnumerable<CollaboratorModel> result = this.collaboratorManager.GetCollaborator(NoteId);
                 if (result != null)
                 {
-                    return this.Ok(new { Status = true, Message = "Collaborators ID Retrieved Successfully", Data = result });
+                    return this.Ok(new  { Status = true, Message = "Collaborators ID Retrieved Successfully", Data = result });
                 }
                 else
                 {

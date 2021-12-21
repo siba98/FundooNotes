@@ -37,8 +37,8 @@ namespace FundooManager.Manager
         /// method for adding collaborator
         /// </summary>
         /// <param name="collaborator">passing collaborator parameter for CollaboratorModel</param>
-        /// <returns>returns string type</returns>
-        public async Task<string> AddCollaborator(CollaboratorModel collaborator)
+        /// <returns>returns the collaborator that added</returns>
+        public async Task<CollaboratorModel> AddCollaborator(CollaboratorModel collaborator)
         {
             try
             {
@@ -54,8 +54,8 @@ namespace FundooManager.Manager
         /// method for deleteing label from note
         /// </summary>
         /// <param name="CollaboratorId">passing parameter as CollaboratorId</param>
-        /// <returns>returns string type</returns>
-        public async Task<string> DeleteCollaborator(int CollaboratorId)
+        /// <returns>returns boolean value</returns>
+        public async Task<bool> DeleteCollaborator(int CollaboratorId)
         {
             try
             {
