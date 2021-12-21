@@ -126,7 +126,7 @@ namespace FundooNotes.Contollers
                     };
 
                     string tokenString = this.manager.GenerateToken(loginData.Email);
-                    return this.Ok(new { Status = true, Message = "login successful", Data = data, Token = tokenString, Data2 = result });
+                    return this.Ok(new { Status = true, Message = "login successful", Data = data, Token = tokenString, Output = result });
                 }
                 else
                 {
