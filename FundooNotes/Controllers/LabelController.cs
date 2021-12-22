@@ -54,7 +54,7 @@ namespace FundooNotes.Controllers
                 }
                 else
                 {
-                    return this.BadRequest(new { Status = false, Message = "Unable to Add Label" });
+                    return this.BadRequest(new { Status = false, Message = "Label Already Exists" });
                 }
             }
             catch (Exception ex)

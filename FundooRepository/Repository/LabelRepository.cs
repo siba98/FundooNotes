@@ -45,9 +45,15 @@ namespace FundooRepository.Repository
         {
             try
             {
-                this.context.Labels.Add(labelModel);
-                await this.context.SaveChangesAsync();
-                return labelModel;
+                var validLabel = await this.context.Labels.Where(x => x.Label == labelModel.Label).SingleOrDefaultAsync();
+                if (validLabel == null)
+                {
+                    this.context.Labels.Add(labelModel);
+                    await this.context.SaveChangesAsync();
+                    return labelModel;
+                }
+
+                return null;
             }
             catch (ArgumentNullException ex)
             {
