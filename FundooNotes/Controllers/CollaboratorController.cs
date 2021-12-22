@@ -54,7 +54,7 @@ namespace FundooNotes.Controllers
                 }
                 else
                 {
-                    return this.BadRequest(new { Status = false, Message = "Adding Collaborator Unsuccessful" });
+                    return this.BadRequest(new { Status = false, Message = "Collaborator Already Exist" });
                 }
             }
             catch (Exception ex)
