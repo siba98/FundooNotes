@@ -56,12 +56,12 @@ namespace FundooNotes.Controllers
                 }
                 else
                 {
-                    return this.BadRequest(new ResponseModel<NoteModel> { Status = false, Message = "Note Adding Unsuccessful", Data = result });
+                    return this.BadRequest(new { Status = false, Message = "Note Adding Unsuccessful" });
                 }
             }
             catch (Exception ex)
             {
-                return this.NotFound(new ResponseModel<NoteModel> { Status = false, Message = ex.Message });
+                return this.NotFound(new { Status = false, ex.Message });
             }
         }
 
@@ -83,7 +83,7 @@ namespace FundooNotes.Controllers
                 }
                 else
                 {
-                    return this.BadRequest(new ResponseModel<NoteModel> { Status = false, Message = "Note Edit Unsuccessful", Data = result });
+                    return this.BadRequest(new { Status = false, Message = "Note Edit Unsuccessful" });
                 }
             }
             catch (Exception ex)
@@ -111,12 +111,12 @@ namespace FundooNotes.Controllers
                 }
                 else
                 {
-                    return this.BadRequest(new ResponseModel<NoteModel> { Status = false, Message = "Reminder Adding Unsuccessful", Data = result });
+                    return this.BadRequest(new { Status = false, Message = "Reminder Adding Unsuccessful" });
                 }
             }
             catch (Exception ex)
             {
-                return this.NotFound(new ResponseModel<NoteModel> { Status = false, Message = ex.Message });
+                return this.NotFound(new { Status = false, ex.Message });
             }
         }
 
@@ -131,19 +131,19 @@ namespace FundooNotes.Controllers
         {
             try
             {
-                bool result = await this.noteManager.DeleteReminder(NoteId);
-                if (result == true)
+                var result = await this.noteManager.DeleteReminder(NoteId);
+                if (result != null)
                 {
-                    return this.Ok(new ResponseModel<bool> { Status = true, Message = "Reminder Deleted Successfully", Data = result });
+                    return this.Ok(new ResponseModel<NoteModel> { Status = true, Message = "Reminder Deleted Successfully", Data = result });
                 }
                 else
                 {
-                    return this.BadRequest(new ResponseModel<bool> { Status = false, Message = "Unable to Delete Reminder ", Data = result });
+                    return this.BadRequest(new { Status = false, Message = "Unable to Delete Reminder " });
                 }
             }
             catch (Exception ex)
             {
-                return this.NotFound(new ResponseModel<bool> { Status = false, Message = ex.Message });
+                return this.NotFound(new { Status = false, ex.Message });
             }
         }
 
@@ -166,12 +166,12 @@ namespace FundooNotes.Controllers
                 }
                 else
                 {
-                    return this.BadRequest(new ResponseModel<NoteModel> { Status = false, Message = "Colour Not Updated", Data = result });
+                    return this.BadRequest(new { Status = false, Message = "Colour Not Updated" });
                 }
             }
             catch (Exception ex)
             {
-                return this.NotFound(new ResponseModel<NoteModel> { Status = false, Message = ex.Message });
+                return this.NotFound(new { Status = false, ex.Message });
             }
         }
 
@@ -240,19 +240,19 @@ namespace FundooNotes.Controllers
         {
             try
             {
-                bool result = await this.noteManager.TrashNotes(NoteId);
-                if (result == true)
+                var result = await this.noteManager.TrashNotes(NoteId);
+                if (result != null)
                 {
-                    return this.BadRequest(new ResponseModel<bool> { Status = false, Message = "Note Trashed Successfully", Data = result });
+                    return this.Ok(new ResponseModel<NoteModel> { Status = true, Message = "Note Trashed Successfully", Data = result });
                 }
                 else
                 {
-                    return this.Ok(new ResponseModel<bool> { Status = true, Message = "Unable to Trash Note", Data = result });
+                    return this.BadRequest(new { Status = false, Message = "Failed to Trash Note" });
                 }
             }
             catch (Exception ex)
             {
-                return this.NotFound(new ResponseModel<bool> { Status = false, Message = ex.Message });
+                return this.NotFound(new { Status = false, ex.Message });
             }
         }
 
@@ -267,19 +267,19 @@ namespace FundooNotes.Controllers
         {
             try
             {
-                bool result = await this.noteManager.DeleteNoteFromTrash(NoteId);
+                var result = await this.noteManager.DeleteNoteFromTrash(NoteId);
                 if (result == true)
                 {
-                    return this.Ok(new ResponseModel<bool> { Status = true, Message = "Note Deleted Forever from Trash Successfully", Data = result });
+                    return this.Ok(new { Status = true, Message = "Note Deleted Forever from Trash Successfully", Data = result });
                 }
                 else
                 {
-                    return this.BadRequest(new ResponseModel<bool> { Status = false, Message = "Unable to Delete Note from Trash", Data = result });
+                    return this.BadRequest(new { Status = false, Message = "Unable to Delete Note from Trash" });
                 }
             }
             catch (Exception ex)
             {
-                return this.NotFound(new ResponseModel<bool> { Status = false, Message = ex.Message });
+                return this.NotFound(new { Status = false, ex.Message });
             }
         }
 
@@ -301,12 +301,12 @@ namespace FundooNotes.Controllers
                 }
                 else
                 {
-                    return this.BadRequest(new ResponseModel<NoteModel> { Status = false, Message = "Unable to Restore Note Trash", Data = result });
+                    return this.BadRequest(new { Status = false, Message = "Unable to Restore Note Trash" });
                 }
             }
             catch (Exception ex)
             {
-                return this.NotFound(new ResponseModel<NoteModel> { Status = false, Message = ex.Message });
+                return this.NotFound(new { Status = false, ex.Message });
             }
         }
 
@@ -329,12 +329,12 @@ namespace FundooNotes.Controllers
                 }
                 else
                 {
-                    return this.BadRequest(new ResponseModel<NoteModel> { Status = false, Message = "Unable to Upload Image", Data = result });
+                    return this.BadRequest(new { Status = false, Message = "Unable to Upload Image" });
                 }
             }
             catch (Exception ex)
             {
-                return this.NotFound(new ResponseModel<NoteModel> { Status = false, Message = ex.Message });
+                return this.NotFound(new { Status = false, ex.Message });
             }
         }
 
@@ -361,7 +361,7 @@ namespace FundooNotes.Controllers
             }
             catch (Exception ex)
             {
-                return this.NotFound(new { Status = false, Message = ex.Message });
+                return this.NotFound(new { Status = false, ex.Message });
             }
         }
 
@@ -388,7 +388,7 @@ namespace FundooNotes.Controllers
             }
             catch (Exception ex)
             {
-                return this.NotFound(new { Status = false, Message = ex.Message });
+                return this.NotFound(new { Status = false, ex.Message });
             }
         }
 
@@ -415,7 +415,7 @@ namespace FundooNotes.Controllers
             }
             catch (Exception ex)
             {
-                return this.NotFound(new { Status = false, Message = ex.Message });
+                return this.NotFound(new { Status = false, ex.Message });
             }
         }
 
@@ -442,7 +442,7 @@ namespace FundooNotes.Controllers
             }
             catch (Exception ex)
             {
-                return this.NotFound(new { Status = false, Message = ex.Message });
+                return this.NotFound(new { Status = false, ex.Message });
             }
         }
     }

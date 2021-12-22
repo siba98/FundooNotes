@@ -122,7 +122,7 @@ namespace FundooRepository.Repository
         /// </summary>
         /// <param name="NoteId">passing parameter as NoteId</param>
         /// <returns>returns updated note that reminder deleted</returns>
-        public async Task<bool> DeleteReminder(int NoteId)
+        public async Task<NoteModel> DeleteReminder(int NoteId)
         {
             try
             {
@@ -131,9 +131,9 @@ namespace FundooRepository.Repository
                 {
                     validNote.Reminder = null;
                     await this.context.SaveChangesAsync();
-                    return true;
+                    return validNote;
                 }
-                return false;
+                return null;
             }
             catch (ArgumentNullException ex)
             {
@@ -253,7 +253,7 @@ namespace FundooRepository.Repository
         /// </summary>
         /// <param name="NoteId">passing parameter as NoteId</param>
         /// <returns>returns boolean value</returns>
-        public async Task<bool> TrashNotes(int NoteId)
+        public async Task<NoteModel> TrashNotes(int NoteId)
         {
             try
             {
@@ -267,11 +267,11 @@ namespace FundooRepository.Repository
                         availNote.Pin = false;
                         this.context.Note.Update(availNote);
                         await this.context.SaveChangesAsync();
-                        return true;
+                        return availNote;
                     }
-                    return false;
+                    return null;
                 }
-                return false;
+                return null;
             }
             catch (ArgumentNullException ex)
             {

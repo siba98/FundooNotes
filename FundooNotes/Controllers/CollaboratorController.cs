@@ -53,12 +53,12 @@ namespace FundooNotes.Controllers
                 }
                 else
                 {
-                    return this.BadRequest(new ResponseModel<CollaboratorModel> { Status = false, Message = "Adding Collaborator Unsuccessful", Data = result });
+                    return this.BadRequest(new { Status = false, Message = "Adding Collaborator Unsuccessful" });
                 }
             }
             catch (Exception ex)
             {
-                return this.NotFound(new ResponseModel<CollaboratorModel> { Status = false, Message = ex.Message });
+                return this.NotFound(new { Status = false, ex.Message });
             }
         }
 
@@ -76,16 +76,16 @@ namespace FundooNotes.Controllers
                 var result = await this.collaboratorManager.DeleteCollaborator(CollaboratorId);
                 if (result == true)
                 {
-                    return this.Ok(new ResponseModel<bool> { Status = true, Message = "Collaborator Deleted Successfully", Data = result });
+                    return this.Ok(new { Status = true, Message = "Collaborator Deleted Successfully", Data = result });
                 }
                 else
                 {
-                    return this.BadRequest(new ResponseModel<bool> { Status = false, Message = "Delete Collaborator Unsuccessful", Data = result });
+                    return this.BadRequest(new { Status = false, Message = "Delete Collaborator Unsuccessful" });
                 }
             }
             catch (Exception ex)
             {
-                return this.NotFound(new ResponseModel<bool> { Status = false, Message = ex.Message });
+                return this.NotFound(new { Status = false, ex.Message });
             }
         }
 
@@ -103,11 +103,11 @@ namespace FundooNotes.Controllers
                 IEnumerable<CollaboratorModel> result = this.collaboratorManager.GetCollaborator(NoteId);
                 if (result != null)
                 {
-                    return this.Ok(new  { Status = true, Message = "Collaborators ID Retrieved Successfully", Data = result });
+                    return this.Ok(new { Status = true, Message = "Collaborators ID Retrieved Successfully", Data = result });
                 }
                 else
                 {
-                    return this.BadRequest(new { Status = false, Message = "Collaboratos ID Not Available", Data = result });
+                    return this.BadRequest(new { Status = false, Message = "Collaboratos ID Not Available" });
                 }
             }
             catch (Exception ex)

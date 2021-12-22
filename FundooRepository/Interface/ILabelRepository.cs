@@ -48,8 +48,8 @@ namespace FundooRepository.Interface
         /// method for removing label from note
         /// </summary>
         /// <param name="LabelId">passing parameter as LabelId</param>
-        /// <returns>returns boolean value</returns>
-        Task<bool> RemoveLabelFromNote(int LabelId);
+        /// <returns>returns from where the label removed </returns>
+        Task<LabelModel> RemoveLabelFromNote(int LabelId);
 
         /// <summary>
         /// method for rename label according to label id

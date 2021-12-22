@@ -53,12 +53,12 @@ namespace FundooNotes.Controllers
                 }
                 else
                 {
-                    return this.BadRequest(new ResponseModel<LabelModel> { Status = false, Message = "Unable to Add Label", Data = result });
+                    return this.BadRequest(new { Status = false, Message = "Unable to Add Label" });
                 }
             }
             catch (Exception ex)
             {
-                return this.NotFound(new ResponseModel<LabelModel> { Status = false, Message = ex.Message });
+                return this.NotFound(new { Status = false, ex.Message });
             }
         }
 
@@ -76,16 +76,16 @@ namespace FundooNotes.Controllers
                 bool result = await this.labelManager.DeleteLabel(LabelId);
                 if (result == true)
                 {
-                    return this.Ok(new ResponseModel<bool> { Status = true, Message = "Label Deleted Successfully", Data = result });
+                    return this.Ok(new { Status = true, Message = "Label Deleted Successfully" });
                 }
                 else
                 {
-                    return this.BadRequest(new ResponseModel<bool> { Status = false, Message = "Label Delete Unsuccessful", Data = result });
+                    return this.BadRequest(new { Status = false, Message = "Label Delete Unsuccessful" });
                 }
             }
             catch (Exception ex)
             {
-                return this.NotFound(new ResponseModel<bool> { Status = false, Message = ex.Message });
+                return this.NotFound(new { Status = false, ex.Message });
             }
         }
 
@@ -103,16 +103,16 @@ namespace FundooNotes.Controllers
                 IEnumerable<LabelModel> result = this.labelManager.GetLabelByNoteId(NoteId);
                 if (result != null)
                 {
-                    return this.Ok(new{ Status = true, Message = "Labels Present in Notes Retrieved Successfully", Data = result });
+                    return this.Ok(new { Status = true, Message = "Labels Present in Notes Retrieved Successfully", Data = result });
                 }
                 else
                 {
-                    return this.BadRequest(new { Status = false, Message = "Labels Not Available", Data = result });
+                    return this.BadRequest(new { Status = false, Message = "Labels Not Available" });
                 }
             }
             catch (Exception ex)
             {
-                return this.NotFound(new { Status = false, Message = ex.Message });
+                return this.NotFound(new { Status = false, ex.Message });
             }
         }
 
@@ -123,23 +123,23 @@ namespace FundooNotes.Controllers
         /// <returns>response status from api</returns>
         [HttpGet]
         [Route("getLabelByUserId")]
-        public IActionResult GetLabelByUserId(int UserId)
+        public IActionResult GetLabelByUserId(int userId)
         {
             try
             {
-                IEnumerable<LabelModel> result = this.labelManager.GetLabelByUserId(UserId);
+                IEnumerable<LabelModel> result = this.labelManager.GetLabelByUserId(userId);
                 if (result != null)
                 {
                     return this.Ok(new { Status = true, Message = "Labels Retrieved Successfully", Data = result });
                 }
                 else
                 {
-                    return this.BadRequest(new { Status = false, Message = "Labels Not Available", Data = result });
+                    return this.BadRequest(new { Status = false, Message = "Labels Not Available" });
                 }
             }
             catch (Exception ex)
             {
-                return this.NotFound(new { Status = false, Message = ex.Message });
+                return this.NotFound(new { Status = false, ex.Message });
             }
         }
 
@@ -161,12 +161,12 @@ namespace FundooNotes.Controllers
                 }
                 else
                 {
-                    return this.BadRequest(new { Status = false, Message = "Notes Not Available", Data = result });
+                    return this.BadRequest(new { Status = false, Message = "Notes Not Available" });
                 }
             }
             catch (Exception ex)
             {
-                return this.NotFound(new { Status = false, Message = ex.Message });
+                return this.NotFound(new { Status = false, ex.Message });
             }
         }
 
@@ -181,19 +181,19 @@ namespace FundooNotes.Controllers
         {
             try
             {
-                bool result = await this.labelManager.RemoveLabelFromNote(LabelId);
-                if (result == true)
+                var result = await this.labelManager.RemoveLabelFromNote(LabelId);
+                if (result != null)
                 {
-                    return this.Ok(new ResponseModel<bool> { Status = true, Message = "Label Successfull Removed from Note", Data = result });
+                    return this.Ok(new ResponseModel<LabelModel> { Status = true, Message = "Label Successfull Removed from Note", Data = result });
                 }
                 else
                 {
-                    return this.BadRequest(new ResponseModel<bool> { Status = false, Message = "Label Removed from Note UnSuccessful", Data = result });
+                    return this.BadRequest(new { Status = false, Message = "Label Removed from Note UnSuccessful" });
                 }
             }
             catch (Exception ex)
             {
-                return this.NotFound(new ResponseModel<bool> { Status = false, Message = ex.Message });
+                return this.NotFound(new { Status = false, ex.Message });
             }
         }
 
@@ -205,23 +205,23 @@ namespace FundooNotes.Controllers
         /// <returns>response status from api</returns>
         [HttpPut]
         [Route("renameLabel")]
-        public async Task<IActionResult> RenameLabel(int LabelId, string Label)
+        public async Task<IActionResult> RenameLabel(int labelId, string label)
         {
             try
             {
-                var result = await this.labelManager.RenameLabel(LabelId, Label);
+                var result = await this.labelManager.RenameLabel(labelId, label);
                 if (result != null)
                 {
                     return this.Ok(new ResponseModel<LabelModel> { Status = true, Message = "Label Renamed Successfully", Data = result });
                 }
                 else
                 {
-                    return this.BadRequest(new ResponseModel<LabelModel> { Status = false, Message = "Label Reanme Unsuccessful", Data = result });
+                    return this.BadRequest(new { Status = false, Message = "Label Reanme Unsuccessful" });
                 }
             }
             catch (Exception ex)
             {
-                return this.NotFound(new ResponseModel<LabelModel> { Status = false, Message = ex.Message });
+                return this.NotFound(new { Status = false, ex.Message });
             }
         }
     }

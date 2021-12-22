@@ -44,7 +44,7 @@ namespace FundooRepository.Interface
         /// </summary>
         /// <param name="NoteId">passing parameter as NoteId</param>
         /// <returns>returns updated note that reminder deleted</returns>
-        Task<bool> DeleteReminder(int NoteId);
+        Task<NoteModel> DeleteReminder(int NoteId);
 
         /// <summary>
         /// method for edit colour for a note
@@ -72,8 +72,8 @@ namespace FundooRepository.Interface
         /// method for make a note Trash
         /// </summary>
         /// <param name="NoteId">passing parameter as NoteId</param>
-        /// <returns>returns boolean value</returns>
-        Task<bool> TrashNotes(int NoteId);
+        /// <returns>returns note that trashed</returns>
+        Task<NoteModel> TrashNotes(int NoteId);
 
         /// <summary>
         /// method for delete note from trash

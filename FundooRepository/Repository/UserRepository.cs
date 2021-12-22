@@ -18,11 +18,11 @@ namespace FundooRepository.Repository
     using FundooModels;
     using FundooRepository.Context;
     using FundooRepository.Interface;
+    using IDatabase = StackExchange.Redis.IDatabase;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.IdentityModel.Tokens;
     using StackExchange.Redis;
-    using IDatabase = StackExchange.Redis.IDatabase;
 
     /// <summary>
     /// UserRepository class for User Api's
@@ -67,6 +67,7 @@ namespace FundooRepository.Repository
                     await this.context.SaveChangesAsync();
                     return userData;
                 }
+
                 return null;
 
             }
@@ -99,8 +100,10 @@ namespace FundooRepository.Repository
                         database.StringSet(key: "UserId", checkEmail.UserId.ToString());
                         return loginData;
                     }
+
                     return null;
                 }
+
                 return null;
             }
             catch (ArgumentNullException ex)
@@ -126,6 +129,7 @@ namespace FundooRepository.Repository
                     await this.context.SaveChangesAsync();
                     return resetPassword;
                 }
+
                 return null;
             }
             catch (ArgumentNullException ex)
@@ -181,6 +185,7 @@ namespace FundooRepository.Repository
                     SmtpServer.Send(mail);
                     return true;
                 }
+
                 return false;
             }
             catch (Exception ex)
@@ -203,6 +208,7 @@ namespace FundooRepository.Repository
             {
                 msgqueue = MessageQueue.Create(@".\Private$\Fundoo");
             }
+
             msgqueue.Formatter = new XmlMessageFormatter(new Type[] { typeof(string) });
             string body = "This is Password reset link.";
             msgqueue.Label = "Mail Body";

@@ -78,18 +78,18 @@ namespace FundooNotes.Contollers
                     var name = HttpContext.Session.GetString(SessionName);
                     var email = HttpContext.Session.GetString(SessionEmail);
                     this.logger.LogInformation(userData.FirstName + " has successfully Registered");
-                    return this.Ok(new ResponseModel<string> { Status = true, Message = "User Registered Successfully", Data = "Session details(FirstName, LastName, EmailId): "+name+" "+email });
+                    return this.Ok(new ResponseModel<RegisterModel> { Status = true, Message = "User Registered Successfully", Data = result }); //SessionData = "Session details(FirstName, LastName, EmailId): "+name+" "+email,
                 }
                 else
                 {
                     this.logger.LogInformation(userData.FirstName + " registration was unsuccessful");
-                    return this.BadRequest(new ResponseModel<string> { Status = false, Message = "User Registration is UnSuccessful" });
+                    return this.BadRequest(new { Status = false, Message = "User Registration is UnSuccessful" });
                 }
             }
             catch (Exception ex)
             {
                 this.logger.LogInformation(userData.FirstName + " had exception while registering : " + ex.Message);
-                return this.NotFound(new ResponseModel<string> { Status = false, Message = ex.Message });
+                return this.NotFound(new { Status = false, ex.Message });
             }
         }
 
@@ -130,13 +130,13 @@ namespace FundooNotes.Contollers
                 else
                 {
                     this.logger.LogInformation(loginData.Email + " Login was unsuccessful");
-                    return this.BadRequest(new ResponseModel<LoginModel> { Status = false, Message = "login unsuccessful" });
+                    return this.BadRequest(new { Status = false, Message = "login unsuccessful" });
                 }
             }
             catch (Exception ex)
             {
                 this.logger.LogInformation(loginData.Email + " had exception while login : " + ex.Message);
-                return this.NotFound(new ResponseModel<LoginModel> { Status = false, Message = ex.Message });
+                return this.NotFound(new { Status = false, ex.Message });
             }
         }
 
@@ -161,13 +161,13 @@ namespace FundooNotes.Contollers
                 else
                 {
                     this.logger.LogInformation(resetPassword.Email + " Failed to reset the Password ");
-                    return this.BadRequest(new ResponseModel<ResetPasswordModel> { Status = false, Message = "Password Reset UnSuccessful" });
+                    return this.BadRequest(new { Status = false, Message = "Password Reset UnSuccessful" });
                 }
             }
             catch (Exception ex)
             {
                 this.logger.LogInformation(resetPassword.Email + " had exception while reseting the Password : " + ex.Message);
-                return this.NotFound(new ResponseModel<ResetPasswordModel> { Status = false, Message = ex.Message });
+                return this.NotFound(new { Status = false, ex.Message });
             }
         }
 
@@ -187,18 +187,18 @@ namespace FundooNotes.Contollers
                 if (result == true)
                 {
                     this.logger.LogInformation(Email + " link has sent to given gmail to reset password successfully");
-                    return this.Ok(new ResponseModel<bool> { Status = true, Message = "Link sent for reseting the password", Data = result }) ;
+                    return this.Ok(new { Status = true, Message = "Link sent for reseting the password" }) ;
                 }
                 else
                 {
                     this.logger.LogInformation(Email + " unable to sent the link! Email Id not exist");
-                    return this.BadRequest(new ResponseModel<bool> { Status = false, Message = "unable to sent link" });
+                    return this.BadRequest(new { Status = false, Message = "unable to sent link" });
                 }
             }
             catch (Exception ex)
             {
                 this.logger.LogInformation(Email + " had exception while sending link to the mail : " + ex.Message);
-                return this.NotFound(new ResponseModel<bool> { Status = false, Message = ex.Message });
+                return this.NotFound(new { Status = false, ex.Message });
             }
         }
     }

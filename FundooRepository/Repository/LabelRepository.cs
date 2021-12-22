@@ -126,8 +126,8 @@ namespace FundooRepository.Repository
         /// method for removing label from note
         /// </summary>
         /// <param name="LabelId">passing parameter as LabelId</param>
-        /// <returns>returns boolean type</returns>
-        public async Task<bool> RemoveLabelFromNote(int LabelId)
+        /// <returns>returns object from where the label removed </returns>
+        public async Task<LabelModel> RemoveLabelFromNote(int LabelId)
         {
             try
             {
@@ -136,9 +136,9 @@ namespace FundooRepository.Repository
                 {
                     validLabel.NoteId = null;
                     await this.context.SaveChangesAsync();
-                    return true;
+                    return validLabel;
                 }
-                return false;
+                return null;
             }
             catch (ArgumentNullException ex)
             {

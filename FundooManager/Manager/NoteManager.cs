@@ -91,7 +91,7 @@ namespace FundooManager.Manager
         /// </summary>
         /// <param name="NoteId">passing parameter as NoteId</param>
         /// <returns>returns updated note that reminder deleted</returns>
-        public async Task<bool> DeleteReminder(int NoteId)
+        public async Task<NoteModel> DeleteReminder(int NoteId)
         {
             try
             {
@@ -156,11 +156,11 @@ namespace FundooManager.Manager
         }
 
         /// <summary>
-        /// method for make a note Trash Or Restore
+        /// method for make a note Trash
         /// </summary>
         /// <param name="NoteId">passing parameter as NoteId</param>
-        /// <returns>returns boolean value</returns>
-        public async Task<bool> TrashNotes(int NoteId)
+        /// <returns>returns note that trashed</returns>
+        public async Task<NoteModel> TrashNotes(int NoteId)
         {
             try
             {

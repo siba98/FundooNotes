@@ -122,8 +122,8 @@ namespace FundooManager.Manager
         /// method for removing label from note
         /// </summary>
         /// <param name="LabelId">passing parameter as LabelId</param>
-        /// <returns>returns boolean value</returns>
-        public async Task<bool> RemoveLabelFromNote(int LabelId)
+        /// <returns>returns from where the label removed </returns>
+        public async Task<LabelModel> RemoveLabelFromNote(int LabelId)
         {
             try
             {
