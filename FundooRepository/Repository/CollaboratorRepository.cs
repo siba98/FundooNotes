@@ -45,9 +45,15 @@ namespace FundooRepository.Repository
         {
             try
             {
-                this.context.Collaborator.Add(collaboratorDetails);
-                await this.context.SaveChangesAsync();
-                return collaboratorDetails;
+                var checkEmail = await this.context.Collaborator.Where(x => x.Email == collaboratorDetails.Email).SingleOrDefaultAsync();
+                if (checkEmail == null)
+                {
+                    this.context.Collaborator.Add(collaboratorDetails);
+                    await this.context.SaveChangesAsync();
+                    return collaboratorDetails;
+                }
+
+                return null;
             }
             catch (ArgumentNullException ex)
             {
