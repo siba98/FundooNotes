@@ -15,10 +15,11 @@ namespace FundooNotes.Controllers
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
-   
+
     /// <summary>
     /// NoteController class for Notes API implementation
     /// </summary>
+    /// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
     [Authorize]
     [ApiController]
     [Route("api/[controller]")]
@@ -30,9 +31,9 @@ namespace FundooNotes.Controllers
         private readonly INoteManager noteManager;
 
         /// <summary>
-        /// Initializes a new instance of the NoteController class
+        /// Initializes a new instance of the <see cref="NoteController"/> class.
         /// </summary>
-        /// <param name="noteManager">parameter noteManager for INoteManager</param>
+        /// <param name="noteManager">The note manager.</param>
         public NoteController(INoteManager noteManager)
         {
             this.noteManager = noteManager;

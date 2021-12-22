@@ -17,8 +17,9 @@ namespace FundooRepository.Repository
     using Microsoft.EntityFrameworkCore;
 
     /// <summary>
-    /// LabelRepository class for Label Api's
+    /// class LabelRepository
     /// </summary>
+    /// <seealso cref="FundooRepository.Interface.ILabelRepository" />
     public class LabelRepository : ILabelRepository
     {
         /// <summary>
@@ -27,9 +28,9 @@ namespace FundooRepository.Repository
         private readonly UserContext context;
 
         /// <summary>
-        /// Initializes a new instance of the LabelRepository class
+        /// Initializes a new instance of the <see cref="LabelRepository"/> class.
         /// </summary>
-        /// <param name="context">taking context as parameter</param>
+        /// <param name="context">The context.</param>
         public LabelRepository(UserContext context)
         {
             this.context = context;
@@ -57,17 +58,18 @@ namespace FundooRepository.Repository
         /// <summary>
         /// method for getting all the labels by note id
         /// </summary>
-        /// <param name="NoteId">passing parameter as NoteId</param>
+        /// <param name="noteId">passing parameter as NoteId</param>
         /// <returns>returns all the labels</returns>
-        public IEnumerable<LabelModel> GetLabelByNoteId(int NoteId)
+        public IEnumerable<LabelModel> GetLabelByNoteId(int noteId)
         {
             try
             {
-                IEnumerable<LabelModel> LabelList = this.context.Labels.Where(x => x.NoteId == NoteId).ToList();
-                if (LabelList.Count() != 0)
+                IEnumerable<LabelModel> labelList = this.context.Labels.Where(x => x.NoteId == noteId).ToList();
+                if (labelList.Count() != 0)
                 {
-                    return LabelList;
+                    return labelList;
                 }
+
                 return null;
             }
             catch (ArgumentNullException ex)
@@ -79,17 +81,18 @@ namespace FundooRepository.Repository
         /// <summary>
         /// method for getting all the labels by user id
         /// </summary>
-        /// <param name="UserId">passing parameter as UserId</param>
+        /// <param name="userId">passing parameter as UserId</param>
         /// <returns>returns all the labels</returns>
-        public IEnumerable<LabelModel> GetLabelByUserId(int UserId)
+        public IEnumerable<LabelModel> GetLabelByUserId(int userId)
         {
             try
             {
-                IEnumerable<LabelModel> LabelList = this.context.Labels.Where(x => x.UserId == UserId).ToList();
-                if (LabelList.Count() != 0)
+                IEnumerable<LabelModel> labelList = this.context.Labels.Where(x => x.UserId == userId).ToList();
+                if (labelList.Count() != 0)
                 {
-                    return LabelList;
+                    return labelList;
                 }
+
                 return null;
             }
             catch (ArgumentNullException ex)
@@ -101,19 +104,20 @@ namespace FundooRepository.Repository
         /// <summary>
         /// method for deleting the label
         /// </summary>
-        /// <param name="LabelId">passing parameter as LabelId</param>
+        /// <param name="labelId">passing parameter as LabelId</param>
         /// <returns>returns boolean type</returns>
-        public async Task<bool> DeleteLabel(int LabelId)
+        public async Task<bool> DeleteLabel(int labelId)
         {
             try
             {
-                var validLabel = await this.context.Labels.Where(x => x.LabelId == LabelId).SingleOrDefaultAsync();
+                var validLabel = await this.context.Labels.Where(x => x.LabelId == labelId).SingleOrDefaultAsync();
                 if (validLabel != null)
                 {
                     this.context.Labels.Remove(validLabel);
                     await this.context.SaveChangesAsync();
                     return true;
                 }
+
                 return false;
             }
             catch (ArgumentNullException ex)
@@ -125,19 +129,20 @@ namespace FundooRepository.Repository
         /// <summary>
         /// method for removing label from note
         /// </summary>
-        /// <param name="LabelId">passing parameter as LabelId</param>
+        /// <param name="labelId">passing parameter as LabelId</param>
         /// <returns>returns object from where the label removed </returns>
-        public async Task<LabelModel> RemoveLabelFromNote(int LabelId)
+        public async Task<LabelModel> RemoveLabelFromNote(int labelId)
         {
             try
             {
-                var validLabel = await this.context.Labels.Where(x => x.LabelId == LabelId).SingleOrDefaultAsync();
+                var validLabel = await this.context.Labels.Where(x => x.LabelId == labelId).SingleOrDefaultAsync();
                 if (validLabel != null)
                 {
                     validLabel.NoteId = null;
                     await this.context.SaveChangesAsync();
                     return validLabel;
                 }
+
                 return null;
             }
             catch (ArgumentNullException ex)
@@ -149,25 +154,18 @@ namespace FundooRepository.Repository
         /// <summary>
         /// method for getting all the notes by label name
         /// </summary>
-        /// <param name="Label">passing parameter as Label</param>
+        /// <param name="label">passing parameter as Label</param>
         /// <returns>returns all the notes</returns>
-        public IEnumerable<LabelModel> GetNotesByLabelName(string Label)
+        public IEnumerable<LabelModel> GetNotesByLabelName(string label)
         {
             try
             {
-                IEnumerable<LabelModel> LabelExist = this.context.Labels.Where(x => x.Label == Label).ToList();
-                //var result = from d in Note
-                //             join s in Lebel
-                //             on d.NoteId equals s.NoteId into g
-                //             select new
-                //             {
-                //                 DepartmentName = d.DepartmentName,
-                //                 Students = g
-                //             };
-                if (LabelExist.Count() != 0)
+                IEnumerable<LabelModel> labelExist = this.context.Labels.Where(x => x.Label == label).ToList();
+                if (labelExist.Count() != 0)
                 {
-                    return LabelExist;
+                    return labelExist;
                 }
+
                 return null;
             }
             catch (ArgumentNullException ex)
@@ -179,21 +177,22 @@ namespace FundooRepository.Repository
         /// <summary>
         /// method for rename label according to label id
         /// </summary>
-        /// <param name="LabelId">passing parameter as LabelId</param>
-        /// <param name="Label">passing parameter as Label</param>
+        /// <param name="labelId">passing parameter as LabelId</param>
+        /// <param name="label">passing parameter as Label</param>
         /// <returns>returns the label name that renamed</returns>
-        public async Task<LabelModel> RenameLabel(int LabelId, string Label)
+        public async Task<LabelModel> RenameLabel(int labelId, string label)
         {
             try
             {
-                var validLabel = await this.context.Labels.Where(x => x.LabelId == LabelId).SingleOrDefaultAsync();
+                var validLabel = await this.context.Labels.Where(x => x.LabelId == labelId).SingleOrDefaultAsync();
                 if (validLabel != null)
                 {
-                    validLabel.Label = Label;
+                    validLabel.Label = label;
                     this.context.Labels.Update(validLabel);
                     await this.context.SaveChangesAsync();
                     return validLabel;
                 }
+
                 return null;
             }
             catch (ArgumentNullException ex)

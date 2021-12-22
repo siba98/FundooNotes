@@ -17,8 +17,9 @@ namespace FundooRepository.Repository
     using Microsoft.EntityFrameworkCore;
 
     /// <summary>
-    /// CollaboratorRepository class for Collaborator Api's
+    /// class CollaboratorRepository
     /// </summary>
+    /// <seealso cref="FundooRepository.Interface.ICollaboratorRepository" />
     public class CollaboratorRepository : ICollaboratorRepository
     {
         /// <summary>
@@ -27,9 +28,9 @@ namespace FundooRepository.Repository
         private readonly UserContext context;
 
         /// <summary>
-        /// Initializes a new instance of the CollaboratorRepository class
+        /// Initializes a new instance of the <see cref="CollaboratorRepository"/> class.
         /// </summary>
-        /// <param name="context">taking context as parameter</param>
+        /// <param name="context">The context.</param>
         public CollaboratorRepository(UserContext context)
         {
             this.context = context;
@@ -40,13 +41,13 @@ namespace FundooRepository.Repository
         /// </summary>
         /// <param name="collaborator">passing collaborator parameter for CollaboratorModel</param>
         /// <returns>returns the collaborator that added</returns>
-        public async Task<CollaboratorModel> AddCollaborator(CollaboratorModel collaborator)
+        public async Task<CollaboratorModel> AddCollaborator(CollaboratorModel collaboratorDetails)
         {
             try
             {
-                this.context.Collaborator.Add(collaborator);
+                this.context.Collaborator.Add(collaboratorDetails);
                 await this.context.SaveChangesAsync();
-                return collaborator;
+                return collaboratorDetails;
             }
             catch (ArgumentNullException ex)
             {
@@ -55,21 +56,22 @@ namespace FundooRepository.Repository
         }
 
         /// <summary>
-        /// method for deleteing label from note
+        /// method for deleting label from note
         /// </summary>
-        /// <param name="CollaboratorId">passing parameter as CollaboratorId</param>
+        /// <param name="collaboratorId">passing parameter as CollaboratorId</param>
         /// <returns>returns boolean value</returns>
-        public async Task<bool> DeleteCollaborator(int CollaboratorId)
+        public async Task<bool> DeleteCollaborator(int collaboratorId)
         {
             try
             {
-                var validCollaboratorExist = await this.context.Collaborator.Where(x => x.CollaboratorId == CollaboratorId).SingleOrDefaultAsync();
+                var validCollaboratorExist = await this.context.Collaborator.Where(x => x.CollaboratorId == collaboratorId).SingleOrDefaultAsync();
                 if (validCollaboratorExist != null)
                 {
                     this.context.Collaborator.Remove(validCollaboratorExist);
                     await this.context.SaveChangesAsync();
                     return true;
                 }
+
                 return false;
             }
             catch (ArgumentNullException ex)
@@ -81,17 +83,18 @@ namespace FundooRepository.Repository
         /// <summary>
         /// method for getting all the collaborator id's
         /// </summary>
-        /// <param name="NoteId">passing parameter as NoteId</param>
+        /// <param name="noteId">passing parameter as noteId</param>
         /// <returns>returns all the collaborators</returns>
-        public IEnumerable<CollaboratorModel> GetCollaborator(int NoteId)
+        public IEnumerable<CollaboratorModel> GetCollaborator(int noteId)
         {
             try
             {
-                IEnumerable<CollaboratorModel> CollaboratorList = this.context.Collaborator.Where(x => x.NoteId == NoteId).ToList();
-                if (CollaboratorList.Count() != 0)
+                IEnumerable<CollaboratorModel> collaboratorList = this.context.Collaborator.Where(x => x.NoteId == noteId).ToList();
+                if (collaboratorList.Count() != 0)
                 {
-                    return CollaboratorList;
+                    return collaboratorList;
                 }
+
                 return null;
             }
             catch (ArgumentNullException ex)

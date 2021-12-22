@@ -14,19 +14,28 @@ namespace FundooModels
     public class ResponseModel<T>
     {
         /// <summary>
-        /// gets or sets a value according to the status as true or false
+        /// Gets or sets a value indicating whether this <see cref="ResponseModel{T}"/> is status.
         /// </summary>
+        /// <value>
+        ///   <c>true</c> if status; otherwise, <c>false</c>.
+        /// </value>
         public bool Status { get; set; }
 
         /// <summary>
-        /// gets or sets the message as string
+        /// Gets or sets the message.
         /// </summary>
+        /// <value>
+        /// The message.
+        /// </value>
         public string Message { get; set; }
 
         /// <summary>
         /// gets or sets a data as given type
         /// data is optional whenever needed data is returned
         /// </summary>
+        /// <value>
+        /// The data.
+        /// </value>
         public T Data { get; set; }
     }
 }

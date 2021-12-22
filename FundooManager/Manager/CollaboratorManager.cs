@@ -17,6 +17,7 @@ namespace FundooManager.Manager
     /// <summary>
     /// CollaboratorManager class for Collaborator Api's
     /// </summary>
+    /// <seealso cref="FundooManager.Interface.ICollaboratorManager" />
     public class CollaboratorManager : ICollaboratorManager
     {
         /// <summary>

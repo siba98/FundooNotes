@@ -20,6 +20,7 @@ namespace FundooNotes.Contollers
     /// <summary>
     /// UserController class for Users API implementation
     /// </summary>
+    /// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
     [ApiController]
     [Route("api/[controller]")]
     public class UserController : ControllerBase
@@ -46,11 +47,11 @@ namespace FundooNotes.Contollers
         private readonly ILogger<UserController> logger;
 
         /// <summary>
-        /// Initializes a new instance of the UserController class
+        /// Initializes a new instance of the <see cref="UserController"/> class.
         /// </summary>
-        /// <param name="manager">parameter manager for IUserManager</param>
-        /// <param name="logger">parameter logger for ILogger</param>
-        /// <param name="configuration">parameter configuration for IConfiguration</param>
+        /// <param name="manager">The manager.</param>
+        /// <param name="logger">The logger.</param>
+        /// <param name="configuration">The configuration.</param>
         public UserController(IUserManager manager, ILogger<UserController> logger, IConfiguration configuration)
         {
             this.manager = manager;

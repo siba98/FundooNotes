@@ -25,8 +25,9 @@ namespace FundooRepository.Repository
     using StackExchange.Redis;
 
     /// <summary>
-    /// UserRepository class for User Api's
+    /// class UserRepository
     /// </summary>
+    /// <seealso cref="FundooRepository.Interface.IUserRepository" />
     public class UserRepository : IUserRepository
     {
         /// <summary>
@@ -41,10 +42,10 @@ namespace FundooRepository.Repository
         private readonly IConfiguration configuration;
 
         /// <summary>
-        /// Initializes a new instance of the UserRepository class
+        /// Initializes a new instance of the <see cref="UserRepository"/> class.
         /// </summary>
-        /// <param name="context">taking context as parameter</param>
-        /// <param name="configuration">taking configuration as parameter</param>
+        /// <param name="context">The context.</param>
+        /// <param name="configuration">The configuration.</param>
         public UserRepository(UserContext context, IConfiguration configuration)
         {
             this.context = context;
@@ -69,7 +70,6 @@ namespace FundooRepository.Repository
                 }
 
                 return null;
-
             }
             catch (ArgumentNullException ex)
             {
@@ -113,7 +113,7 @@ namespace FundooRepository.Repository
         }
 
         /// <summary>
-        /// method for reseting the password
+        /// method for reset the password
         /// </summary>
         /// <param name="resetPassword">passing resetPassword parameter for ResetPasswordModel</param>
         /// <returns>return users reset password details</returns>
@@ -216,7 +216,7 @@ namespace FundooRepository.Repository
         }
 
         /// <summary>
-        /// method for recieving message
+        /// method for recieve message
         /// </summary>
         /// <returns>returns string msg</returns>
         public string RecieveMSMQ()

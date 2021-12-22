@@ -16,6 +16,7 @@ namespace FundooManager.Manager
     /// <summary>
     /// User Manager Class for User Api's
     /// </summary>
+    /// <seealso cref="FundooManager.Interface.IUserManager" />
     public class UserManager : IUserManager
     {
         /// <summary>

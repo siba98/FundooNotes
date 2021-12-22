@@ -17,6 +17,7 @@ namespace FundooManager.Manager
     /// <summary>
     /// LabelManager class for Label Api's
     /// </summary>
+    /// <seealso cref="FundooManager.Interface.ILabelManager" />
     public class LabelManager:ILabelManager
     {
         /// <summary>

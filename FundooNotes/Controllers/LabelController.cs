@@ -17,6 +17,7 @@ namespace FundooNotes.Controllers
     /// <summary>
     /// LabelController class for Labels API implementation
     /// </summary>
+    /// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
     [ApiController]
     [Route("api/[controller]")]
     public class LabelController : ControllerBase
@@ -27,9 +28,9 @@ namespace FundooNotes.Controllers
         private readonly ILabelManager labelManager;
 
         /// <summary>
-        /// Initializes a new instance of the NoteController class
+        /// Initializes a new instance of the <see cref="LabelController"/> class.
         /// </summary>
-        /// <param name="labelManager">parameter labelManager for ILabelManager</param>
+        /// <param name="labelManager">The label manager.</param>
         public LabelController(ILabelManager labelManager)
         {
             this.labelManager = labelManager;

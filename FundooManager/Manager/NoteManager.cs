@@ -18,6 +18,7 @@ namespace FundooManager.Manager
     /// <summary>
     /// NoteManager class for Note Api's
     /// </summary>
+    /// <seealso cref="FundooManager.Interface.INoteManager" />
     public class NoteManager : INoteManager
     {
         /// <summary>

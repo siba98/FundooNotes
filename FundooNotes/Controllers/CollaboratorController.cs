@@ -17,6 +17,7 @@ namespace FundooNotes.Controllers
     /// <summary>
     /// Controller class for collaborators API implementation 
     /// </summary>
+    /// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
     [ApiController]
     [Route("api/[controller]")]
     public class CollaboratorController : ControllerBase
@@ -27,9 +28,9 @@ namespace FundooNotes.Controllers
         private readonly ICollaboratorManager collaboratorManager;
 
         /// <summary>
-        /// Initializes a new instance of the CollaboratorController class
+        /// Initializes a new instance of the <see cref="CollaboratorController"/> class.
         /// </summary>
-        /// <param name="collaboratorManager">parameter collaboratorManager for ICollaboratorManager</param>
+        /// <param name="collaboratorManager">The collaborator manager.</param>
         public CollaboratorController(ICollaboratorManager collaboratorManager)
         {
             this.collaboratorManager = collaboratorManager;
@@ -76,7 +77,7 @@ namespace FundooNotes.Controllers
                 var result = await this.collaboratorManager.DeleteCollaborator(CollaboratorId);
                 if (result == true)
                 {
-                    return this.Ok(new { Status = true, Message = "Collaborator Deleted Successfully", Data = result });
+                    return this.Ok(new { Status = true, Message = "Collaborator Deleted Successfully" });
                 }
                 else
                 {
