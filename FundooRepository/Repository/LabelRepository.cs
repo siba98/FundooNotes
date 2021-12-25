@@ -61,6 +61,26 @@ namespace FundooRepository.Repository
             }
         }
 
+        public async Task<LabelModel> AddLabelToNoteId(LabelModel labelModel)
+        {
+            try
+            {
+                var validLabel = await this.context.Labels.Where(x => x.Label == labelModel.Label).SingleOrDefaultAsync();
+                if (validLabel == null)
+                {
+                    this.context.Labels.Add(labelModel);
+                    await this.context.SaveChangesAsync();
+                    return labelModel;
+                }
+
+                return null;
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         /// <summary>
         /// method for getting all the labels by note id
         /// </summary>

@@ -56,7 +56,7 @@ namespace FundooRepository.Repository
         {
             try
             {
-                if (noteDetails != null)
+                if (noteDetails.Title != null || noteDetails.Description != null || noteDetails.Reminder != null || noteDetails.Image != null)
                 {
                     this.context.Note.Add(noteDetails);
                     await this.context.SaveChangesAsync();
@@ -274,19 +274,14 @@ namespace FundooRepository.Repository
             try
             {
                 var availNote = await this.context.Note.Where(x => x.NoteId == noteId).SingleOrDefaultAsync();
-                if (availNote != null)
+                if ((availNote != null && availNote.Pin == true) || (availNote != null && availNote.Archive == true))
                 {
                     availNote.Trash = true;
-                    if (availNote.Pin == true)
-                    {
-                        availNote.Trash = true;
-                        availNote.Pin = false;
-                        this.context.Note.Update(availNote);
-                        await this.context.SaveChangesAsync();
-                        return availNote;
-                    }
-
-                    return null;
+                    availNote.Pin = false;
+                    availNote.Archive = false;
+                    this.context.Note.Update(availNote);
+                    await this.context.SaveChangesAsync();
+                    return availNote;
                 }
 
                 return null;

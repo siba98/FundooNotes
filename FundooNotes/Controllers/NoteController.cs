@@ -126,7 +126,7 @@ namespace FundooNotes.Controllers
         /// </summary>
         /// <param name="NoteId">passing parameter as NoteId</param>
         /// <returns>response status from api</returns>
-        [HttpDelete]
+        [HttpPut]
         [Route("deleteReminder")]
         public async Task<IActionResult> DeleteReminder(int NoteId)
         {
@@ -235,7 +235,7 @@ namespace FundooNotes.Controllers
         /// </summary>
         /// <param name="NoteId">passing parameter as NoteId</param>
         /// <returns>response status from api</returns>
-        [HttpDelete]
+        [HttpPut]
         [Route("trashNotes")]
         public async Task<IActionResult> TrashNotes(int NoteId)
         {

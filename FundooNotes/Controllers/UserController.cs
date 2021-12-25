@@ -97,7 +97,7 @@ namespace FundooNotes.Contollers
         /// <summary>
         /// Login Api for user
         /// </summary>
-        /// <param name="loginDetails">passing loginDetails parameter for LoginModel</param>
+        /// <param name="loginData">passing loginData parameter for LoginModel</param>
         /// <returns>response status from api</returns>
         [HttpPost]
         [Route("login")]
@@ -107,7 +107,7 @@ namespace FundooNotes.Contollers
             {
                 this.logger.LogInformation(loginData.Email + " is trying to Login");
                 var result = await this.manager.Login(loginData);
-                if(result != null)
+                if (result != null)
                 {
                     this.logger.LogInformation(loginData.Email + " is successfully Logged in");
                     ConnectionMultiplexer connectionMultiplexer = ConnectionMultiplexer.Connect(this.configuration["RedisServerUrl"]);
@@ -146,7 +146,7 @@ namespace FundooNotes.Contollers
         /// </summary>
         /// <param name="resetPassword">passing resetPassword parameter for ResetPasswordModel</param>
         /// <returns>response status from api</returns>
-        [HttpPost]
+        [HttpPut]
         [Route("resetPassword")]
         public async Task<IActionResult> Resetpassword(ResetPasswordModel resetPassword)
         {

@@ -8,8 +8,8 @@
 namespace FundooRepository.Repository
 {
     using System;
-    using System.Linq;
     using System.IdentityModel.Tokens.Jwt;
+    using System.Linq;
     using System.Net.Mail;
     using System.Security.Claims;
     using System.Text;
@@ -18,7 +18,6 @@ namespace FundooRepository.Repository
     using FundooModels;
     using FundooRepository.Context;
     using FundooRepository.Interface;
-    using IDatabase = StackExchange.Redis.IDatabase;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.IdentityModel.Tokens;
@@ -50,6 +49,26 @@ namespace FundooRepository.Repository
         {
             this.context = context;
             this.configuration = configuration;
+        }
+
+        /// <summary>
+        /// this function Convert to Encode the Password 
+        /// </summary>
+        /// <param name="password">passing parameter as password</param>
+        /// <returns>returns encoded password</returns>
+        public static string EncodePasswordToBase64(string Password)
+        {
+            try
+            {
+                byte[] encData_byte = new byte[Password.Length];
+                encData_byte = System.Text.Encoding.UTF8.GetBytes(Password);
+                string encodedData = Convert.ToBase64String(encData_byte);
+                return encodedData;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in base64Encode" + ex.Message);
+            }
         }
 
         /// <summary>
@@ -86,12 +105,12 @@ namespace FundooRepository.Repository
         {
             try
             {
-                var checkEmail = await this.context.Users.Where(x => x.Email == loginData.Email).SingleOrDefaultAsync();
+                var checkEmail = await this.context.Users.Where(x => x.Email == loginData.Email && x.Password == loginData.Password).SingleOrDefaultAsync();
                 if (checkEmail != null)
                 {
-                    var checkPassword = await this.context.Users.Where(x => x.Email == loginData.Email && x.Password == loginData.Password).SingleOrDefaultAsync();
-                    if (checkPassword != null)
-                    {
+                    //var checkPassword = await this.context.Users.Where(x => x.Email == loginData.Email && x.Password == loginData.Password).SingleOrDefaultAsync();
+                    //if (checkPassword != null)
+                    //{
                         ConnectionMultiplexer connectionMultiplexer = ConnectionMultiplexer.Connect(this.configuration["RedisServerUrl"]);
                         IDatabase database = connectionMultiplexer.GetDatabase();
                         database.StringSet(key: "First Name", checkEmail.FirstName);
@@ -99,9 +118,9 @@ namespace FundooRepository.Repository
                         database.StringSet(key: "Email", checkEmail.Email);
                         database.StringSet(key: "UserId", checkEmail.UserId.ToString());
                         return loginData;
-                    }
+                    //}
 
-                    return null;
+                    //return null;
                 }
 
                 return null;
@@ -111,6 +130,7 @@ namespace FundooRepository.Repository
                 throw new Exception(ex.Message);
             }
         }
+
 
         /// <summary>
         /// method for reset the password
@@ -139,50 +159,30 @@ namespace FundooRepository.Repository
         }
 
         /// <summary>
-        /// this function Convert to Encode the Password 
-        /// </summary>
-        /// <param name="Password">passing parameter as Password</param>
-        /// <returns>returns encoded password</returns>
-        public static string EncodePasswordToBase64(string Password)
-        {
-            try
-            {
-                byte[] encData_byte = new byte[Password.Length];
-                encData_byte = System.Text.Encoding.UTF8.GetBytes(Password);
-                string encodedData = Convert.ToBase64String(encData_byte);
-                return encodedData;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error in base64Encode" + ex.Message);
-            }
-        }
-
-        /// <summary>
         /// method for getting reset link for Forgot Password
         /// </summary>
-        /// <param name="Email">passing parameter as Email</param>
+        /// <param name="email">passing parameter as email</param>
         /// <returns>returns boolean value</returns>
-        public async Task<bool> ForgotPassword(string Email)
+        public async Task<bool> ForgotPassword(string email)
         {
             try
             {
-                var checkEmail = await this.context.Users.Where(x => x.Email == Email).SingleOrDefaultAsync();
+                var checkEmail = await this.context.Users.Where(x => x.Email == email).SingleOrDefaultAsync();
                 if (checkEmail != null)
                 {
                     MailMessage mail = new MailMessage();
-                    SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+                    SmtpClient smtpServer = new SmtpClient("smtp.gmail.com");
 
                     mail.From = new MailAddress(this.configuration["Credentials:Email"]);
-                    mail.To.Add(Email);
+                    mail.To.Add(email);
                     SendMSMQ();
                     mail.Body = RecieveMSMQ();
 
-                    SmtpServer.Port = 587;
-                    SmtpServer.Credentials = new System.Net.NetworkCredential(this.configuration["Credentials:Email"], this.configuration["Credentials:Password"]);
-                    SmtpServer.EnableSsl = true;
+                    smtpServer.Port = 587;
+                    smtpServer.Credentials = new System.Net.NetworkCredential(this.configuration["Credentials:Email"], this.configuration["Credentials:Password"]);
+                    smtpServer.EnableSsl = true;
 
-                    SmtpServer.Send(mail);
+                    smtpServer.Send(mail);
                     return true;
                 }
 
@@ -218,7 +218,7 @@ namespace FundooRepository.Repository
         /// <summary>
         /// method for recieve message
         /// </summary>
-        /// <returns>returns string msg</returns>
+        /// <returns>returns string message</returns>
         public string RecieveMSMQ()
         {
             MessageQueue msgqueue = new MessageQueue(@".\Private$\Fundoo");
@@ -228,9 +228,9 @@ namespace FundooRepository.Repository
         }
 
         /// <summary>
-        /// method for generating a token for authorization of api's
+        /// method for generating a token for authorization
         /// </summary>
-        /// <param name="Email">passing parameter as Email</param>
+        /// <param name="email">passing parameter as Email</param>
         /// <returns>returns jwt token</returns>
         public string GenerateToken(string Email)
         {

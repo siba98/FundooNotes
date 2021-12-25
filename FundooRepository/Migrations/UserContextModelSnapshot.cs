@@ -113,6 +113,7 @@ namespace FundooRepository.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FirstName")
@@ -122,6 +123,7 @@ namespace FundooRepository.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UserId");
@@ -131,7 +133,7 @@ namespace FundooRepository.Migrations
 
             modelBuilder.Entity("FundooModels.CollaboratorModel", b =>
                 {
-                    b.HasOne("FundooModels.NoteModel", "note")
+                    b.HasOne("FundooModels.NoteModel", "Note")
                         .WithMany()
                         .HasForeignKey("NoteId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -140,11 +142,11 @@ namespace FundooRepository.Migrations
 
             modelBuilder.Entity("FundooModels.LabelModel", b =>
                 {
-                    b.HasOne("FundooModels.NoteModel", "note")
+                    b.HasOne("FundooModels.NoteModel", "Note")
                         .WithMany()
                         .HasForeignKey("NoteId");
 
-                    b.HasOne("FundooModels.RegisterModel", "user")
+                    b.HasOne("FundooModels.RegisterModel", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -153,7 +155,7 @@ namespace FundooRepository.Migrations
 
             modelBuilder.Entity("FundooModels.NoteModel", b =>
                 {
-                    b.HasOne("FundooModels.RegisterModel", "user")
+                    b.HasOne("FundooModels.RegisterModel", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

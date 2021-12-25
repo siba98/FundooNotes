@@ -25,7 +25,7 @@ namespace FundooRepository.Interface
         /// <summary>
         /// Login method for user login
         /// </summary>
-        /// <param name="loginDetails">passing loginDetails parameter for LoginModel</param>
+        /// <param name="loginData">passing loginData parameter for LoginModel</param>
         /// <returns>return login details of user</returns>
         Task<LoginModel> Login(LoginModel loginData);
 
