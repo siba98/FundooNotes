@@ -257,8 +257,11 @@ namespace FundooRepository.Repository
                     this.context.Note.Update(validNote);
                     await this.context.SaveChangesAsync();
                 }
+                else
+                {
+                    message = "Note Not Exist";
+                }
 
-                message = "Note Not Exist";
                 return message;
             }
             catch (ArgumentNullException ex)

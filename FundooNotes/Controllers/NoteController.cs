@@ -215,13 +215,13 @@ namespace FundooNotes.Controllers
             try
             {
                 string message = await this.noteManager.ArchiveOrUnArchiveNotes(NoteId);
-                if (message.Equals("Note Not Exist"))
+                if (message != ("Note Not Exist"))
                 {
-                    return this.BadRequest(new { Status = false, Message = message });
+                    return this.Ok(new { Status = true, Message = message });
                 }
                 else
                 {
-                    return this.Ok(new { Status = true, Message = message });
+                    return this.BadRequest(new { Status = false, Message = message });
                 }
             }
             catch (Exception ex)
