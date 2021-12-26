@@ -20,7 +20,7 @@ namespace FundooNotes.Controllers
     /// NoteController class for Notes API implementation
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
-    [Authorize]
+    //[Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class NoteController : ControllerBase
@@ -188,13 +188,13 @@ namespace FundooNotes.Controllers
             try
             {
                 string message = await this.noteManager.PinOrUnPinnedNotes(NoteId);
-                if (message.Equals("Note Not Exist"))
+                if (message != ("Note Not Exist"))
                 {
-                    return this.BadRequest(new { Status = false, Message = message });
+                    return this.Ok(new { Status = true, Message = message });
                 }
                 else
                 {
-                    return this.Ok(new { Status = true, Message = message });
+                    return this.BadRequest(new { Status = false, Message = message });
                 }
             }
             catch (Exception ex)
@@ -353,7 +353,7 @@ namespace FundooNotes.Controllers
                 IEnumerable<NoteModel> result = this.noteManager.GetArchive(UserId);
                 if (result != null)
                 {
-                    return this.Ok(new { Status = true, Message = "Archive Notes Retrieved Successfully" });
+                    return this.Ok(new { Status = true, Message = "Archive Notes Retrieved Successfully", Data = result });
                 }
                 else
                 {
@@ -380,7 +380,7 @@ namespace FundooNotes.Controllers
                 IEnumerable<NoteModel> result = this.noteManager.GetNotes(UserId);
                 if (result != null)
                 {
-                    return this.Ok(new { Status = true, Message = "All Notes Retrived Successfully" });
+                    return this.Ok(new { Status = true, Message = "All Notes Retrived Successfully", Data = result });
                 }
                 else
                 {
@@ -407,7 +407,7 @@ namespace FundooNotes.Controllers
                 IEnumerable<NoteModel> result = this.noteManager.GetTrash(UserId);
                 if (result != null)
                 {
-                    return this.Ok(new { Status = true, Message = "Notes retrieved from the trash successfully" });
+                    return this.Ok(new { Status = true, Message = "Notes retrieved from the trash successfully", Data = result });
                 }
                 else
                 {
@@ -434,7 +434,7 @@ namespace FundooNotes.Controllers
                 IEnumerable<NoteModel> result = this.noteManager.GetReminders(UserId);
                 if (result != null)
                 {
-                    return this.Ok(new { Status = true, Message = "Reminder For Notes Retrieved Successfully" });
+                    return this.Ok(new { Status = true, Message = "Reminder For Notes Retrieved Successfully", Data = result });
                 }
                 else
                 {

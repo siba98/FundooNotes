@@ -105,12 +105,12 @@ namespace FundooRepository.Repository
         {
             try
             {
-                var checkEmail = await this.context.Users.Where(x => x.Email == loginData.Email && x.Password == loginData.Password).SingleOrDefaultAsync();
+                var checkEmail = await this.context.Users.Where(x => x.Email == loginData.Email).SingleOrDefaultAsync();
                 if (checkEmail != null)
                 {
-                    //var checkPassword = await this.context.Users.Where(x => x.Email == loginData.Email && x.Password == loginData.Password).SingleOrDefaultAsync();
-                    //if (checkPassword != null)
-                    //{
+                    var checkPassword = await this.context.Users.Where(x => x.Email == loginData.Email && x.Password == loginData.Password).SingleOrDefaultAsync();
+                    if (checkPassword != null)
+                    {
                         ConnectionMultiplexer connectionMultiplexer = ConnectionMultiplexer.Connect(this.configuration["RedisServerUrl"]);
                         IDatabase database = connectionMultiplexer.GetDatabase();
                         database.StringSet(key: "First Name", checkEmail.FirstName);
@@ -118,9 +118,9 @@ namespace FundooRepository.Repository
                         database.StringSet(key: "Email", checkEmail.Email);
                         database.StringSet(key: "UserId", checkEmail.UserId.ToString());
                         return loginData;
-                    //}
+                    }
 
-                    //return null;
+                    return null;
                 }
 
                 return null;
@@ -240,7 +240,7 @@ namespace FundooRepository.Repository
             {
                 Subject = new ClaimsIdentity(new[] {
                       new Claim(ClaimTypes.Email, Email)}),
-                Expires = DateTime.UtcNow.AddMinutes(30),
+                Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(securityKey,
                 SecurityAlgorithms.HmacSha256Signature)
             };

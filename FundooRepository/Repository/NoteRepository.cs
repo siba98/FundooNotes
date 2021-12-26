@@ -81,7 +81,7 @@ namespace FundooRepository.Repository
             try
             {
                 var validNote = await this.context.Note.Where(x => x.NoteId == noteDetails.NoteId).FirstOrDefaultAsync();
-                if (validNote != null)
+                if (validNote != null && validNote.Trash != true )
                 {
                     validNote.Title = noteDetails.Title;
                     validNote.Description = noteDetails.Description;
@@ -211,8 +211,11 @@ namespace FundooRepository.Repository
                     this.context.Note.Update(validNote);
                     await this.context.SaveChangesAsync();
                 }
+                else
+                {
+                    message = "Note Not Exist";
+                }
 
-                message = "Note Not Exist";
                 return message;
             }
             catch (ArgumentNullException ex)

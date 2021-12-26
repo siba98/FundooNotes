@@ -140,8 +140,10 @@ namespace FundooRepository.Repository
                 if (validLabel != null)
                 {
                     this.context.Labels.Remove(validLabel);
+                    await RemoveLabelFromNote(labelId);
                     await this.context.SaveChangesAsync();
                     return true;
+                    
                 }
 
                 return false;
