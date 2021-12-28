@@ -35,7 +35,7 @@ namespace FundooManager.Interface
         /// </summary>
         /// <param name="labelModel">passing labelModel parameter for LabelModel</param>
         /// <returns>Returns the label that added</returns>
-        Task<LabelModel> AddLabelToUser(LabelModel labelModel);
+        Task<LabelModel> AddLabel(LabelModel labelModel);
 
         /// <summary>
         /// method for deleting the label

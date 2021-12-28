@@ -39,11 +39,11 @@ namespace FundooManager.Manager
         /// </summary>
         /// <param name="labelModel">passing labelModel parameter for LabelModel</param>
         /// <returns>Returns the label that added</returns>
-        public async Task<LabelModel> AddLabelToUser(LabelModel labelModel)
+        public async Task<LabelModel> AddLabel(LabelModel labelModel)
         {
             try
             {
-                return await this.labelRepository.AddLabelToUser(labelModel);
+                return await this.labelRepository.AddLabel(labelModel);
             }
             catch (Exception ex)
             {

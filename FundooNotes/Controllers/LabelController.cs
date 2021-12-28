@@ -42,12 +42,12 @@ namespace FundooNotes.Controllers
         /// <param name="labelModel">passing labelModel parameter for LabelModel</param>
         /// <returns>response status from api</returns>
         [HttpPost]
-        [Route("addLabelToUser")]
-        public async Task<IActionResult> AddLabelToUser([FromBody] LabelModel labelModel)
+        [Route("addLabel")]
+        public async Task<IActionResult> AddLabel([FromBody] LabelModel labelModel)
         {
             try
             {
-                var result = await this.labelManager.AddLabelToUser(labelModel);
+                var result = await this.labelManager.AddLabel(labelModel);
                 if (result != null)
                 {
                     return this.Ok(new ResponseModel<LabelModel> { Status = true, Message = "Label Added Successfully", Data = result });
