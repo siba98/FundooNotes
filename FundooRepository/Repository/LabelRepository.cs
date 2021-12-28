@@ -61,26 +61,6 @@ namespace FundooRepository.Repository
             }
         }
 
-        public async Task<LabelModel> AddLabelToNoteId(LabelModel labelModel)
-        {
-            try
-            {
-                var validLabel = await this.context.Labels.Where(x => x.Label == labelModel.Label).SingleOrDefaultAsync();
-                if (validLabel == null)
-                {
-                    this.context.Labels.Add(labelModel);
-                    await this.context.SaveChangesAsync();
-                    return labelModel;
-                }
-
-                return null;
-            }
-            catch (ArgumentNullException ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-
         /// <summary>
         /// method for getting all the labels by note id
         /// </summary>
@@ -184,14 +164,35 @@ namespace FundooRepository.Repository
         /// </summary>
         /// <param name="label">passing parameter as Label</param>
         /// <returns>returns all the notes</returns>
-        public IEnumerable<LabelModel> GetNotesByLabelName(string label)
+        public IEnumerable<NoteModel> GetNotesByLabelName(string label)
         {
             try
             {
-                IEnumerable<LabelModel> labelExist = this.context.Labels.Where(x => x.Label == label).ToList();
+                //IEnumerable<LabelModel> labelExist = this.context.Labels.Where(x => x.Label == label).ToList();
+                //var labelExist = from labelName in context.Labels
+                //                 join noteId in context.Note on 
+                //                 where label.Lables == noteId.Lable
+                //                 select noteId.NoteId;
+                //var labelExist = from c in context.Note
+                //                 join cn in context.Labels on c.NoteId equals cn.NoteId
+                //                 where (c.NoteId == cn.NoteId)
+                //                 select c.NoteId;
+                var labelExist = (from p in this.context.Labels
+                              join o in this.context.Note on p.NoteId equals o.NoteId
+                              select new
+                              {
+                                  o.NoteId,
+                                  o.Title,
+                                  o.Description,
+                                  o.Colour,
+                                  o.Image
+                              }).ToList();
+
+
                 if (labelExist.Count() != 0)
                 {
-                    return labelExist;
+                    return (IEnumerable<NoteModel>)labelExist;
+                    //return labelExist;
                 }
 
                 return null;

@@ -39,11 +39,11 @@ namespace FundooManager.Manager
         /// </summary>
         /// <param name="labelModel">passing labelModel parameter for LabelModel</param>
         /// <returns>Returns the label that added</returns>
-        public async Task<LabelModel> AddLabel(LabelModel labelModel)
+        public async Task<LabelModel> AddLabelToUser(LabelModel labelModel)
         {
             try
             {
-                return await this.labelRepository.AddLabel(labelModel);
+                return await this.labelRepository.AddLabelToUser(labelModel);
             }
             catch (Exception ex)
             {
@@ -90,7 +90,7 @@ namespace FundooManager.Manager
         /// </summary>
         /// <param name="Label">passing parameter as Label</param>
         /// <returns>returns all the notes</returns>
-        public IEnumerable<LabelModel> GetNotesByLabelName(string Label)
+        public IEnumerable<NoteModel> GetNotesByLabelName(string Label)
         {
             try
             {

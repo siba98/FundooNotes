@@ -11,7 +11,6 @@ namespace FundooNotes.Contollers
     using System.Threading.Tasks;
     using FundooManager.Interface;
     using FundooModels;
-    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Logging;
@@ -29,12 +28,6 @@ namespace FundooNotes.Contollers
         /// Object created for IUserManager
         /// </summary>
         private readonly IUserManager manager;
-
-        /// <summary>
-        /// Constant field for SessionName and SessionEmail
-        /// </summary>
-        const string SessionName = "UserName";
-        const string SessionEmail = "EmailId";
 
         /// <summary>
         /// Object created for IConfiguration 
@@ -71,15 +64,11 @@ namespace FundooNotes.Contollers
             try
             {
                 this.logger.LogInformation(userData.FirstName + " is trying to Register");
-                HttpContext.Session.SetString(SessionName, userData.FirstName + " " + userData.LastName);
-                HttpContext.Session.SetString(SessionEmail, userData.Email);
                 var result = await this.manager.Register(userData);
                 if (result != null)
                 {
-                    var name = HttpContext.Session.GetString(SessionName);
-                    var email = HttpContext.Session.GetString(SessionEmail);
                     this.logger.LogInformation(userData.FirstName + " has successfully Registered");
-                    return this.Ok(new ResponseModel<RegisterModel> { Status = true, Message = "User Registered Successfully", Data = result }); //SessionData = "Session details(FirstName, LastName, EmailId): "+name+" "+email,
+                    return this.Ok(new ResponseModel<RegisterModel> { Status = true, Message = "User Registered Successfully", Data = result });
                 }
                 else
                 {
@@ -89,7 +78,7 @@ namespace FundooNotes.Contollers
             }
             catch (Exception ex)
             {
-                this.logger.LogInformation(userData.FirstName + " had exception while registering : " + ex.Message);
+                this.logger.LogError(userData.FirstName + " had exception while registering : " + ex.Message);
                 return this.NotFound(new { Status = false, ex.Message });
             }
         }
@@ -126,7 +115,7 @@ namespace FundooNotes.Contollers
                     };
 
                     string tokenString = this.manager.GenerateToken(loginData.Email);
-                    return this.Ok(new { Status = true, Message = "login successful", Data = data, Token = tokenString, Output = result });
+                    return this.Ok(new { Status = true, Message = "login successful", Data = data, Token = tokenString });
                 }
                 else
                 {
@@ -136,7 +125,7 @@ namespace FundooNotes.Contollers
             }
             catch (Exception ex)
             {
-                this.logger.LogInformation(loginData.Email + " had exception while login : " + ex.Message);
+                this.logger.LogError(loginData.Email + " had exception while login : " + ex.Message);
                 return this.NotFound(new { Status = false, ex.Message });
             }
         }
@@ -167,7 +156,7 @@ namespace FundooNotes.Contollers
             }
             catch (Exception ex)
             {
-                this.logger.LogInformation(resetPassword.Email + " had exception while reseting the Password : " + ex.Message);
+                this.logger.LogError(resetPassword.Email + " had exception while reseting the Password : " + ex.Message);
                 return this.NotFound(new { Status = false, ex.Message });
             }
         }
@@ -198,7 +187,7 @@ namespace FundooNotes.Contollers
             }
             catch (Exception ex)
             {
-                this.logger.LogInformation(Email + " had exception while sending link to the mail : " + ex.Message);
+                this.logger.LogError(Email + " had exception while sending link to the mail : " + ex.Message);
                 return this.NotFound(new { Status = false, ex.Message });
             }
         }

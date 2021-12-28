@@ -196,11 +196,12 @@ namespace FundooRepository.Repository
                         if (validNote.Archive == true)
                         {
                             validNote.Archive = false;
-                            validNote.Pin = true;
                             message = "Note UnArchived and Pinned Successfully";
                         }
-
-                        message = "Note Pinned Successfully";
+                        else
+                        {
+                            message = "Note Pinned Successfully";
+                        }
                     }
                     else
                     {
@@ -245,8 +246,10 @@ namespace FundooRepository.Repository
                             validNote.Pin = false;
                             message = "Note Archived and Unpinned Successfully";
                         }
-
-                        message = "Note Archived Successfully";
+                        else
+                        {
+                            message = "Note Archived Successfully";
+                        }
                     }
                     else
                     {
@@ -386,6 +389,7 @@ namespace FundooRepository.Repository
             try
             {
                 IEnumerable<NoteModel> notesExist = this.context.Note.Where(x => x.UserId == userId && x.Archive == false && x.Trash == false).ToList();
+                
                 if (notesExist.Count() != 0)
                 {
                     return notesExist;

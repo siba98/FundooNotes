@@ -42,12 +42,12 @@ namespace FundooNotes.Controllers
         /// <param name="labelModel">passing labelModel parameter for LabelModel</param>
         /// <returns>response status from api</returns>
         [HttpPost]
-        [Route("addLabel")]
-        public async Task<IActionResult> AddLabel([FromBody] LabelModel labelModel)
+        [Route("addLabelToUser")]
+        public async Task<IActionResult> AddLabelToUser([FromBody] LabelModel labelModel)
         {
             try
             {
-                var result = await this.labelManager.AddLabel(labelModel);
+                var result = await this.labelManager.AddLabelToUser(labelModel);
                 if (result != null)
                 {
                     return this.Ok(new ResponseModel<LabelModel> { Status = true, Message = "Label Added Successfully", Data = result });
@@ -155,7 +155,7 @@ namespace FundooNotes.Controllers
         {
             try
             {
-                IEnumerable<LabelModel> result = this.labelManager.GetNotesByLabelName(labelName);
+                IEnumerable<NoteModel> result = this.labelManager.GetNotesByLabelName(labelName);
                 if (result != null)
                 {
                     return this.Ok(new { Status = true, Message = "Notes Retrieved Successfully", Data = result });
@@ -177,7 +177,7 @@ namespace FundooNotes.Controllers
         /// <param name="LabelId">passing parameter as LabelId</param>
         /// <returns>response status from api</returns>
         [HttpPut]
-        [Route("RemoveLabelFromNote")]
+        [Route("removeLabelFromNote")]
         public async Task<IActionResult> RemoveLabelFromNote(int LabelId)
         {
             try

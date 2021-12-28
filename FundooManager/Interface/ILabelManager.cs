@@ -35,7 +35,7 @@ namespace FundooManager.Interface
         /// </summary>
         /// <param name="labelModel">passing labelModel parameter for LabelModel</param>
         /// <returns>Returns the label that added</returns>
-        Task<LabelModel> AddLabel(LabelModel labelModel);
+        Task<LabelModel> AddLabelToUser(LabelModel labelModel);
 
         /// <summary>
         /// method for deleting the label
@@ -64,6 +64,6 @@ namespace FundooManager.Interface
         /// </summary>
         /// <param name="Label">passing parameter as Label</param>
         /// <returns>returns all the notes</returns>
-        IEnumerable<LabelModel> GetNotesByLabelName(string Label);
+        IEnumerable<NoteModel> GetNotesByLabelName(string Label);
     }
 }
