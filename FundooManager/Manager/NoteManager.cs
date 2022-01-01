@@ -144,7 +144,7 @@ namespace FundooManager.Manager
         /// </summary>
         /// <param name="NoteId">passing parameter as NoteId</param>
         /// <returns>returns the note that it is archive or unarchive</returns>
-        public async Task<string> ArchiveOrUnArchiveNotes(int NoteId)
+        public async Task<ResponseModel<NoteModel>> ArchiveOrUnArchiveNotes(int NoteId)
         {
             try
             {

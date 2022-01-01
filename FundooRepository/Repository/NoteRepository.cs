@@ -230,7 +230,7 @@ namespace FundooRepository.Repository
         /// </summary>
         /// <param name="noteId">passing parameter as noteId</param>
         /// <returns>returns the note that it is archive or unarchive</returns>
-        public async Task<string> ArchiveOrUnArchiveNotes(int noteId)
+        public async Task<ResponseModel<NoteModel>> ArchiveOrUnArchiveNotes(int noteId)
         {
             try
             {
@@ -265,7 +265,7 @@ namespace FundooRepository.Repository
                     message = "Note Not Exist";
                 }
 
-                return message;
+                return new ResponseModel<NoteModel> { Status = true, Message = message, Data = validNote };
             }
             catch (ArgumentNullException ex)
             {
