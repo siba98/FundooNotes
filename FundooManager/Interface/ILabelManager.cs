@@ -65,5 +65,6 @@ namespace FundooManager.Interface
         /// <param name="Label">passing parameter as Label</param>
         /// <returns>returns all the notes</returns>
         IEnumerable<NoteModel> GetNotesByLabelName(string Label);
+
     }
 }

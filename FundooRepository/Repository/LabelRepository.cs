@@ -177,22 +177,13 @@ namespace FundooRepository.Repository
                 //                 join cn in context.Labels on c.NoteId equals cn.NoteId
                 //                 where (c.NoteId == cn.NoteId)
                 //                 select c.NoteId;
-                var labelExist = (from p in this.context.Labels
-                              join o in this.context.Note on p.NoteId equals o.NoteId
-                              select new
-                              {
-                                  o.NoteId,
-                                  o.Title,
-                                  o.Description,
-                                  o.Colour,
-                                  o.Image
-                              }).ToList();
-
-
+                var labelExist = (from labels in this.context.Labels
+                                  join note in this.context.Note on labels.NoteId equals note.NoteId
+                                  where labels.Label == label
+                                  select note);
                 if (labelExist.Count() != 0)
                 {
-                    return (IEnumerable<NoteModel>)labelExist;
-                    //return labelExist;
+                    return labelExist;
                 }
 
                 return null;

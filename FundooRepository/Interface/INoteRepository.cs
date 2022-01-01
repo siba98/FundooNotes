@@ -100,21 +100,21 @@ namespace FundooRepository.Interface
         /// <summary>
         /// method for getting all the notes
         /// </summary>
-        /// <param name="UserId">passing parameter as UserId</param>
+        /// <param name="userId">passing parameter as UserId</param>
         /// <returns>returns all notes</returns>
         IEnumerable<NoteModel> GetNotes(int userId);
 
         /// <summary>
         /// method for getting all the trash notes
         /// </summary>
-        /// <param name="UserId">passing parameter as UserId</param>
+        /// <param name="userId">passing parameter as UserId</param>
         /// <returns>returns all Trash notes</returns>
         IEnumerable<NoteModel> GetTrash(int userId);
 
         /// <summary>
         /// method for getting all the reminder notes
         /// </summary>
-        /// <param name="UserId">passing parameter as UserId</param>
+        /// <param name="userId">passing parameter as UserId</param>
         /// <returns>returns all Reminders notes</returns>
         IEnumerable<NoteModel> GetReminders(int userId);
 

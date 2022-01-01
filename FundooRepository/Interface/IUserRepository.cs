@@ -39,14 +39,14 @@ namespace FundooRepository.Interface
         /// <summary>
         /// method for getting reset link for Forgot Password
         /// </summary>
-        /// <param name="Email">passing parameter as Email</param>
+        /// <param name="email">passing parameter as Email</param>
         /// <returns>returns boolean value</returns>
         Task<bool> ForgotPassword(string email);
 
         /// <summary>
         /// method for generating a token for authorization of api's
         /// </summary>
-        /// <param name="Email">passing parameter as Email</param>
+        /// <param name="email">passing parameter as Email</param>
         /// <returns>returns jwt token</returns>
         string GenerateToken(string email);
     }

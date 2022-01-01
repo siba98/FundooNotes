@@ -79,7 +79,8 @@ namespace FundooNotes.Contollers
             catch (Exception ex)
             {
                 this.logger.LogError(userData.FirstName + " had exception while registering : " + ex.Message);
-                return this.NotFound(new { Status = false, ex.Message });
+                //return this.NotFound(new { Status = false, ex.Message });
+                throw new FundooNotesCustomException(FundooNotesCustomException.ExceptionType.EMPTY_PARAMETER, "Parameter should not be empty");
             }
         }
 
