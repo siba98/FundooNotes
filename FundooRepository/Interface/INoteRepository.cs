@@ -59,7 +59,7 @@ namespace FundooRepository.Interface
         /// </summary>
         /// <param name="NoteId">passing parameter as NoteId</param>
         /// <returns>returns the note that it is pin or unpin</returns>
-        Task<string> PinOrUnPinnedNotes(int NoteId);
+        Task<ResponseModel<NoteModel>> PinOrUnPinnedNotes(int NoteId);
 
         /// <summary>
         /// method for make a note Archive Or UnArchive

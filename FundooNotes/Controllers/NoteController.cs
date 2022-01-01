@@ -187,14 +187,14 @@ namespace FundooNotes.Controllers
         {
             try
             {
-                string message = await this.noteManager.PinOrUnPinnedNotes(NoteId);
-                if (message != ("Note Not Exist"))
+                var result = await this.noteManager.PinOrUnPinnedNotes(NoteId);
+                if (result != null)
                 {
-                    return this.Ok(new { Status = true, Message = message });
+                    return this.Ok(new { result });
                 }
                 else
                 {
-                    return this.BadRequest(new { Status = false, Message = message });
+                    return this.BadRequest(new { Status = false, Message = "Note not exist" });
                 }
             }
             catch (Exception ex)

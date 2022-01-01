@@ -182,7 +182,7 @@ namespace FundooRepository.Repository
         /// </summary>
         /// <param name="noteId">passing parameter as NoteId</param>
         /// <returns>returns the note that it is pin or unpin</returns>
-        public async Task<string> PinOrUnPinnedNotes(int noteId)
+        public async Task<ResponseModel<NoteModel>> PinOrUnPinnedNotes(int noteId)
         {
             try
             {
@@ -217,7 +217,7 @@ namespace FundooRepository.Repository
                     message = "Note Not Exist";
                 }
 
-                return message;
+                return new ResponseModel<NoteModel> { Status = true, Message = message, Data = validNote };
             }
             catch (ArgumentNullException ex)
             {

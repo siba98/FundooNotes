@@ -127,7 +127,7 @@ namespace FundooManager.Manager
         /// </summary>
         /// <param name="NoteId">passing parameter as NoteId</param>
         /// <returns>returns the note that it is pin or unpin</returns>
-        public async Task<string> PinOrUnPinnedNotes(int NoteId)
+        public async Task<ResponseModel<NoteModel>> PinOrUnPinnedNotes(int NoteId)
         {
             try
             {
