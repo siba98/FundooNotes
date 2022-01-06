@@ -11,6 +11,7 @@ namespace FundooNotes.Contollers
     using System.Threading.Tasks;
     using FundooManager.Interface;
     using FundooModels;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Logging;
@@ -33,6 +34,12 @@ namespace FundooNotes.Contollers
         /// Object created for IConfiguration 
         /// </summary>
         private readonly IConfiguration configuration;
+
+        /// <summary>
+        /// Constant field for SessionName and SessionEmail
+        /// </summary>
+        const string SessionName = "UserName";
+        const string SessionEmail = "EmailId";
 
         /// <summary>
         /// Object created for ILogger
@@ -63,12 +70,16 @@ namespace FundooNotes.Contollers
         {
             try
             {
+                HttpContext.Session.SetString(SessionName, userData.FirstName + " " + userData.LastName);
+                HttpContext.Session.SetString(SessionEmail, userData.Email);
                 this.logger.LogInformation(userData.FirstName + " is trying to Register");
                 var result = await this.manager.Register(userData);
                 if (result != null)
                 {
+                    var name = HttpContext.Session.GetString(SessionName);
+                    var email = HttpContext.Session.GetString(SessionEmail);
                     this.logger.LogInformation(userData.FirstName + " has successfully Registered");
-                    return this.Ok(new ResponseModel<RegisterModel> { Status = true, Message = "User Registered Successfully", Data = result });
+                    return this.Ok(new ResponseModel<RegisterModel> { Status = true, Message = "User Registered Successfully", Data = result }); ////SessionData = "Session details(FirstName, LastName, EmailId): "+name+" "+email,
                 }
                 else
                 {
@@ -79,8 +90,8 @@ namespace FundooNotes.Contollers
             catch (Exception ex)
             {
                 this.logger.LogError(userData.FirstName + " had exception while registering : " + ex.Message);
-                //return this.NotFound(new { Status = false, ex.Message });
-                throw new FundooNotesCustomException(FundooNotesCustomException.ExceptionType.EMPTY_PARAMETER, "Parameter should not be empty");
+                return this.NotFound(new { Status = false, ex.Message });
+                //throw new FundooNotesCustomException(FundooNotesCustomException.ExceptionType.EMPTY_PARAMETER, "Parameter should not be empty");
             }
         }
 

@@ -106,6 +106,12 @@ namespace FundooNotes
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this.Configuration["SecretKey"]))
                 };
             });
+
+            //Session implementation
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(1);
+            });
         }
 
         /// <summary>
@@ -131,6 +137,8 @@ namespace FundooNotes
             app.UseHttpsRedirection();
 
             app.UseStaticFiles();
+
+            app.UseSession();
 
             app.UseRouting();
 
