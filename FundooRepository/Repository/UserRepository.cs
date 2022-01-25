@@ -8,6 +8,7 @@
 namespace FundooRepository.Repository
 {
     using System;
+    using System.Collections.Generic;
     using System.IdentityModel.Tokens.Jwt;
     using System.Linq;
     using System.Net.Mail;
@@ -17,6 +18,7 @@ namespace FundooRepository.Repository
     using Experimental.System.Messaging;
     using FundooModels;
     using FundooRepository.Context;
+    using FundooRepository.FundooCustomException;
     using FundooRepository.Interface;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
@@ -56,12 +58,12 @@ namespace FundooRepository.Repository
         /// </summary>
         /// <param name="password">passing parameter as password</param>
         /// <returns>returns encoded password</returns>
-        public static string EncodePasswordToBase64(string Password)
+        public static string EncodePasswordToBase64(string password)
         {
             try
             {
-                byte[] encData_byte = new byte[Password.Length];
-                encData_byte = System.Text.Encoding.UTF8.GetBytes(Password);
+                byte[] encData_byte = new byte[password.Length];
+                encData_byte = System.Text.Encoding.UTF8.GetBytes(password);
                 string encodedData = Convert.ToBase64String(encData_byte);
                 return encodedData;
             }
@@ -78,57 +80,45 @@ namespace FundooRepository.Repository
         /// <returns>Returns user that registered</returns>
         public async Task<RegisterModel> Register(RegisterModel userData)
         {
-            try
+            var checkEmail = await this.context.Users.Where(x => x.Email == userData.Email).SingleOrDefaultAsync();
+            if (checkEmail == null)
             {
-                var checkEmail = await this.context.Users.Where(x => x.Email == userData.Email).SingleOrDefaultAsync();
-                if (checkEmail == null)
-                {
-                    this.context.Users.Add(userData);
-                    await this.context.SaveChangesAsync();
-                    return userData;
-                }
+                userData.Password = EncodePasswordToBase64(userData.Password);
+                this.context.Users.Add(userData);
+                await this.context.SaveChangesAsync();
+                return userData;
+            }
 
-                throw 
-            }
-            catch (FundooNotesCustomException ex)
-            {
-                throw ex;
-            }
+            throw new FundooNotesCustomException("Email already exist in database");
         }
 
         /// <summary>
         /// Login method for user login
         /// </summary>
-        /// <param name="loginDetails">passing loginDetails parameter for LoginModel</param>
+        /// <param name="loginData">passing loginDetails parameter for LoginModel</param>
         /// <returns>return login details of user</returns>
         public async Task<LoginModel> Login(LoginModel loginData)
         {
-            try
+            var checkEmail = await this.context.Users.Where(x => x.Email == loginData.Email).SingleOrDefaultAsync();
+            if (checkEmail != null)
             {
-                var checkEmail = await this.context.Users.Where(x => x.Email == loginData.Email).SingleOrDefaultAsync();
-                if (checkEmail != null)
+                loginData.Password = EncodePasswordToBase64(loginData.Password);
+                var checkPassword = await this.context.Users.Where(x => x.Email == loginData.Email && x.Password == loginData.Password).SingleOrDefaultAsync();
+                if (checkPassword != null)
                 {
-                    var checkPassword = await this.context.Users.Where(x => x.Email == loginData.Email && x.Password == loginData.Password).SingleOrDefaultAsync();
-                    if (checkPassword != null)
-                    {
-                        ConnectionMultiplexer connectionMultiplexer = ConnectionMultiplexer.Connect(this.configuration["RedisServerUrl"]);
-                        IDatabase database = connectionMultiplexer.GetDatabase();
-                        database.StringSet(key: "First Name", checkEmail.FirstName);
-                        database.StringSet(key: "Last Name", checkEmail.LastName);
-                        database.StringSet(key: "Email", checkEmail.Email);
-                        database.StringSet(key: "UserId", checkEmail.UserId.ToString());
-                        return loginData;
-                    }
-
-                    return null;
+                    ConnectionMultiplexer connectionMultiplexer = ConnectionMultiplexer.Connect(this.configuration["RedisServerUrl"]);
+                    IDatabase database = connectionMultiplexer.GetDatabase();
+                    database.StringSet(key: "First Name", checkEmail.FirstName);
+                    database.StringSet(key: "Last Name", checkEmail.LastName);
+                    database.StringSet(key: "Email", checkEmail.Email);
+                    database.StringSet(key: "UserId", checkEmail.UserId.ToString());
+                    return loginData;
                 }
 
-                return null;
+                throw new UnauthorizedAccessException("Password not matched");
             }
-            catch (ArgumentNullException ex)
-            {
-                throw new Exception(ex.Message);
-            }
+
+            throw new KeyNotFoundException("Email not found in database");
         }
 
         /// <summary>
@@ -138,23 +128,16 @@ namespace FundooRepository.Repository
         /// <returns>return users reset password details</returns>
         public async Task<ResetPasswordModel> ResetPassword(ResetPasswordModel resetPassword)
         {
-            try
+            var checkEmail = await this.context.Users.Where(x => x.Email == resetPassword.Email).SingleOrDefaultAsync();
+            if (checkEmail != null)
             {
-                var checkEmail = await this.context.Users.Where(x => x.Email == resetPassword.Email).SingleOrDefaultAsync();
-                if (checkEmail != null)
-                {
-                    checkEmail.Password = EncodePasswordToBase64(resetPassword.NewPassword);
-                    this.context.Users.Update(checkEmail);
-                    await this.context.SaveChangesAsync();
-                    return resetPassword;
-                }
+                checkEmail.Password = EncodePasswordToBase64(resetPassword.NewPassword);
+                this.context.Users.Update(checkEmail);
+                await this.context.SaveChangesAsync();
+                return resetPassword;
+            }
 
-                return null;
-            }
-            catch (ArgumentNullException ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            throw new KeyNotFoundException("Email not found in database");
         }
 
         /// <summary>
@@ -164,33 +147,26 @@ namespace FundooRepository.Repository
         /// <returns>returns boolean value</returns>
         public async Task<bool> ForgotPassword(string email)
         {
-            try
+            var checkEmail = await this.context.Users.Where(x => x.Email == email).SingleOrDefaultAsync();
+            if (checkEmail != null)
             {
-                var checkEmail = await this.context.Users.Where(x => x.Email == email).SingleOrDefaultAsync();
-                if (checkEmail != null)
-                {
-                    MailMessage mail = new MailMessage();
-                    SmtpClient smtpServer = new SmtpClient("smtp.gmail.com");
+                MailMessage mail = new MailMessage();
+                SmtpClient smtpServer = new SmtpClient("smtp.gmail.com");
 
-                    mail.From = new MailAddress(this.configuration["Credentials:Email"]);
-                    mail.To.Add(email);
-                    SendMSMQ();
-                    mail.Body = RecieveMSMQ();
+                mail.From = new MailAddress(this.configuration["Credentials:Email"]);
+                mail.To.Add(email);
+                this.SendMSMQ();
+                mail.Body = this.RecieveMSMQ();
 
-                    smtpServer.Port = 587;
-                    smtpServer.Credentials = new System.Net.NetworkCredential(this.configuration["Credentials:Email"], this.configuration["Credentials:Password"]);
-                    smtpServer.EnableSsl = true;
+                smtpServer.Port = 587;
+                smtpServer.Credentials = new System.Net.NetworkCredential(this.configuration["Credentials:Email"], this.configuration["Credentials:Password"]);
+                smtpServer.EnableSsl = true;
 
-                    smtpServer.Send(mail);
-                    return true;
-                }
-
-                return false;
+                smtpServer.Send(mail);
+                return true;
             }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+
+            throw new KeyNotFoundException("Email not found in database");
         }
 
         /// <summary>

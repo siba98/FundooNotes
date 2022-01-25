@@ -2,6 +2,7 @@ using System.Text;
 using FundooManager.Interface;
 using FundooManager.Manager;
 using FundooRepository.Context;
+using FundooRepository.FundooCustomException;
 using FundooRepository.Interface;
 using FundooRepository.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -136,6 +137,9 @@ namespace FundooNotes
             app.UseAuthentication();
             
             app.UseAuthorization();
+
+            // global error handler
+            app.UseMiddleware<MiddlewareErrorHandling>();
 
             app.UseEndpoints(endpoints =>
             {

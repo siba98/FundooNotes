@@ -64,31 +64,10 @@ namespace FundooNotes.Contollers
         [Route("register")]
         public async Task<IActionResult> Register([FromBody] RegisterModel userData)
         {
-            try
-            {
-                this.logger.LogInformation(userData.FirstName + " is trying to Register");
-                var result = await this.manager.Register(userData);
-                if (result != null)
-                {
-                    this.logger.LogInformation(userData.FirstName + " has successfully Registered");
-                    return Ok(new ResponseModel<RegisterModel> { Status = true, Message = "User Registered Successfully", Data = result }); 
-                }
-                else
-                {
-                    this.logger.LogInformation(userData.FirstName + " registration was unsuccessful");
-                    return BadRequest(new { Status = false, Message = "User Registration is UnSuccessful" });
-                }
-            }
-            catch (FundooNotesCustomException ex)
-            {
-                this.logger.LogError(userData.FirstName + " had exception while registering : " + ex.Message);
-                var obj = new
-                {
-                    status = false,
-                    message = ex.Message
-                };
-                return new ObjectResult(obj) { StatusCode = (int)HttpStatusCode.InternalServerError };
-            }
+            this.logger.LogInformation(userData.FirstName + " is trying to Register");
+            var result = await this.manager.Register(userData);
+            this.logger.LogInformation(userData.FirstName + " has successfully Registered");
+            return Ok(new ResponseModel<RegisterModel> { Status = true, Message = "User Registered Successfully", Data = result });
         }
 
         /// <summary>
@@ -100,42 +79,26 @@ namespace FundooNotes.Contollers
         [Route("login")]
         public async Task<IActionResult> Login(LoginModel loginData)
         {
-            try
-            {
-                this.logger.LogInformation(loginData.Email + " is trying to Login");
-                var result = await this.manager.Login(loginData);
-                if (result != null)
-                {
-                    this.logger.LogInformation(loginData.Email + " is successfully Logged in");
-                    ConnectionMultiplexer connectionMultiplexer = ConnectionMultiplexer.Connect(this.configuration["RedisServerUrl"]);
-                    IDatabase database = connectionMultiplexer.GetDatabase();
-                    string firstName = database.StringGet("First Name");
-                    string lastName = database.StringGet("Last Name");
-                    string email = database.StringGet("Email");
-                    int userId = Convert.ToInt32(database.StringGet("UserId"));
+            this.logger.LogInformation(loginData.Email + " is trying to Login");
+            var result = await this.manager.Login(loginData);
+            this.logger.LogInformation(loginData.Email + " is successfully Logged in");
+            ConnectionMultiplexer connectionMultiplexer = ConnectionMultiplexer.Connect(this.configuration["RedisServerUrl"]);
+            IDatabase database = connectionMultiplexer.GetDatabase();
+            string firstName = database.StringGet("First Name");
+            string lastName = database.StringGet("Last Name");
+            string email = database.StringGet("Email");
+            int userId = Convert.ToInt32(database.StringGet("UserId"));
 
-                    RegisterModel data = new RegisterModel
-                    {
-                        FirstName = firstName,
-                        LastName = lastName,
-                        UserId = userId,
-                        Email = email
-                    };
-
-                    string tokenString = this.manager.GenerateToken(loginData.Email);
-                    return this.Ok(new { Status = true, Message = "login successful", Data = data, Token = tokenString });
-                }
-                else
-                {
-                    this.logger.LogInformation(loginData.Email + " Login was unsuccessful");
-                    return this.BadRequest(new { Status = false, Message = "login unsuccessful" });
-                }
-            }
-            catch (Exception ex)
+            RegisterModel data = new RegisterModel
             {
-                this.logger.LogError(loginData.Email + " had exception while login : " + ex.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, new { message = "Input entries are empty or null" });
-            }
+                FirstName = firstName,
+                LastName = lastName,
+                UserId = userId,
+                Email = email
+            };
+
+            string tokenString = this.manager.GenerateToken(loginData.Email);
+            return this.Ok(new { Status = true, Message = "login successful", Data = data, Token = tokenString });
         }
 
         /// <summary>
@@ -147,26 +110,10 @@ namespace FundooNotes.Contollers
         [Route("resetPassword")]
         public async Task<IActionResult> Resetpassword(ResetPasswordModel resetPassword)
         {
-            try
-            {
-                this.logger.LogInformation(resetPassword.Email + " is trying to reset the password for given Email");
-                var result = await this.manager.ResetPassword(resetPassword);
-                if (result != null)
-                {
-                    this.logger.LogInformation(resetPassword.Email + " Reset Password is Successful");
-                    return this.Ok(new ResponseModel<ResetPasswordModel> { Status = true, Message = "Password Reset Successfully", Data = result });
-                }
-                else
-                {
-                    this.logger.LogInformation(resetPassword.Email + " Failed to reset the Password ");
-                    return this.BadRequest(new { Status = false, Message = "Password Reset UnSuccessful" });
-                }
-            }
-            catch (Exception ex)
-            {
-                this.logger.LogError(resetPassword.Email + " had exception while reseting the Password : " + ex.Message);
-                return StatusCode(StatusCodes.Status404NotFound, new { message = "Input entries are empty or null" });
-            }
+            this.logger.LogInformation(resetPassword.Email + " is trying to reset the password for given Email");
+            var result = await this.manager.ResetPassword(resetPassword);
+            this.logger.LogInformation(resetPassword.Email + " Reset Password is Successful");
+            return this.Ok(new ResponseModel<ResetPasswordModel> { Status = true, Message = "Password Reset Successfully", Data = result });
         }
 
         /// <summary>
@@ -178,26 +125,10 @@ namespace FundooNotes.Contollers
         [Route("forgotPassword")]
         public async Task<IActionResult> ForgotPassword(string Email)
         {
-            try
-            {
-                this.logger.LogInformation(Email + " the link for reseting the password has accessed");
-                bool result = await this.manager.ForgotPassword(Email);
-                if (result == true)
-                {
-                    this.logger.LogInformation(Email + " link has sent to given gmail to reset password successfully");
-                    return StatusCode(StatusCodes.Status200OK, new { message = "Link sent for reseting the password" });
-                }
-                else
-                {
-                    this.logger.LogInformation(Email + " unable to sent the link! Email Id not exist");
-                    return this.BadRequest(new { Status = false, Message = "unable to sent link" });
-                }
-            }
-            catch (Exception ex)
-            {
-                this.logger.LogError(Email + " had exception while sending link to the mail : " + ex.Message);
-                return this.NotFound(new { Status = false, ex.Message });
-            }
+            this.logger.LogInformation(Email + " the link for reseting the password has accessed");
+            bool result = await this.manager.ForgotPassword(Email);
+            this.logger.LogInformation(Email + " link has sent to given gmail to reset password successfully");
+            return StatusCode(StatusCodes.Status200OK, new { message = "Link sent for reseting the password" });
         }
     }
 }

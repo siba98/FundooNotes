@@ -12,6 +12,7 @@ namespace FundooManager.Manager
     using FundooManager.Interface;
     using FundooModels;
     using FundooRepository;
+    using FundooRepository.FundooCustomException;
     using FundooRepository.Interface;
 
     /// <summary>
@@ -41,15 +42,7 @@ namespace FundooManager.Manager
         /// <returns>Returns user that registered</returns>
         public async Task<RegisterModel> Register(RegisterModel userData)
         {
-            try
-            {
-                userData.Password = EncodePasswordToBase64(userData.Password);
-                return await this.repository.Register(userData);
-            }
-            catch (FundooNotesCustomException ex)
-            {
-                throw ex;
-            }
+            return await this.repository.Register(userData);
         }
 
         /// <summary>
@@ -59,35 +52,7 @@ namespace FundooManager.Manager
         /// <returns>return login details of user</returns>
         public async Task<LoginModel> Login(LoginModel loginData)
         {
-            try
-            {
-                loginData.Password = EncodePasswordToBase64(loginData.Password);
-                return await this.repository.Login(loginData);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        /// <summary>
-        /// this function Convert to Encode the Password 
-        /// </summary>
-        /// <param name="Password">passing parameter as Password</param>
-        /// <returns>returns encoded password</returns>
-        public static string EncodePasswordToBase64(string Password)
-        {
-            try
-            {
-                byte[] encData_byte = new byte[Password.Length];
-                encData_byte = System.Text.Encoding.UTF8.GetBytes(Password);
-                string encodedData = Convert.ToBase64String(encData_byte);
-                return encodedData;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error in base64Encode" + ex.Message);
-            }
+            return await this.repository.Login(loginData);
         }
 
         /// <summary>
@@ -97,15 +62,7 @@ namespace FundooManager.Manager
         /// <returns>return users reset password details</returns>
         public async Task<ResetPasswordModel> ResetPassword(ResetPasswordModel resetPassword)
         {
-            try
-            {
-                resetPassword.NewPassword = EncodePasswordToBase64(resetPassword.NewPassword);
-                return await this.repository.ResetPassword(resetPassword);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            return await this.repository.ResetPassword(resetPassword);
         }
 
         /// <summary>
@@ -115,14 +72,7 @@ namespace FundooManager.Manager
         /// <returns>returns boolean value</returns>
         public async Task<bool> ForgotPassword(string Email)
         {
-            try
-            {
-                return await this.repository.ForgotPassword(Email);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            return await this.repository.ForgotPassword(Email);
         }
 
         /// <summary>
