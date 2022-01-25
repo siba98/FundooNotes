@@ -278,26 +278,40 @@ namespace FundooRepository.Repository
         /// </summary>
         /// <param name="noteId">passing parameter as NoteId</param>
         /// <returns>returns note that trashed</returns>
-        public async Task<NoteModel> TrashNotes(int noteId)
+        public async Task<ResponseModel<NoteModel>> TrashNotes(int NoteId)
         {
             try
             {
-                var availNote = await this.context.Note.Where(x => x.NoteId == noteId).SingleOrDefaultAsync();
-                if ((availNote != null && availNote.Pin == true) || (availNote != null && availNote.Archive == true))
+                string message;
+                var validNote = await this.context.Note.Where(x => x.NoteId == NoteId).FirstOrDefaultAsync();
+                if (validNote != null)
                 {
-                    availNote.Trash = true;
-                    availNote.Pin = false;
-                    availNote.Archive = false;
-                    this.context.Note.Update(availNote);
+                    if (validNote.Trash == false)
+                    {
+                        validNote.Trash = true;
+                        message = "notes is Restored";
+                        if (validNote.Pin == true)
+                        {
+                            validNote.Pin = false;
+                            message = "Note Unpinned and Trashed";
+                        }
+                    }
+                    else
+                    {
+                        validNote.Trash = false;
+                        message = "notes is Trashed";
+                    }
+
+                    this.context.Note.Update(validNote);
                     await this.context.SaveChangesAsync();
-                    return availNote;
+                    return new ResponseModel<NoteModel> { Status = true, Message = message, Data = validNote };
                 }
 
                 return null;
             }
-            catch (ArgumentNullException ex)
+            catch (Exception e)
             {
-                throw new Exception(ex.Message);
+                throw new Exception(e.Message);
             }
         }
 

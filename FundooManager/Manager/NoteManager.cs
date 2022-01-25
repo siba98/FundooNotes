@@ -161,7 +161,7 @@ namespace FundooManager.Manager
         /// </summary>
         /// <param name="NoteId">passing parameter as NoteId</param>
         /// <returns>returns note that trashed</returns>
-        public async Task<NoteModel> TrashNotes(int NoteId)
+        public async Task<ResponseModel<NoteModel>> TrashNotes(int NoteId)
         {
             try
             {

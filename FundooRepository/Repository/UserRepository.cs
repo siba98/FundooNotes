@@ -88,11 +88,11 @@ namespace FundooRepository.Repository
                     return userData;
                 }
 
-                return null;
+                throw 
             }
-            catch (ArgumentNullException ex)
+            catch (FundooNotesCustomException ex)
             {
-                throw new Exception(ex.Message);
+                throw ex;
             }
         }
 
@@ -130,7 +130,6 @@ namespace FundooRepository.Repository
                 throw new Exception(ex.Message);
             }
         }
-
 
         /// <summary>
         /// method for reset the password
@@ -210,7 +209,7 @@ namespace FundooRepository.Repository
             }
 
             msgqueue.Formatter = new XmlMessageFormatter(new Type[] { typeof(string) });
-            string body = "This is Password reset link.";
+            string body = "Visit this link for reset your password => (http://localhost:4200/reset)";
             msgqueue.Label = "Mail Body";
             msgqueue.Send(body);
         }

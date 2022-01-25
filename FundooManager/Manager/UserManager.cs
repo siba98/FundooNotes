@@ -11,6 +11,7 @@ namespace FundooManager.Manager
     using System.Threading.Tasks;
     using FundooManager.Interface;
     using FundooModels;
+    using FundooRepository;
     using FundooRepository.Interface;
 
     /// <summary>
@@ -45,9 +46,9 @@ namespace FundooManager.Manager
                 userData.Password = EncodePasswordToBase64(userData.Password);
                 return await this.repository.Register(userData);
             }
-            catch (Exception ex)
+            catch (FundooNotesCustomException ex)
             {
-                throw new Exception(ex.Message);
+                throw ex;
             }
         }
 
@@ -65,7 +66,7 @@ namespace FundooManager.Manager
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw ex;
             }
         }
 

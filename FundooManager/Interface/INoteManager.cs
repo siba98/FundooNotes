@@ -73,7 +73,7 @@ namespace FundooManager.Interface
         /// </summary>
         /// <param name="NoteId">passing parameter as NoteId</param>
         /// <returns>returns note that trashed</returns>
-        Task<NoteModel> TrashNotes(int NoteId);
+        Task<ResponseModel<NoteModel>> TrashNotes(int NoteId);
 
         /// <summary>
         /// method for delete note from trash
